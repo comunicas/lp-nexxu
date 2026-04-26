@@ -20,42 +20,38 @@ const variantClasses: Record<Variant, string> = {
     "px-4 py-3 rounded-xl text-sm text-white bg-brand-gradient shadow-brand-glow-sm hover:opacity-90 hover:-translate-y-0.5",
 };
 
-type CommonProps = {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  as?: "button";
   variant?: Variant;
-  className?: string;
   children: ReactNode;
 };
 
-type ButtonProps = CommonProps & ButtonHTMLAttributes<HTMLButtonElement> & { as?: "button" };
-type AnchorProps = CommonProps &
-  AnchorHTMLAttributes<HTMLAnchorElement> & { as: "a"; href: string };
+type AnchorProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+  as: "a";
+  variant?: Variant;
+  children: ReactNode;
+};
 
 type Props = ButtonProps | AnchorProps;
 
 export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Props>(
   function Button(props, ref) {
-    const { variant = "primary", className, children, ...rest } = props as ButtonProps & AnchorProps;
+    const { variant = "primary", className, children } = props;
     const cls = cn(baseClass, variantClasses[variant], className);
 
-    if ((props as AnchorProps).as === "a") {
+    if (props.as === "a") {
+      const { as: _as, variant: _v, className: _c, children: _ch, ...rest } = props;
       return (
-        <a
-          ref={ref as React.Ref<HTMLAnchorElement>}
-          className={cls}
-          {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
-        >
+        <a ref={ref as React.Ref<HTMLAnchorElement>} className={cls} {...rest}>
           {children}
         </a>
       );
     }
+    const { as: _as, variant: _v, className: _c, children: _ch, ...rest } = props;
     return (
-      <button
-        ref={ref as React.Ref<HTMLButtonElement>}
-        className={cls}
-        {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)}
-      >
+      <button ref={ref as React.Ref<HTMLButtonElement>} className={cls} {...rest}>
         {children}
       </button>
     );
-  }
+  },
 );
