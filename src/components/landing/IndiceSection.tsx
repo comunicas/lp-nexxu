@@ -5,28 +5,28 @@ const LEVELS = [
   {
     num: "01",
     name: "Caos",
-    desc: "Opera no improviso total. Cada dia é uma surpresa — boa ou ruim. Você está em todos os lugares ao mesmo tempo.",
+    desc: "Opera no improviso total. Cada dia é uma surpresa. Implementar IA aqui não resolve — só automatiza a bagunça.",
     border: "#EF9F27",
     glow: "rgba(239,159,39,0.3)",
   },
   {
     num: "02",
     name: "Reativo",
-    desc: "Apaga incêndio com mais eficiência. Sente que melhora, mas continua dependente de você para tudo que importa.",
+    desc: "Apaga incêndio com mais eficiência. Melhora aos trancos. IA nesse nível acelera o problema — não elimina.",
     border: "rgba(175,169,236,0.4)",
     glow: "rgba(83,74,183,0.2)",
   },
   {
     num: "03",
     name: "Estruturado",
-    desc: "Processos existem e o time os segue. Mas crescer ainda assusta — a estrutura não escala sem fricção.",
+    desc: "Processos existem e o time os segue. Crescer ainda assusta. É aqui que a IA começa a fazer sentido real.",
     border: "rgba(24,95,165,0.5)",
     glow: "rgba(24,95,165,0.25)",
   },
   {
     num: "04",
     name: "Autônoma",
-    desc: "A empresa funciona sem depender do dono. Decisões acontecem com dado. O dono lidera — não opera.",
+    desc: "A empresa funciona sem o dono. IA amplifica o que já funciona. O dono lidera — não opera.",
     border: "#5DCAA5",
     glow: "rgba(93,202,165,0.3)",
   },
@@ -41,15 +41,14 @@ export function IndiceSection() {
           labelColor="rgba(175,169,236,0.7)"
           title={
             <span className="text-white">
-              Em qual nível está
-              <br />
-              <span className="grad-text-pale">sua operação hoje?</span>
+              Em qual nível está sua operação{" "}
+              <span className="grad-text-pale">— antes de qualquer IA?</span>
             </span>
           }
           description={
             <span className="text-white/50">
-              Toda empresa está em algum nível. Saber onde você está é o primeiro passo para sair de
-              lá.
+              Toda empresa tem um nível de maturidade operacional. A IA só faz sentido a partir do
+              nível 3. Saber onde você está é o primeiro passo.
             </span>
           }
         />
@@ -85,11 +84,11 @@ export function IndiceSection() {
         >
           <div>
             <h3 className="text-[22px] font-extrabold text-white m-0 mb-2">
-              Descubra seu Índice ORDEM™
+              Descubra onde sua operação está — antes de qualquer investimento em IA
             </h3>
             <p className="text-[15px] text-white/55 m-0 max-w-[420px] leading-relaxed">
-              Em 15 minutos de conversa, mapeamos onde sua operação está e o que faz sentido fazer
-              primeiro.
+              Em 15 minutos de conversa, mapeamos seu nível operacional e se — e quando — a IA faz
+              sentido para o seu caso. Sem pitch. Sem pressão.
             </p>
           </div>
           <Link
