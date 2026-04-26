@@ -13,6 +13,10 @@ type Product = {
   scope: string;
   items: string[];
   accent: string;
+  price: string;
+  priceSub: string;
+  priceColor: string;
+  priceSubColor: string;
   featured?: boolean;
 };
 
@@ -31,6 +35,10 @@ const PRODUCTS: Product[] = [
       "Índice ORDEM™ calculado",
     ],
     accent: "var(--brand-blue)",
+    price: "A partir de R$ 500",
+    priceSub: "pagamento único",
+    priceColor: "#185FA5",
+    priceSubColor: "var(--brand-subtle)",
   },
   {
     step: 2,
@@ -46,6 +54,10 @@ const PRODUCTS: Product[] = [
       "Suporte direto nas travadas",
     ],
     accent: "var(--brand-purple)",
+    price: "R$ 3.000 – 6.000",
+    priceSub: "investimento total · 6 meses",
+    priceColor: "#534AB7",
+    priceSubColor: "var(--brand-subtle)",
   },
   {
     step: 3,
@@ -61,6 +73,10 @@ const PRODUCTS: Product[] = [
       "Operação autônoma ao final do ciclo",
     ],
     accent: "linear-gradient(90deg,#185fa5,#534ab7)",
+    price: "R$ 8.000 – 15.000",
+    priceSub: "investimento total · 6 meses",
+    priceColor: "gradient",
+    priceSubColor: "var(--brand-purple)",
     featured: true,
   },
   {
@@ -77,6 +93,10 @@ const PRODUCTS: Product[] = [
       "Você lidera — a gente executa",
     ],
     accent: "var(--brand-dark)",
+    price: "Sob consulta",
+    priceSub: "projetos a partir de R$ 20.000",
+    priceColor: "#5DCAA5",
+    priceSubColor: "var(--brand-muted)",
   },
 ];
 
@@ -140,6 +160,28 @@ function ProductCard({ p }: { p: Product }) {
         <h3 className="font-display font-extrabold text-[28px] leading-none tracking-tight text-[var(--brand-text)] mb-3">
           {p.verb}
         </h3>
+
+        {/* preço */}
+        <div className="mb-4">
+          {p.priceColor === "gradient" ? (
+            <div className="font-display font-extrabold text-[20px] leading-tight grad-text">
+              {p.price}
+            </div>
+          ) : (
+            <div
+              className="font-display font-extrabold text-[20px] leading-tight"
+              style={{ color: p.priceColor }}
+            >
+              {p.price}
+            </div>
+          )}
+          <div
+            className="text-[11px] font-medium tracking-wide mt-0.5"
+            style={{ color: p.priceSubColor }}
+          >
+            {p.priceSub}
+          </div>
+        </div>
 
         {/* promessa */}
         <p className="text-[14px] leading-relaxed text-[var(--brand-muted)] mb-5 min-h-[60px]">
