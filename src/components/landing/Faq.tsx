@@ -4,12 +4,8 @@ import { cn } from "@/lib/utils";
 
 const FAQS = [
   {
-    q: "A Nexxu é uma consultoria de IA?",
-    a: "Não — e essa é a distinção mais importante. A Nexxu é consultoria de inovação operacional. IA é uma das ferramentas, não o produto principal. O Método ORDEM™ coloca a IA no 4º passo (Eficiência), nunca no 1º. Quando o processo está claro e as rotinas funcionam, a IA multiplica resultado. Quando não está, ela multiplica o caos — só de forma mais cara e mais rápida.",
-  },
-  {
-    q: "Qual a diferença entre a Nexxu e uma consultoria de IA?",
-    a: "Consultoria de IA implementa tecnologia. A Nexxu organiza o processo antes de qualquer tecnologia entrar. IA em processo caótico não transforma — multiplica o erro. Por isso o nosso Método ORDEM™ coloca a IA no 4º passo, não no 1º. Quando o processo está claro, a IA funciona de verdade.",
+    q: "A Nexxu é consultoria de IA?",
+    a: "Não exatamente. A Nexxu é consultoria de inovação operacional. A IA entra como ferramenta — mas sempre depois que o processo está claro. IA sem processo não resolve. Só adiciona uma camada de gambiarra mais cara.",
   },
   {
     q: "Minha empresa fatura menos de R$20k/mês. Posso contratar?",
@@ -18,10 +14,6 @@ const FAQS = [
   {
     q: "Quanto tempo leva para ver resultado?",
     a: "Os primeiros resultados aparecem entre 30 e 45 dias — quando os processos críticos estão mapeados e as rotinas começam a funcionar. Em 90 dias, a maioria dos clientes já parou de apagar incêndio diariamente.",
-  },
-  {
-    q: "Posso contratar a Nexxu só para implementar IA na minha empresa?",
-    a: "Não. E vamos ser diretos: se o processo não estiver claro, implementar IA vai piorar o que já está ruim — só de forma mais cara e mais rápida. Primeiro a gente organiza. Depois, se fizer sentido, a IA entra como amplificador — não como solução.",
   },
   {
     q: "Preciso entender de tecnologia para trabalhar com a Nexxu?",
@@ -38,16 +30,12 @@ function FaqItem({
   a,
   open,
   onToggle,
-  index,
 }: {
   q: string;
   a: string;
   open: boolean;
   onToggle: () => void;
-  index: number;
 }) {
-  const buttonId = `faq-q-${index}`;
-  const panelId = `faq-panel-${index}`;
   return (
     <div
       className={cn(
@@ -58,12 +46,9 @@ function FaqItem({
       )}
     >
       <button
-        id={buttonId}
-        type="button"
         onClick={onToggle}
-        className="w-full px-6 py-5 bg-transparent border-0 cursor-pointer flex justify-between items-center gap-4 text-left font-sans rounded-[20px] focus-ring-light"
+        className="w-full px-6 py-5 bg-transparent border-0 cursor-pointer flex justify-between items-center gap-4 text-left font-sans"
         aria-expanded={open}
-        aria-controls={panelId}
       >
         <span className="text-[15px] font-bold text-[var(--brand-text)] leading-snug">{q}</span>
         <svg
@@ -76,7 +61,6 @@ function FaqItem({
           viewBox="0 0 20 20"
           fill="none"
           aria-hidden="true"
-          focusable="false"
         >
           <polyline
             points="5,7 10,13 15,7"
@@ -88,15 +72,9 @@ function FaqItem({
         </svg>
       </button>
       <div
-        id={panelId}
-        role="region"
-        aria-labelledby={buttonId}
-        aria-hidden={!open}
-        // @ts-expect-error inert is a valid HTML attribute supported by modern browsers
-        inert={!open ? "" : undefined}
         className={cn(
           "overflow-hidden transition-[max-height] duration-300",
-          open ? "max-h-[500px]" : "max-h-0",
+          open ? "max-h-64" : "max-h-0",
         )}
       >
         <p className="px-6 pb-5 pt-0 text-sm text-[var(--brand-muted)] leading-relaxed m-0">{a}</p>
@@ -109,13 +87,9 @@ export function Faq() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section
-      aria-labelledby="faq-title"
-      className="bg-white px-[5%] py-20"
-    >
+    <section className="bg-white px-[5%] py-20">
       <div className="max-w-[720px] mx-auto">
         <SectionHeader
-          titleId="faq-title"
           title="Perguntas frequentes"
           description="Sem enrolação."
           titleClassName="text-[clamp(28px,3.5vw,44px)]"
@@ -125,7 +99,6 @@ export function Faq() {
           {FAQS.map((f, i) => (
             <FaqItem
               key={f.q}
-              index={i}
               q={f.q}
               a={f.a}
               open={openIdx === i}

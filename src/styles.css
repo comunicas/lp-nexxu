@@ -153,10 +153,6 @@
 }
 
 @layer utilities {
-  .min-h-svh {
-    min-height: 100vh; /* fallback para browsers sem suporte a svh */
-    min-height: 100svh;
-  }
   .grad-text {
     background: var(--gradient-brand);
     -webkit-background-clip: text;
@@ -176,7 +172,6 @@
     background-clip: text;
   }
   .grad-text-hero {
-    color: #fff;
     background: var(--gradient-hero-headline);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -199,112 +194,5 @@
   }
   .font-display {
     font-family: var(--font-display);
-  }
-
-  /* Keyframes */
-  @keyframes float-slow {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-24px) scale(1.04); }
-  }
-  @keyframes float-medium {
-    0%, 100% { transform: translateY(0px) translateX(0px); }
-    33% { transform: translateY(-16px) translateX(8px); }
-    66% { transform: translateY(8px) translateX(-8px); }
-  }
-  @keyframes glow-pulse {
-    0%, 100% { opacity: 0.15; filter: blur(60px); }
-    50% { opacity: 0.28; filter: blur(80px); }
-  }
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(28px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  @keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  @keyframes scale-in {
-    from { opacity: 0; transform: scale(0.92); }
-    to { opacity: 1; transform: scale(1); }
-  }
-
-  /* Classes utilitárias */
-  .animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
-  .animate-float-medium { animation: float-medium 6s ease-in-out infinite; }
-  .animate-glow-pulse { animation: glow-pulse 5s ease-in-out infinite; }
-  .animate-fade-up { animation: fade-up 0.7s ease-out both; }
-  .animate-fade-in { animation: fade-in 0.5s ease-out both; }
-  .animate-scale-in { animation: scale-in 0.5s ease-out both; }
-  .animation-delay-100 { animation-delay: 0.1s; }
-  .animation-delay-200 { animation-delay: 0.2s; }
-  .animation-delay-300 { animation-delay: 0.3s; }
-  .animation-delay-400 { animation-delay: 0.4s; }
-  .animation-delay-500 { animation-delay: 0.5s; }
-  .animation-delay-600 { animation-delay: 0.6s; }
-  .animation-delay-700 { animation-delay: 0.7s; }
-  .animation-delay-800 { animation-delay: 0.8s; }
-
-  /* ============================================================
-     Acessibilidade
-     ============================================================ */
-
-  /* Foco visível por teclado — versão para fundos escuros */
-  .focus-ring:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 2px var(--brand-dark),
-      0 0 0 4px var(--brand-purple-light);
-    border-radius: inherit;
-  }
-  /* Foco visível por teclado — versão para fundos claros */
-  .focus-ring-light:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 2px #ffffff,
-      0 0 0 4px var(--brand-purple);
-    border-radius: inherit;
-  }
-
-  /* Skip link: visível só ao receber foco por teclado */
-  .skip-link {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    padding: 0.75rem 1rem;
-    background: var(--brand-purple);
-    color: #fff;
-    font-weight: 700;
-    border-radius: 0 0 0.75rem 0;
-    transform: translateY(-150%);
-    transition: transform 0.15s ease-out;
-  }
-  .skip-link:focus,
-  .skip-link:focus-visible {
-    transform: translateY(0);
-    outline: 2px solid var(--brand-purple-light);
-    outline-offset: 2px;
-  }
-
-  /* Respeito a prefers-reduced-motion */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001ms !important;
-      scroll-behavior: auto !important;
-    }
-    .animate-float-slow,
-    .animate-float-medium,
-    .animate-glow-pulse {
-      animation: none !important;
-    }
   }
 }
