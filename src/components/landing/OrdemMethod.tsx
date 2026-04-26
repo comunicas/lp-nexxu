@@ -7,31 +7,31 @@ const LETTERS = [
     letter: "O",
     short: "Organiz.",
     name: "Organização",
-    desc: "Mapeamos cada processo crítico — quem faz, como faz, onde trava. Nada muda antes de estar claro no papel.",
+    desc: "Antes de qualquer ferramenta ou IA, mapeamos o que realmente acontece na sua operação — quem faz, como faz, onde trava. Nada muda antes de estar claro no papel.",
   },
   {
     letter: "R",
     short: "Rotinas",
     name: "Rotinas",
-    desc: "Transformamos o caos em rotinas gerenciáveis. Gestão estruturada que funciona sem você precisar lembrar de tudo.",
+    desc: "Transformamos o caos em rotinas que funcionam sem você precisar lembrar de tudo. O time opera. Você gerencia.",
   },
   {
     letter: "D",
     short: "Dados",
     name: "Dados",
-    desc: "Indicadores confiáveis para decisão real. Sem dado, é achismo. Com dado, é gestão.",
+    desc: "Sem dado confiável, qualquer decisão é um chute. Criamos indicadores reais — não dashboards bonitos em cima de processo ruim.",
   },
   {
     letter: "E",
     short: "Eficiência",
     name: "Eficiência IA",
-    desc: "IA entra depois do processo — nunca antes. Quando o processo está claro, a IA multiplica. Quando não está, ela escala o caos.",
+    desc: "Só aqui a IA entra. Depois que o processo está claro, ela multiplica o resultado. Antes disso, ela só escala o problema. Essa sequência é o que diferencia resultado real de hype.",
   },
   {
     letter: "M",
     short: "Maturid.",
     name: "Maturidade",
-    desc: "O objetivo final: sua empresa funciona com autonomia. O dono lidera, não opera.",
+    desc: "O objetivo final: sua empresa funciona sem depender de você. Processo sólido, dados reais, IA onde faz sentido. Dono lidera — não opera.",
   },
 ];
 
@@ -84,7 +84,7 @@ export function OrdemMethod() {
               Método <span className="grad-text">ORDEM™</span>
             </>
           }
-          description="Criatividade sem estrutura é improviso. Estrutura sem criatividade é burocracia. A Nexxu faz os dois."
+          description="Criatividade sem estrutura é improviso. Estrutura sem criatividade é burocracia. E IA sem processo é gambiarra cara. A Nexxu faz os três — na ordem certa."
         />
 
         <div className="flex gap-2.5 justify-center flex-wrap mb-10">
