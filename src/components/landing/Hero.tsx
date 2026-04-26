@@ -49,8 +49,8 @@ export function Hero() {
         <div className="flex gap-10 justify-center flex-wrap">
           {[
             { num: "90 dias", lbl: "é o que leva para parar de apagar incêndio" },
-            { num: "0 milagres", lbl: "prometidos — só processo real" },
-            { num: "ORDEM™", lbl: "metodologia proprietária da Nexxu" },
+            { num: "0", lbl: "implementações de IA jogadas fora por falta de processo" },
+            { num: "ORDEM™", lbl: "processo antes de IA. Sempre." },
           ].map((s) => (
             <div key={s.num} className="flex flex-col items-center">
               <div className="grad-text-light text-[22px] font-extrabold">{s.num}</div>
