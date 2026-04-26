@@ -172,6 +172,7 @@
     background-clip: text;
   }
   .grad-text-hero {
+    color: #fff;
     background: var(--gradient-hero-headline);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
