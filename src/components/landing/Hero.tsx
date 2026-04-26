@@ -6,7 +6,7 @@ export function Hero() {
     <section
       id="main-content"
       aria-labelledby="hero-headline"
-      className="relative bg-[var(--brand-dark)] min-h-screen flex flex-col items-center justify-center overflow-hidden px-5 sm:px-[5%] pt-28 sm:pt-32 pb-24 sm:pb-32 text-center"
+      className="relative bg-[var(--brand-dark)] min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 sm:px-[5%] pt-28 sm:pt-32 pb-24 sm:pb-32 text-center"
     >
       {/* Orbs decorativos — invisíveis para leitores de tela */}
       <div
@@ -36,7 +36,7 @@ export function Hero() {
         {/* Headline — 3 linhas curtas com impacto progressivo */}
         <h1
           id="hero-headline"
-          className="grad-text-hero font-extrabold leading-[1.05] tracking-tight mb-4 sm:mb-6 max-w-[820px] mx-auto text-balance animate-fade-up animation-delay-200 text-[32px] sm:text-[48px] md:text-[60px] lg:text-[74px]"
+          className="grad-text-hero font-extrabold leading-[1.05] tracking-[-0.01em] sm:tracking-tight mb-4 sm:mb-6 max-w-[820px] mx-auto text-balance animate-fade-up animation-delay-200 text-[32px] sm:text-[48px] md:text-[60px] lg:text-[74px]"
         >
           <span className="block">IA sem processo</span>
           <span className="block">não resolve.</span>
@@ -49,7 +49,7 @@ export function Hero() {
           <span className="text-white/95 font-semibold">antes da IA entrar</span>
           {" — "}em 90 dias sua empresa para de depender de você.
         </p>
-        <p className="text-[12px] sm:text-[13px] text-white/60 mb-7 sm:mb-10 max-w-[560px] mx-auto animate-fade-up animation-delay-500">
+        <p className="text-[11.5px] sm:text-[13px] text-white/60 mb-7 sm:mb-10 max-w-[560px] mx-auto animate-fade-up animation-delay-500">
           Método ORDEM™ · PMEs com R$20k+/mês
         </p>
 
@@ -75,7 +75,7 @@ export function Hero() {
         {/* Stats — grid 3 colunas em mobile pra evitar pilha enorme */}
         <ul
           aria-label="Diferenciais da Nexxu"
-          className="list-none p-0 m-0 grid grid-cols-3 gap-x-3 sm:flex sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-6 justify-center items-start animate-fade-up animation-delay-700 max-w-[560px] sm:max-w-none mx-auto"
+          className="list-none p-0 m-0 grid grid-cols-3 gap-x-2 sm:flex sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-6 justify-center items-start animate-fade-up animation-delay-700 max-w-[560px] sm:max-w-none mx-auto"
         >
           {[
             { num: "90 dias", lbl: "para sair do operacional" },
@@ -87,7 +87,7 @@ export function Hero() {
               aria-label={`${s.num}: ${s.lbl}`}
               className="flex flex-col items-center sm:max-w-[200px]"
             >
-              <div className="grad-text-light text-[14px] sm:text-[20px] font-extrabold leading-tight text-center">
+              <div className="grad-text-light text-[13px] sm:text-[20px] font-extrabold leading-tight text-center whitespace-nowrap">
                 {s.num}
               </div>
               <div className="text-[10.5px] sm:text-[11px] text-white/65 mt-1.5 sm:mt-2 text-center leading-snug">
