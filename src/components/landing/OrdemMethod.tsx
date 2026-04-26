@@ -55,7 +55,7 @@ const TIMELINE = [
   {
     days: "90 dias",
     title: "Autonomia operacional",
-    desc: "Empresa opera. Dono lidera. IA amplificando o que já funciona — não consertando o que está quebrado.",
+    desc: "Empresa opera com previsibilidade. Dono lidera — não opera. IA amplificando o que já funciona. Não o oposto.",
     color: "#5DCAA5",
     bgColor: "rgba(93,202,165,0.1)",
     border: "rgba(93,202,165,0.2)",
@@ -84,7 +84,7 @@ export function OrdemMethod() {
               Método <span className="grad-text">ORDEM™</span>
             </>
           }
-          description="Criatividade sem estrutura é improviso. Estrutura sem criatividade é burocracia. E IA sem processo é gambiarra cara. A Nexxu faz os três — na ordem certa."
+          description="Criatividade sem estrutura é improviso. Estrutura sem criatividade é burocracia. IA sem processo é gambiarra cara. A Nexxu faz os três — na ordem certa."
         />
 
         <div className="flex gap-2.5 justify-center flex-wrap mb-10">
@@ -121,7 +121,8 @@ export function OrdemMethod() {
         </div>
 
         <div
-          className="max-w-[600px] mx-auto px-9 py-8 rounded-[28px] bg-white border border-[rgba(83,74,183,0.2)] text-center"
+          key={cur.letter}
+          className="max-w-[600px] mx-auto px-9 py-8 rounded-[28px] bg-white border border-[rgba(83,74,183,0.2)] text-center animate-scale-in"
           style={{ boxShadow: "0 0 40px rgba(83,74,183,.1)", marginBottom: 60 }}
         >
           <div className="grad-text text-5xl font-black leading-none mb-1.5">{cur.letter}</div>

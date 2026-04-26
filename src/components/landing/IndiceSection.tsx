@@ -42,37 +42,40 @@ export function IndiceSection() {
           title={
             <span className="text-white">
               Em qual nível está sua operação{" "}
-              <span className="grad-text-pale">— antes de qualquer IA?</span>
+              <span className="grad-text-pale">antes de qualquer IA?</span>
             </span>
           }
           description={
             <span className="text-white/50">
-              Toda empresa tem um nível de maturidade operacional. A IA só faz sentido a partir do
-              nível 3. Saber onde você está é o primeiro passo.
+              IA só faz sentido a partir do nível 3. Implementar antes disso não resolve — só
+              escala o problema mais rápido e de forma mais cara.
             </span>
           }
         />
 
         <div className="grid gap-3.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-14">
-          {LEVELS.map((l) => (
-            <div
-              key={l.num}
-              className="p-7 rounded-3xl bg-white/[0.025] transition-all duration-200 hover:bg-white/[0.04]"
-              style={{ border: `1px solid ${l.border}` }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `0 0 28px ${l.glow}`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              <div className="text-xs font-bold text-white/30 tracking-widest mb-2.5">{l.num}</div>
-              <div className="text-[22px] font-extrabold text-white mb-3 tracking-tight">
-                {l.name}
+          {LEVELS.map((l, i) => {
+            const delay = ["", "animation-delay-100", "animation-delay-200", "animation-delay-300"][i] ?? "";
+            return (
+              <div
+                key={l.num}
+                className={`p-7 rounded-3xl bg-white/[0.025] transition-all duration-200 hover:bg-white/[0.04] animate-fade-up ${delay}`}
+                style={{ border: `1px solid ${l.border}` }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `0 0 28px ${l.glow}`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div className="text-xs font-bold text-white/30 tracking-widest mb-2.5">{l.num}</div>
+                <div className="text-[22px] font-extrabold text-white mb-3 tracking-tight">
+                  {l.name}
+                </div>
+                <p className="text-[13px] text-white/50 leading-relaxed m-0">{l.desc}</p>
               </div>
-              <p className="text-[13px] text-white/50 leading-relaxed m-0">{l.desc}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div
@@ -84,11 +87,11 @@ export function IndiceSection() {
         >
           <div>
             <h3 className="text-[22px] font-extrabold text-white m-0 mb-2">
-              Descubra onde sua operação está — antes de qualquer investimento em IA
+              Descubra seu nível antes de investir em qualquer ferramenta ou IA
             </h3>
-            <p className="text-[15px] text-white/55 m-0 max-w-[420px] leading-relaxed">
-              Em 15 minutos de conversa, mapeamos seu nível operacional e se — e quando — a IA faz
-              sentido para o seu caso. Sem pitch. Sem pressão.
+            <p className="text-[15px] text-white/55 m-0 max-w-[460px] leading-relaxed">
+              Em 10 perguntas, o Índice ORDEM™ mapeia em qual nível sua operação está hoje e qual
+              próximo passo faz sentido — sem pitch e sem pressão de venda.
             </p>
           </div>
           <Link
