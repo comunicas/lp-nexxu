@@ -12,20 +12,29 @@ import { Footer } from "@/components/landing/Footer";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Nexxu — Criatividade. Processo. Tecnologia." },
+      { title: "Nexxu | Consultoria de Processo e IA para PME — Resultados em 90 Dias" },
       {
         name: "description",
         content:
-          "Consultoria de inovação operacional. Em 90 dias, sua empresa para de depender de você e começa a operar com clareza, rotina e resultado previsível.",
+          "Nexxu organiza sua operação antes de qualquer IA. Método ORDEM™: processo, rotinas e dados primeiro — IA depois, quando vale a pena. Para donos de PME com R$20k+/mês que querem parar de apagar incêndio em 90 dias.",
       },
-      { property: "og:title", content: "Nexxu — Criatividade. Processo. Tecnologia." },
+      { property: "og:title", content: "Nexxu | Processo antes de IA. Sempre." },
       {
         property: "og:description",
         content:
-          "Em 90 dias, sua operação para de depender de você. Metodologia ORDEM™ proprietária da Nexxu.",
+          "Consultoria de inovação operacional para PME. Método ORDEM™: organização, rotinas e dados antes de IA. Resultados em 90 dias.",
       },
+      { property: "og:url", content: "https://nexxulab.com/" },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Nexxu | Processo antes de IA. Sempre." },
+      {
+        name: "twitter:description",
+        content:
+          "Consultoria de inovação operacional para PME. Em 90 dias, sua empresa para de depender de você.",
+      },
     ],
+    links: [{ rel: "canonical", href: "https://nexxulab.com/" }],
   }),
   component: Index,
 });
