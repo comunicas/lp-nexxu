@@ -1,52 +1,84 @@
-## Ajustes no Hero (`src/components/landing/Hero.tsx`)
+## Objetivo
 
-### Diagnóstico do que está quebrado
+Garantir que o H1 e o parágrafo sub do Hero não tenham linhas cortadas, sobreposição ou wrap quebrado em mobile (375px) e tablet (640px), mantendo o impacto visual no desktop.
 
-1. **H1 desproporcional no desktop (1414px)** — `clamp(44px, 6vw, 80px)` resolve em ~80px e os 3 `<br />` forçam linhas curtas, criando blocos enormes que comem espaço vertical e empurram os stats pra baixo do fold.
-2. **Parágrafo sub-headline grande demais** — `clamp(16px, 2vw, 20px)` chega no teto em telas largas e compete em peso com o h1.
-3. **Indicador de SCROLL quebrado** — está com `opacity-40` no container inteiro (texto quase ilegível), é só um traço estático sem affordance de scroll, e fica colado em `bottom-8` numa seção `min-h-screen justify-center` — em telas curtas ou com zoom o traço se sobrepõe ao bloco de stats.
-4. **Sem "legados" estruturais** além dos `<br />` no h1 — o resto do componente já usa o `Badge variant="hero"` atual, gradientes de fundo e CTAs corretos. Não há código morto a remover.
+## Diagnóstico
 
-### Mudanças propostas
-
-**Tipografia (escala mais equilibrada)**
-- H1: `clamp(44px,6vw,80px)` → **`clamp(36px,5vw,64px)`**, com `text-balance` e `max-w-[760px]` pra quebra natural em 2 linhas. Remove os 3 `<br />` — texto vira frase corrida.
-- Parágrafo: `clamp(16px,2vw,20px)` → **`clamp(15px,1.5vw,18px)`** e cor `white/60` → `white/65` (legibilidade).
-- Stats: número `22px` → `20px`, label `xs (12px)` → `11px` com `mt-2` pra respiro. Spacing `gap-10` → `gap-x-10 gap-y-6` pra wrap limpo no mobile.
-- CTAs: `text-base` (16px) → `text-[15px]`, padding `px-8 py-4` → `px-7 py-3.5` pra alinhar com a nova escala.
-- Container: `max-w-[780px]` → `max-w-[860px]` (acomoda h1 em uma linha quando couber).
-
-**Indicador de scroll (refeito)**
-- Vira um `<a href="#metodo">` clicável (não só decorativo) com `aria-label`.
-- Substitui o traço vertical por um **ícone de mouse com scroll dot** SVG animado (padrão reconhecível).
-- Animação `scrollHint` de 1.8s: dot desce 4px e desvanece — comunica "role pra baixo" sem JS.
-- Cor `text-white/55` (legível) com hover `text-white/80`.
-- `hidden md:flex` — esconde em mobile pra nunca colidir com os stats.
-- Seção ganha `pb-32` (era `pb-20`) pra garantir espaço entre stats e o indicador.
-
-### Antes / depois (ASCII)
-
-```text
-ANTES                          DEPOIS
-┌──────────────────┐           ┌──────────────────┐
-│  [badge]         │           │  [badge]         │
-│                  │           │                  │
-│  VOCÊ NÃO TEM    │           │  Você não tem    │
-│  PROBLEMA DE     │  80px     │  problema de     │ 64px
-│  ESFORÇO.        │  3 linhas │  esforço. Tem    │ 2 linhas
-│  TEM PROBLEMA    │  forçadas │  problema de     │ naturais
-│  DE PROCESSO.    │           │  processo.       │
-│                  │           │                  │
-│  parágrafo 20px  │           │  parágrafo 18px  │
-│  [CTA] [CTA]     │           │  [CTA] [CTA]     │
-│  90d  0  ORDEM   │  stats    │  90d  0  ORDEM   │  stats
-│                  │  colados  │                  │  com ar
-│ |  ← traço pálido│           │ [▾ mouse anim.]  │  scroll
-└──────────────────┘           └──────────────────┘  hint
+**H1 atual:**
+```
+text-[38px] sm:text-[54px] lg:text-[74px]
+<span className="block">IA sem processo</span>
+<span className="block">não resolve.</span>
+<span className="block mt-1">Só escala o caos.</span>
 ```
 
-### Arquivos tocados
-- `src/components/landing/Hero.tsx` — único arquivo. Sem mudanças em `styles.css`, Badge, ou outras seções.
+- Em **375px** com padding `px-5` (20px lateral) → largura útil ~335px. "IA sem processo" em 38px/extrabold cabe (~280px), "Só escala o caos." cabe. Margem confortável.
+- Em **640px (sm)** o salto direto pra **54px** é agressivo: "Só escala o caos." em 54px extrabold ≈ 430px → cabe em 600px úteis, mas fica colado nas bordas em viewports de 600–640px (resoluções intermediárias entre `sm` e o ponto onde sobra ar).
+- O `mt-1` na 3ª linha cria respiro inconsistente entre linhas (1 e 2 sem gap, 3 com gap).
 
-### O que NÃO muda
-- Cores, gradientes radiais de fundo, classe `grad-text-hero`, badge, copy do h1/sub/stats/CTAs, link de destino do CTA principal.
+**Sub atual:**
+```
+text-[15px] sm:text-[17px] lg:text-[19px]
+"... antes de qualquer IA entrar." + <br className="hidden sm:block" />
+<span className="block mt-2">Em 90 dias, ...</span>
+```
+
+- O `<br className="hidden sm:block" />` injeta uma quebra **só no sm+**, mas a 2ª frase já está num `<span className="block">` — ou seja, vira **duas quebras** no sm+ (br + block), criando uma linha em branco visível entre as frases no tablet/desktop.
+- Em mobile sem o br, o block já dá a quebra única correta — então o `<br>` é redundante e quebra o ritmo no sm+.
+
+## Mudanças
+
+### 1. H1 — escala intermediária + leading uniforme
+
+Adicionar breakpoint `md` para suavizar o salto 38→54→74:
+
+```tsx
+className="... text-[34px] sm:text-[48px] md:text-[60px] lg:text-[74px] leading-[1.05]"
+```
+
+E remover o `mt-1` da 3ª linha (o `leading-[1.05]` já dá respiro consistente entre as 3 linhas):
+
+```tsx
+<span className="block">IA sem processo</span>
+<span className="block">não resolve.</span>
+<span className="block">Só escala o caos.</span>
+```
+
+Resultado:
+- **375px**: 34px → "Só escala o caos." ≈ 235px, folga generosa.
+- **640px**: 48px → ~380px, margem confortável dentro de 600px úteis.
+- **768px (md)**: 60px → impacto visual sem risco.
+- **1024px+ (lg)**: 74px (inalterado).
+
+### 2. Sub — remover `<br>` redundante
+
+```tsx
+<p className="...">
+  A Nexxu organiza processo, rotina e dados{" "}
+  <span className="text-white/90 font-semibold">antes de qualquer IA entrar.</span>
+  <span className="block mt-2">
+    Em 90 dias, sua empresa para de depender de você para funcionar.
+  </span>
+</p>
+```
+
+O `<br className="hidden sm:block" />` é removido. O `<span className="block mt-2">` sozinho já garante quebra única correta em todos os breakpoints, com 8px de respiro entre as frases.
+
+### 3. Sub — escala intermediária
+
+```tsx
+className="text-[15px] sm:text-[16px] md:text-[17px] lg:text-[19px] ..."
+```
+
+Salto mais suave entre mobile e tablet, evitando texto grande demais em viewports de 640–767px.
+
+## Arquivo tocado
+
+- `src/components/landing/Hero.tsx` — apenas o H1 e o `<p>` do sub. Badge, CTAs, stats, orbs e scroll indicator ficam intactos.
+
+## O que NÃO muda
+
+- Copy (texto literal das 3 linhas e das 2 frases)
+- Cores, gradientes, animações, classes de delay
+- Estrutura de Link/href, Badge, layout de CTAs e stats
+- Padding lateral da section
