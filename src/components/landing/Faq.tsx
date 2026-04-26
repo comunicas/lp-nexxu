@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 
 const FAQS = [
   {
-    q: "A Nexxu é consultoria de IA?",
-    a: "Não. A Nexxu é consultoria de inovação operacional — e IA é uma das ferramentas, não o produto principal. A IA entra depois que o processo está claro. IA sem processo não resolve. Só adiciona uma camada de gambiarra mais cara. Essa é a diferença entre resultado real e hype de transformação digital.",
+    q: "A Nexxu é uma consultoria de IA?",
+    a: "Não — e essa é a distinção mais importante. A Nexxu é consultoria de inovação operacional. IA é uma das ferramentas, não o produto principal. O Método ORDEM™ coloca a IA no 4º passo (Eficiência), nunca no 1º. Quando o processo está claro e as rotinas funcionam, a IA multiplica resultado. Quando não está, ela multiplica o caos — só de forma mais cara e mais rápida.",
   },
   {
     q: "Qual a diferença entre a Nexxu e uma consultoria de IA?",
