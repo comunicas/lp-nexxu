@@ -42,13 +42,13 @@ export function IndiceSection() {
           title={
             <span className="text-white">
               Em qual nível está sua operação{" "}
-              <span className="grad-text-pale">— antes de qualquer IA?</span>
+              <span className="grad-text-pale">antes de qualquer IA?</span>
             </span>
           }
           description={
             <span className="text-white/50">
-              Toda empresa tem um nível de maturidade operacional. A IA só faz sentido a partir do
-              nível 3. Saber onde você está é o primeiro passo.
+              IA só faz sentido a partir do nível 3. Implementar antes disso não resolve — só
+              escala o problema mais rápido e de forma mais cara.
             </span>
           }
         />
