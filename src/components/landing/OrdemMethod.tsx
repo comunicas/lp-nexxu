@@ -84,7 +84,7 @@ export function OrdemMethod() {
               Método <span className="grad-text">ORDEM™</span>
             </>
           }
-          description="Criatividade sem estrutura é improviso. Estrutura sem criatividade é burocracia. E IA sem processo é gambiarra cara. A Nexxu faz os três — na ordem certa."
+          description="Criatividade sem estrutura é improviso. Estrutura sem criatividade é burocracia. IA sem processo é gambiarra cara. A Nexxu faz os três — na ordem certa."
         />
 
         <div className="flex gap-2.5 justify-center flex-wrap mb-10">
