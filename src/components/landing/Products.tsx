@@ -161,6 +161,28 @@ function ProductCard({ p }: { p: Product }) {
           {p.verb}
         </h3>
 
+        {/* preço */}
+        <div className="mb-4">
+          {p.priceColor === "gradient" ? (
+            <div className="font-display font-extrabold text-[20px] leading-tight grad-text">
+              {p.price}
+            </div>
+          ) : (
+            <div
+              className="font-display font-extrabold text-[20px] leading-tight"
+              style={{ color: p.priceColor }}
+            >
+              {p.price}
+            </div>
+          )}
+          <div
+            className="text-[11px] font-medium tracking-wide mt-0.5"
+            style={{ color: p.priceSubColor }}
+          >
+            {p.priceSub}
+          </div>
+        </div>
+
         {/* promessa */}
         <p className="text-[14px] leading-relaxed text-[var(--brand-muted)] mb-5 min-h-[60px]">
           {p.promise}
