@@ -5,7 +5,11 @@ import { cn } from "@/lib/utils";
 const FAQS = [
   {
     q: "A Nexxu é consultoria de IA?",
-    a: "Não exatamente. A Nexxu é consultoria de inovação operacional. A IA entra como ferramenta — mas sempre depois que o processo está claro. IA sem processo não resolve. Só adiciona uma camada de gambiarra mais cara.",
+    a: "Não. A Nexxu é consultoria de inovação operacional — e IA é uma das ferramentas, não o produto principal. A IA entra depois que o processo está claro. IA sem processo não resolve. Só adiciona uma camada de gambiarra mais cara. Essa é a diferença entre resultado real e hype de transformação digital.",
+  },
+  {
+    q: "Qual a diferença entre a Nexxu e uma consultoria de IA?",
+    a: "Consultoria de IA implementa tecnologia. A Nexxu organiza o processo antes de qualquer tecnologia entrar. IA em processo caótico não transforma — multiplica o erro. Por isso o nosso Método ORDEM™ coloca a IA no 4º passo, não no 1º. Quando o processo está claro, a IA funciona de verdade.",
   },
   {
     q: "Minha empresa fatura menos de R$20k/mês. Posso contratar?",
@@ -14,6 +18,10 @@ const FAQS = [
   {
     q: "Quanto tempo leva para ver resultado?",
     a: "Os primeiros resultados aparecem entre 30 e 45 dias — quando os processos críticos estão mapeados e as rotinas começam a funcionar. Em 90 dias, a maioria dos clientes já parou de apagar incêndio diariamente.",
+  },
+  {
+    q: "Posso contratar a Nexxu só para implementar IA na minha empresa?",
+    a: "Não. E vamos ser diretos: se o processo não estiver claro, implementar IA vai piorar o que já está ruim — só de forma mais cara e mais rápida. Primeiro a gente organiza. Depois, se fizer sentido, a IA entra como amplificador — não como solução.",
   },
   {
     q: "Preciso entender de tecnologia para trabalhar com a Nexxu?",
@@ -74,7 +82,7 @@ function FaqItem({
       <div
         className={cn(
           "overflow-hidden transition-[max-height] duration-300",
-          open ? "max-h-64" : "max-h-0",
+          open ? "max-h-[500px]" : "max-h-0",
         )}
       >
         <p className="px-6 pb-5 pt-0 text-sm text-[var(--brand-muted)] leading-relaxed m-0">{a}</p>
