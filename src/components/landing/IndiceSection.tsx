@@ -19,7 +19,7 @@ const LEVELS = [
   {
     num: "03",
     name: "Estruturado",
-    desc: "Processos existem e o time os segue. Mas crescer ainda assusta — a estrutura não escala sem fricção.",
+    desc: "Processos existem e o time os segue. Crescer ainda assusta. É aqui que a IA começa a fazer sentido real.",
     border: "rgba(24,95,165,0.5)",
     glow: "rgba(24,95,165,0.25)",
   },
