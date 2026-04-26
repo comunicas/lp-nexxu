@@ -195,4 +195,52 @@
   .font-display {
     font-family: var(--font-display);
   }
+
+  /* Keyframes */
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-24px) scale(1.04); }
+  }
+  @keyframes float-medium {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    33% { transform: translateY(-16px) translateX(8px); }
+    66% { transform: translateY(8px) translateX(-8px); }
+  }
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.15; filter: blur(60px); }
+    50% { opacity: 0.28; filter: blur(80px); }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Classes utilitárias */
+  .animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
+  .animate-float-medium { animation: float-medium 6s ease-in-out infinite; }
+  .animate-glow-pulse { animation: glow-pulse 5s ease-in-out infinite; }
+  .animate-fade-up { animation: fade-up 0.7s ease-out both; }
+  .animate-fade-in { animation: fade-in 0.5s ease-out both; }
+  .animate-scale-in { animation: scale-in 0.5s ease-out both; }
+  .animation-delay-100 { animation-delay: 0.1s; }
+  .animation-delay-200 { animation-delay: 0.2s; }
+  .animation-delay-300 { animation-delay: 0.3s; }
+  .animation-delay-400 { animation-delay: 0.4s; }
+  .animation-delay-500 { animation-delay: 0.5s; }
+  .animation-delay-600 { animation-delay: 0.6s; }
+  .animation-delay-700 { animation-delay: 0.7s; }
+  .animation-delay-800 { animation-delay: 0.8s; }
 }
