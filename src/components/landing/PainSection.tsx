@@ -42,7 +42,7 @@ export function PainSection() {
               O caos também.
             </>
           }
-          description="Se você chegou até aqui, provavelmente já tentou de tudo. O problema não é você."
+          description="Se você chegou até aqui, provavelmente já tentou de tudo. Ferramenta nova. Novo funcionário. Talvez até IA. O problema não é você — é a sequência errada."
         />
 
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -72,14 +72,14 @@ export function PainSection() {
           >
             <p className="text-base font-bold text-[var(--brand-text)] leading-snug mb-5">
               "Você não tem problema de esforço.{" "}
-              <span className="grad-text">Tem problema de processo.</span> A gente organiza isso em
-              90 dias."
+              <span className="grad-text">Tem problema de sequência.</span> Processo primeiro. IA
+              quando fizer sentido. A gente organiza isso em 90 dias."
             </p>
             <Link
               to="/diagnostico"
               className="inline-flex items-center justify-center gap-1.5 font-display font-bold transition-all duration-200 px-5 py-3 rounded-xl text-white text-sm bg-brand-gradient shadow-brand-glow-sm w-fit hover:opacity-90"
             >
-              Fazer diagnóstico gratuito →
+              Descobrir meu nível operacional →
             </Link>
           </div>
         </div>
