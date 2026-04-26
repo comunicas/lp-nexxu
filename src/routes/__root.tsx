@@ -39,8 +39,8 @@ export const Route = createRootRoute({
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Lovable App" },
       { name: "twitter:description", content: "Component Canvas builds a component-driven website with a reusable design system." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/296fa34f-61ab-493a-bba8-498366680275/id-preview-74ed5599--6856c1dd-8455-464e-89ce-1899f538430e.lovable.app-1777178765456.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/296fa34f-61ab-493a-bba8-498366680275/id-preview-74ed5599--6856c1dd-8455-464e-89ce-1899f538430e.lovable.app-1777178765456.png" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777201276438-logo-branco-horizontal.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777201276438-logo-branco-horizontal.webp" },
     ],
     links: [
       {
