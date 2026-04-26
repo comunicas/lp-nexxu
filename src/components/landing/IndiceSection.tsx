@@ -41,15 +41,14 @@ export function IndiceSection() {
           labelColor="rgba(175,169,236,0.7)"
           title={
             <span className="text-white">
-              Em qual nível está
-              <br />
-              <span className="grad-text-pale">sua operação hoje?</span>
+              Em qual nível está sua operação{" "}
+              <span className="grad-text-pale">— antes de qualquer IA?</span>
             </span>
           }
           description={
             <span className="text-white/50">
-              Toda empresa está em algum nível. Saber onde você está é o primeiro passo para sair de
-              lá.
+              Toda empresa tem um nível de maturidade operacional. A IA só faz sentido a partir do
+              nível 3. Saber onde você está é o primeiro passo.
             </span>
           }
         />
