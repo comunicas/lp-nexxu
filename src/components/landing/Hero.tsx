@@ -15,7 +15,7 @@ export function Hero() {
 
       <div className="relative z-[2] max-w-[780px] mx-auto">
         <div className="mb-8">
-          <Badge variant="hero">CONSULTORIA DE INOVAÇÃO OPERACIONAL</Badge>
+          <Badge variant="hero">Para donos que já tentaram de tudo — inclusive IA</Badge>
         </div>
 
         <h1 className="grad-text-hero text-[clamp(44px,6vw,80px)] font-extrabold leading-[1.05] tracking-tight mb-6">
@@ -27,8 +27,8 @@ export function Hero() {
         </h1>
 
         <p className="text-[clamp(16px,2vw,20px)] text-white/60 leading-relaxed mb-11 max-w-[540px] mx-auto">
-          Em 90 dias, sua empresa para de depender de você para tudo — e começa a operar com
-          clareza, rotina e resultado previsível.
+          Em 90 dias, você para de ser o gargalo da sua própria empresa. Processo primeiro. IA
+          depois — quando vale a pena usar.
         </p>
 
         <div className="flex gap-3.5 justify-center flex-wrap mb-14">
@@ -49,8 +49,8 @@ export function Hero() {
         <div className="flex gap-10 justify-center flex-wrap">
           {[
             { num: "90 dias", lbl: "é o que leva para parar de apagar incêndio" },
-            { num: "0 milagres", lbl: "prometidos — só processo real" },
-            { num: "ORDEM™", lbl: "metodologia proprietária da Nexxu" },
+            { num: "0", lbl: "implementações de IA jogadas fora por falta de processo" },
+            { num: "ORDEM™", lbl: "processo antes de IA. Sempre." },
           ].map((s) => (
             <div key={s.num} className="flex flex-col items-center">
               <div className="grad-text-light text-[22px] font-extrabold">{s.num}</div>
