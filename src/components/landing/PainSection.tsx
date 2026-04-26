@@ -75,38 +75,37 @@ export function PainSection() {
             </li>
           ))}
 
-          {/* CTA card */}
-          <li>
-            <div
-              className="h-full p-7 rounded-3xl border border-[rgba(83,74,183,0.25)] flex flex-col justify-center"
-              style={{
-                background:
-                  "linear-gradient(135deg,rgba(24,95,165,.06),rgba(83,74,183,.08))",
-              }}
-            >
-              <p className="section-label grad-text mb-3 text-[12px]">
-                O diagnóstico começa aqui
-              </p>
-              <p className="text-base font-bold text-[var(--brand-text)] leading-snug mb-3">
-                "Você não tem problema de esforço.{" "}
-                <span className="grad-text">Tem problema de sequência.</span>{" "}
-                Processo. Rotina. Dados. IA — nessa ordem."
-              </p>
-              <p className="text-sm text-[var(--brand-muted)] leading-relaxed mb-5">
-                O Método ORDEM™ organiza isso em 90 dias, com entregáveis reais e sem hype de
-                transformação digital.
-              </p>
-              <Link
-                to="/diagnostico"
-                aria-label="Fazer diagnóstico operacional gratuito"
-                className="inline-flex items-center justify-center gap-1.5 font-display font-bold transition-all duration-200 px-5 py-3 rounded-xl text-white text-sm bg-brand-gradient shadow-brand-glow-sm w-fit hover:opacity-90 focus-ring-light"
-              >
-                <span>Fazer diagnóstico gratuito</span>
-                <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-          </li>
         </ul>
+
+        {/* CTA card — fora do grid, centralizado abaixo */}
+        <div
+          className="mt-6 max-w-[440px] mx-auto p-7 rounded-3xl border border-[rgba(83,74,183,0.25)] flex flex-col justify-center"
+          style={{
+            background:
+              "linear-gradient(135deg,rgba(24,95,165,.06),rgba(83,74,183,.08))",
+          }}
+        >
+          <p className="section-label grad-text mb-3 text-[12px]">
+            O diagnóstico começa aqui
+          </p>
+          <p className="text-base font-bold text-[var(--brand-text)] leading-snug mb-3">
+            "Você não tem problema de esforço.{" "}
+            <span className="grad-text">Tem problema de sequência.</span>{" "}
+            Processo. Rotina. Dados. IA — nessa ordem."
+          </p>
+          <p className="text-sm text-[var(--brand-muted)] leading-relaxed mb-5">
+            O Método ORDEM™ organiza isso em 90 dias, com entregáveis reais e sem hype de
+            transformação digital.
+          </p>
+          <Link
+            to="/diagnostico"
+            aria-label="Fazer diagnóstico operacional gratuito"
+            className="inline-flex items-center justify-center gap-1.5 font-display font-bold transition-all duration-200 px-5 py-3 rounded-xl text-white text-sm bg-brand-gradient shadow-brand-glow-sm w-fit hover:opacity-90 focus-ring-light"
+          >
+            <span>Fazer diagnóstico gratuito</span>
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
       </div>
     </section>
   );
