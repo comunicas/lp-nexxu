@@ -30,9 +30,13 @@ const PAINS = [
 
 export function PainSection() {
   return (
-    <section className="bg-[var(--brand-page)] px-[5%] py-24">
+    <section
+      aria-labelledby="pain-title"
+      className="bg-[var(--brand-page)] px-[5%] py-24"
+    >
       <div className="max-w-[1040px] mx-auto">
         <SectionHeader
+          titleId="pain-title"
           label="VOCÊ SE RECONHECE?"
           labelColor="var(--brand-blue)"
           title={
@@ -45,49 +49,64 @@ export function PainSection() {
           description="Não é falta de esforço, de ferramenta ou de equipe. É ausência de processo. E IA em processo ruim só acelera o problema."
         />
 
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {PAINS.map((p) => (
-            <div
-              key={p.title}
-              className="group p-7 rounded-3xl bg-white border border-[rgba(24,95,165,0.15)] transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(24,95,165,0.45)]"
-              style={{ boxShadow: "0 2px 8px rgba(0,0,0,.04)" }}
-            >
-              <div className="w-2 h-2 rounded-full bg-brand-gradient mb-5 transition-all duration-300 group-hover:scale-150 group-hover:shadow-brand-glow-sm" />
-              <h3 className="text-[17px] font-bold text-[var(--brand-text)] mb-2.5 tracking-tight">
-                {p.title}
-              </h3>
-              <p className="text-sm text-[var(--brand-muted)] leading-relaxed m-0">{p.desc}</p>
-            </div>
+        <ul
+          aria-label="Sintomas comuns de operação sem processo"
+          className="list-none p-0 m-0 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {PAINS.map((p, i) => (
+            <li key={p.title}>
+              <article
+                aria-labelledby={`pain-${i}`}
+                className="group h-full p-7 rounded-3xl bg-white border border-[rgba(24,95,165,0.15)] transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(24,95,165,0.45)]"
+                style={{ boxShadow: "0 2px 8px rgba(0,0,0,.04)" }}
+              >
+                <div
+                  aria-hidden="true"
+                  className="w-2 h-2 rounded-full bg-brand-gradient mb-5 transition-all duration-300 group-hover:scale-150 group-hover:shadow-brand-glow-sm"
+                />
+                <h3
+                  id={`pain-${i}`}
+                  className="text-[17px] font-bold text-[var(--brand-text)] mb-2.5 tracking-tight"
+                >
+                  {p.title}
+                </h3>
+                <p className="text-sm text-[var(--brand-muted)] leading-relaxed m-0">{p.desc}</p>
+              </article>
+            </li>
           ))}
 
           {/* CTA card */}
-          <div
-            className="p-7 rounded-3xl border border-[rgba(83,74,183,0.25)] flex flex-col justify-center"
-            style={{
-              background:
-                "linear-gradient(135deg,rgba(24,95,165,.06),rgba(83,74,183,.08))",
-            }}
-          >
-            <p className="section-label grad-text mb-3 text-[12px]">
-              O diagnóstico começa aqui
-            </p>
-            <p className="text-base font-bold text-[var(--brand-text)] leading-snug mb-3">
-              "Você não tem problema de esforço.{" "}
-              <span className="grad-text">Tem problema de sequência.</span>{" "}
-              Processo. Rotina. Dados. IA — nessa ordem."
-            </p>
-            <p className="text-sm text-[var(--brand-muted)] leading-relaxed mb-5">
-              O Método ORDEM™ organiza isso em 90 dias, com entregáveis reais e sem hype de
-              transformação digital.
-            </p>
-            <Link
-              to="/diagnostico"
-              className="inline-flex items-center justify-center gap-1.5 font-display font-bold transition-all duration-200 px-5 py-3 rounded-xl text-white text-sm bg-brand-gradient shadow-brand-glow-sm w-fit hover:opacity-90"
+          <li>
+            <div
+              className="h-full p-7 rounded-3xl border border-[rgba(83,74,183,0.25)] flex flex-col justify-center"
+              style={{
+                background:
+                  "linear-gradient(135deg,rgba(24,95,165,.06),rgba(83,74,183,.08))",
+              }}
             >
-              Fazer diagnóstico gratuito →
-            </Link>
-          </div>
-        </div>
+              <p className="section-label grad-text mb-3 text-[12px]">
+                O diagnóstico começa aqui
+              </p>
+              <p className="text-base font-bold text-[var(--brand-text)] leading-snug mb-3">
+                "Você não tem problema de esforço.{" "}
+                <span className="grad-text">Tem problema de sequência.</span>{" "}
+                Processo. Rotina. Dados. IA — nessa ordem."
+              </p>
+              <p className="text-sm text-[var(--brand-muted)] leading-relaxed mb-5">
+                O Método ORDEM™ organiza isso em 90 dias, com entregáveis reais e sem hype de
+                transformação digital.
+              </p>
+              <Link
+                to="/diagnostico"
+                aria-label="Fazer diagnóstico operacional gratuito"
+                className="inline-flex items-center justify-center gap-1.5 font-display font-bold transition-all duration-200 px-5 py-3 rounded-xl text-white text-sm bg-brand-gradient shadow-brand-glow-sm w-fit hover:opacity-90 focus-ring-light"
+              >
+                <span>Fazer diagnóstico gratuito</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </li>
+        </ul>
       </div>
     </section>
   );
