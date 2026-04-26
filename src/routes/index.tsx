@@ -1,26 +1,47 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Nav } from "@/components/landing/Nav";
+import { Hero } from "@/components/landing/Hero";
+import { PainSection } from "@/components/landing/PainSection";
+import { OrdemMethod } from "@/components/landing/OrdemMethod";
+import { Products } from "@/components/landing/Products";
+import { IndiceSection } from "@/components/landing/IndiceSection";
+import { CasesSection } from "@/components/landing/CasesSection";
+import { Faq } from "@/components/landing/Faq";
+import { Footer } from "@/components/landing/Footer";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Nexxu — Criatividade. Processo. Tecnologia." },
+      {
+        name: "description",
+        content:
+          "Consultoria de inovação operacional. Em 90 dias, sua empresa para de depender de você e começa a operar com clareza, rotina e resultado previsível.",
+      },
+      { property: "og:title", content: "Nexxu — Criatividade. Processo. Tecnologia." },
+      {
+        property: "og:description",
+        content:
+          "Em 90 dias, sua operação para de depender de você. Metodologia ORDEM™ proprietária da Nexxu.",
+      },
+      { property: "og:type", content: "website" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return (
+    <main>
+      <Nav />
+      <Hero />
+      <PainSection />
+      <OrdemMethod />
+      <Products />
+      <IndiceSection />
+      <CasesSection />
+      <Faq />
+      <Footer />
+    </main>
+  );
 }
