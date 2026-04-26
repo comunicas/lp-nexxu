@@ -16,7 +16,7 @@ export function Nav() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 px-[5%] h-16 flex items-center justify-between transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 px-[5%] h-16 flex items-center justify-between transition-all duration-300 animate-fade-in",
         scrolled
           ? "bg-[rgba(15,12,26,0.92)] backdrop-blur-lg border-b border-[rgba(83,74,183,0.2)]"
           : "bg-transparent",
