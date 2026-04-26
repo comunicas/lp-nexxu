@@ -27,8 +27,8 @@ export function Hero() {
         </h1>
 
         <p className="text-[clamp(16px,2vw,20px)] text-white/60 leading-relaxed mb-11 max-w-[540px] mx-auto">
-          Em 90 dias, sua empresa para de depender de você para tudo — e começa a operar com
-          clareza, rotina e resultado previsível.
+          Em 90 dias, você para de ser o gargalo da sua própria empresa. Processo primeiro. IA
+          depois — quando vale a pena usar.
         </p>
 
         <div className="flex gap-3.5 justify-center flex-wrap mb-14">
