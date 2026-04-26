@@ -55,7 +55,7 @@ const TIMELINE = [
   {
     days: "90 dias",
     title: "Autonomia operacional",
-    desc: "Empresa opera. Dono lidera. IA amplificando o que já funciona — não consertando o que está quebrado.",
+    desc: "Empresa opera com previsibilidade. Dono lidera — não opera. IA amplificando o que já funciona. Não o oposto.",
     color: "#5DCAA5",
     bgColor: "rgba(93,202,165,0.1)",
     border: "rgba(93,202,165,0.2)",
