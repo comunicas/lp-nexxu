@@ -153,6 +153,10 @@
 }
 
 @layer utilities {
+  .min-h-svh {
+    min-height: 100vh; /* fallback para browsers sem suporte a svh */
+    min-height: 100svh;
+  }
   .grad-text {
     background: var(--gradient-brand);
     -webkit-background-clip: text;
