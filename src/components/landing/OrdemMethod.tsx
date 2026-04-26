@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SectionHeader } from "@/components/ui-nexxu/SectionHeader";
 import { cn } from "@/lib/utils";
 
@@ -65,10 +65,36 @@ const TIMELINE = [
 export function OrdemMethod() {
   const [active, setActive] = useState(0);
   const cur = LETTERS[active];
+  const tabsRef = useRef<Array<HTMLButtonElement | null>>([]);
+
+  // Navegação por setas no tablist
+  useEffect(() => {
+    tabsRef.current = tabsRef.current.slice(0, LETTERS.length);
+  }, []);
+
+  const onTabKey = (e: React.KeyboardEvent<HTMLButtonElement>, i: number) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      const dir = e.key === "ArrowRight" ? 1 : -1;
+      const next = (i + dir + LETTERS.length) % LETTERS.length;
+      setActive(next);
+      tabsRef.current[next]?.focus();
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      setActive(0);
+      tabsRef.current[0]?.focus();
+    } else if (e.key === "End") {
+      e.preventDefault();
+      const last = LETTERS.length - 1;
+      setActive(last);
+      tabsRef.current[last]?.focus();
+    }
+  };
 
   return (
     <section
       id="metodo"
+      aria-labelledby="metodo-title"
       className="px-[5%] py-24 border-t border-[rgba(83,74,183,0.1)]"
       style={{
         background:
@@ -77,6 +103,7 @@ export function OrdemMethod() {
     >
       <div className="max-w-[1040px] mx-auto">
         <SectionHeader
+          titleId="metodo-title"
           label="METODOLOGIA PROPRIETÁRIA"
           labelColor="var(--brand-purple)"
           title={
@@ -87,20 +114,33 @@ export function OrdemMethod() {
           description="Criatividade sem estrutura é improviso. Estrutura sem criatividade é burocracia. IA sem processo é gambiarra cara. A Nexxu faz os três — na ordem certa."
         />
 
-        <div className="flex gap-2.5 justify-center flex-wrap mb-10">
+        <div
+          role="tablist"
+          aria-label="Etapas do Método ORDEM"
+          className="flex gap-2.5 justify-center flex-wrap mb-10"
+        >
           {LETTERS.map((l, i) => (
             <button
               key={l.letter}
+              ref={(el) => { tabsRef.current[i] = el; }}
+              role="tab"
+              id={`ordem-tab-${i}`}
+              type="button"
+              aria-selected={active === i}
+              aria-controls="ordem-panel"
+              tabIndex={active === i ? 0 : -1}
+              aria-label={`${l.name} — etapa ${i + 1} do método`}
               onClick={() => setActive(i)}
+              onKeyDown={(e) => onTabKey(e, i)}
               className={cn(
-                "w-[72px] h-[72px] rounded-3xl border-0 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-0.5 font-display",
+                "w-[72px] h-[72px] rounded-3xl border-0 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-0.5 font-display focus-ring-light",
                 active === i
                   ? "bg-brand-gradient shadow-brand-glow-sm"
                   : "bg-[rgba(83,74,183,0.08)] hover:bg-[rgba(83,74,183,0.15)]",
               )}
-              aria-pressed={active === i}
             >
               <span
+                aria-hidden="true"
                 className={cn(
                   "text-[26px] font-extrabold leading-none",
                   active === i ? "text-white" : "text-[var(--brand-purple)]",
@@ -109,6 +149,7 @@ export function OrdemMethod() {
                 {l.letter}
               </span>
               <span
+                aria-hidden="true"
                 className={cn(
                   "text-[9px] font-semibold tracking-wide uppercase",
                   active === i ? "text-white/80" : "text-[#8880C0]",
@@ -122,17 +163,27 @@ export function OrdemMethod() {
 
         <div
           key={cur.letter}
-          className="max-w-[600px] mx-auto px-9 py-8 rounded-[28px] bg-white border border-[rgba(83,74,183,0.2)] text-center animate-scale-in"
+          id="ordem-panel"
+          role="tabpanel"
+          aria-labelledby={`ordem-tab-${active}`}
+          aria-live="polite"
+          tabIndex={0}
+          className="max-w-[600px] mx-auto px-9 py-8 rounded-[28px] bg-white border border-[rgba(83,74,183,0.2)] text-center animate-scale-in focus-ring-light"
           style={{ boxShadow: "0 0 40px rgba(83,74,183,.1)", marginBottom: 60 }}
         >
-          <div className="grad-text text-5xl font-black leading-none mb-1.5">{cur.letter}</div>
+          <div aria-hidden="true" className="grad-text text-5xl font-black leading-none mb-1.5">
+            {cur.letter}
+          </div>
           <h3 className="text-xl font-bold text-[var(--brand-text)] mb-3">{cur.name}</h3>
           <p className="text-[15px] text-[var(--brand-muted)] leading-relaxed m-0">{cur.desc}</p>
         </div>
 
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+        <ol
+          aria-label="Linha do tempo de 90 dias"
+          className="list-none p-0 grid gap-4 grid-cols-1 md:grid-cols-3"
+        >
           {TIMELINE.map((t) => (
-            <div
+            <li
               key={t.days}
               className="p-7 rounded-3xl bg-white"
               style={{ boxShadow: "0 2px 12px rgba(0,0,0,.04)", border: `1px solid ${t.border}` }}
@@ -145,9 +196,9 @@ export function OrdemMethod() {
               </div>
               <h4 className="text-base font-bold text-[var(--brand-text)] mb-2.5">{t.title}</h4>
               <p className="text-sm text-[var(--brand-muted)] leading-relaxed m-0">{t.desc}</p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
