@@ -82,8 +82,8 @@ const PRODUCTS: Product[] = [
       "A Nexxu opera junto ao seu time. Você lidera — a gente executa e entrega.",
     duration: "6 meses",
     scope: "7+ processos",
-    price: "A partir de R$ 20.000",
-    priceSub: "sob consulta",
+    price: "R$ 20.000 – 40.000+",
+    priceSub: "investimento total · sob consulta",
     accentColor: "#5DCAA5",
     items: [
       "Nexxu opera junto ao seu time",
