@@ -3,68 +3,78 @@ import { Badge } from "@/components/ui-nexxu/Badge";
 
 export function Hero() {
   return (
-    <section className="relative bg-[var(--brand-dark)] min-h-screen flex flex-col items-center justify-center overflow-hidden px-[5%] pt-32 pb-32 text-center">
-      {/* Orbs decorativos animados */}
+    <section className="relative bg-[var(--brand-dark)] min-h-screen flex flex-col items-center justify-center overflow-hidden px-5 sm:px-[5%] pt-28 sm:pt-32 pb-24 sm:pb-32 text-center">
+      {/* Orb 1 */}
       <div
-        className="pointer-events-none absolute top-[15%] left-[10%] w-[440px] h-[440px] rounded-full animate-float-slow animate-glow-pulse"
+        className="pointer-events-none absolute top-[15%] left-[10%] w-[280px] h-[280px] sm:w-[440px] sm:h-[440px] rounded-full animate-float-slow animate-glow-pulse"
         style={{ background: "radial-gradient(circle,rgba(24,95,165,.22) 0%,transparent 70%)" }}
       />
+      {/* Orb 2 */}
       <div
-        className="pointer-events-none absolute bottom-[15%] right-[8%] w-[520px] h-[520px] rounded-full animate-float-medium animate-glow-pulse"
+        className="pointer-events-none absolute bottom-[15%] right-[8%] w-[320px] h-[320px] sm:w-[520px] sm:h-[520px] rounded-full animate-float-medium animate-glow-pulse"
         style={{ background: "radial-gradient(circle,rgba(83,74,183,.18) 0%,transparent 70%)" }}
       />
       <div
-        className="pointer-events-none absolute top-[55%] left-[55%] w-[320px] h-[320px] rounded-full animate-float-slow animate-glow-pulse"
+        className="pointer-events-none absolute top-[55%] left-[55%] w-[200px] h-[200px] sm:w-[320px] sm:h-[320px] rounded-full animate-float-slow animate-glow-pulse"
         style={{ background: "radial-gradient(circle,rgba(93,202,165,.10) 0%,transparent 70%)" }}
       />
 
-      <div className="relative z-[2] max-w-[860px] mx-auto">
-        <div className="mb-7 animate-fade-in animation-delay-100">
-          <Badge variant="hero">Consultoria de inovação operacional para PMEs</Badge>
+      <div className="relative z-[2] w-full max-w-[860px] mx-auto">
+        {/* Badge */}
+        <div className="mb-6 sm:mb-7 animate-fade-in animation-delay-100 flex justify-center">
+          <Badge variant="hero">
+            Para donos de PME que já tentaram IA — e o caos continuou
+          </Badge>
         </div>
 
-        <h1 className="grad-text-hero text-[clamp(36px,5vw,64px)] font-extrabold leading-[1.08] tracking-tight mb-5 max-w-[820px] mx-auto text-balance animate-fade-up animation-delay-200">
-          Você não tem
-          <br />
-          problema de esforço.
-          <br />
-          <span className="block mt-1">Tem problema de processo.</span>
+        {/* Headline — 3 linhas curtas com impacto progressivo */}
+        <h1 className="grad-text-hero font-extrabold leading-[1.05] tracking-tight mb-5 sm:mb-6 max-w-[820px] mx-auto text-balance animate-fade-up animation-delay-200 text-[38px] sm:text-[54px] lg:text-[74px]">
+          <span className="block">IA sem processo</span>
+          <span className="block">não resolve.</span>
+          <span className="block mt-1">Só escala o caos.</span>
         </h1>
 
-        <p className="text-[clamp(15px,1.5vw,18px)] text-white/65 leading-relaxed mb-10 max-w-[620px] mx-auto animate-fade-up animation-delay-400">
-          Sua empresa não para de crescer por falta de esforço.
+        {/* Sub — 2 frases, clara e específica */}
+        <p className="text-[15px] sm:text-[17px] lg:text-[19px] text-white/70 leading-relaxed mb-3 max-w-[640px] mx-auto animate-fade-up animation-delay-400">
+          A Nexxu organiza processo, rotina e dados{" "}
+          <span className="text-white/90 font-semibold">antes de qualquer IA entrar.</span>
           <br className="hidden sm:block" />
-          Para porque processo, rotina e dados nunca foram estruturados.
-          <br />
-          <span className="block mt-2 text-white/75">
-            Em 90 dias, o Método ORDEM™ muda isso — sem hype de IA, sem PowerPoint bonito.
+          <span className="block mt-2">
+            Em 90 dias, sua empresa para de depender de você para funcionar.
           </span>
         </p>
+        <p className="text-[12px] sm:text-[13px] text-white/45 mb-9 sm:mb-10 max-w-[560px] mx-auto animate-fade-up animation-delay-500">
+          Método ORDEM™ · Consultoria de inovação operacional · PMEs com R$20k+/mês
+        </p>
 
-        <div className="flex gap-3 justify-center flex-wrap mb-12 animate-fade-up animation-delay-500">
+        {/* CTAs — coluna no mobile, linha no sm+ */}
+        <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center sm:flex-wrap mb-12 animate-fade-up animation-delay-600">
           <Link
             to="/diagnostico"
-            className="inline-flex items-center justify-center gap-2 font-display font-bold transition-all duration-200 px-8 py-4 rounded-2xl text-white text-base bg-brand-gradient shadow-brand-glow hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center gap-2 font-display font-bold transition-all duration-200 px-7 py-3.5 sm:px-8 sm:py-4 rounded-2xl text-white text-[15px] sm:text-base bg-brand-gradient shadow-brand-glow hover:-translate-y-0.5"
           >
             Descobrir meu nível operacional →
           </Link>
           <a
             href="#metodo"
-            className="inline-flex items-center justify-center gap-2 font-display font-semibold px-8 py-4 rounded-2xl text-base text-white/80 border border-white/15 bg-white/[0.04] backdrop-blur-md hover:border-white/35 hover:bg-white/[0.08] transition-all"
+            className="inline-flex items-center justify-center gap-2 font-display font-semibold px-7 py-3.5 sm:px-8 sm:py-4 rounded-2xl text-[15px] sm:text-base text-white/80 border border-white/15 bg-white/[0.04] backdrop-blur-md hover:border-white/35 hover:bg-white/[0.08] transition-all"
           >
             Ver o Método ORDEM™
           </a>
         </div>
 
-        <div className="flex gap-x-10 gap-y-6 justify-center flex-wrap animate-fade-up animation-delay-700">
+        {/* Stats — coluna no mobile, linha no sm+ */}
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-y-6 sm:gap-x-10 justify-center items-center animate-fade-up animation-delay-700">
           {[
-            { num: "90 dias", lbl: "para parar de ser o gargalo da sua própria empresa" },
-            { num: "5 pilares", lbl: "Organização · Rotinas · Dados · IA · Maturidade" },
-            { num: "Processo 1°", lbl: "IA só entra depois do processo estar claro. Sempre." },
+            { num: "90 dias", lbl: "para parar de apagar incêndio na própria empresa" },
+            { num: "IA no passo 4", lbl: "Processo, rotinas e dados vêm antes. Sempre." },
+            { num: "R$20k+/mês", lbl: "Para quem já tem operação — e quer ela funcionando" },
           ].map((s) => (
-            <div key={s.num} className="flex flex-col items-center">
-              <div className="grad-text-light text-[20px] font-extrabold leading-none">{s.num}</div>
-              <div className="text-[11px] text-white/50 mt-2 max-w-[160px] text-center leading-snug">
+            <div key={s.num} className="flex flex-col items-center max-w-[200px]">
+              <div className="grad-text-light text-[18px] sm:text-[20px] font-extrabold leading-none">
+                {s.num}
+              </div>
+              <div className="text-[11px] text-white/50 mt-2 text-center leading-snug">
                 {s.lbl}
               </div>
             </div>
@@ -72,10 +82,11 @@ export function Hero() {
         </div>
       </div>
 
+      {/* Scroll indicator */}
       <a
         href="#metodo"
         aria-label="Rolar para o método"
-        className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-white/55 hover:text-white/80 transition-colors animate-fade-in animation-delay-800"
+        className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-white/55 hover:text-white/80 transition-colors animate-fade-in animation-delay-800"
       >
         <span className="text-[10px] font-semibold tracking-[0.25em] uppercase">Scroll</span>
         <svg
