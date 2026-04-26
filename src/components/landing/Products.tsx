@@ -12,91 +12,85 @@ type Product = {
   duration: string;
   scope: string;
   items: string[];
-  accent: string;
   price: string;
   priceSub: string;
-  priceColor: string;
-  priceSubColor: string;
+  accentColor: string; // hex or "gradient"
   featured?: boolean;
 };
 
 const PRODUCTS: Product[] = [
   {
     step: 1,
-    category: "Diagnóstico",
+    category: "Porta de Entrada",
     verb: "Mapear",
-    promise: "Você sai sabendo onde está o problema — e o que fazer primeiro.",
+    promise:
+      "Você sai sabendo exatamente onde está o problema — e o que fazer primeiro.",
     duration: "45 dias",
     scope: "1 a 3 processos",
+    price: "R$ 500 – 1.500",
+    priceSub: "pagamento único",
+    accentColor: "#185FA5",
     items: [
       "Processos mapeados no papel",
       "Gargalos identificados com clareza",
       "Plano de ação priorizado",
       "Índice ORDEM™ calculado",
     ],
-    accent: "var(--brand-blue)",
-    price: "A partir de R$ 500",
-    priceSub: "pagamento único",
-    priceColor: "#185FA5",
-    priceSubColor: "var(--brand-subtle)",
   },
   {
     step: 2,
-    category: "Mentoria",
+    category: "Estruturação",
     verb: "Estruturar",
-    promise: "Seu time ganha rotina e indicadores reais para decidir.",
+    promise:
+      "Seu time ganha rotina, padrão e indicadores reais para operar sem depender de você.",
     duration: "6 meses",
     scope: "2 a 4 processos",
+    price: "R$ 3.000 – 6.000",
+    priceSub: "investimento total",
+    accentColor: "#534AB7",
     items: [
       "Rotinas documentadas e ativas",
-      "Time opera sem depender de você",
-      "Indicadores reais para decisão",
+      "Time opera com autonomia crescente",
+      "Indicadores reais — sem feeling",
       "Suporte direto nas travadas",
     ],
-    accent: "var(--brand-purple)",
-    price: "R$ 3.000 – 6.000",
-    priceSub: "investimento total · 6 meses",
-    priceColor: "#534AB7",
-    priceSubColor: "var(--brand-subtle)",
   },
   {
     step: 3,
-    category: "Implementação",
+    category: "Execução Guiada",
     verb: "Implementar",
-    promise: "Sua operação para de depender de você ao final do ciclo.",
+    promise:
+      "Sua operação para de depender de você ao final do ciclo. Com IA onde faz sentido.",
     duration: "6 meses",
     scope: "4 a 7 processos",
+    price: "R$ 8.000 – 15.000",
+    priceSub: "investimento total",
+    accentColor: "gradient",
+    featured: true,
     items: [
       "Implementação lado a lado com o time",
-      "IA onde faz sentido — não por hype",
-      "Automações que reduzem retrabalho",
+      "IA aplicada nos pontos de maior impacto",
+      "Automações que eliminam retrabalho",
       "Operação autônoma ao final do ciclo",
     ],
-    accent: "linear-gradient(90deg,#185fa5,#534ab7)",
-    price: "R$ 8.000 – 15.000",
-    priceSub: "investimento total · 6 meses",
-    priceColor: "gradient",
-    priceSubColor: "var(--brand-purple)",
-    featured: true,
   },
   {
     step: 4,
-    category: "Serviço",
+    category: "Full Service",
     verb: "Terceirizar",
-    promise: "A Nexxu opera junto ao seu time. Você lidera, a gente executa.",
+    promise:
+      "A Nexxu opera junto ao seu time. Você lidera — a gente executa e entrega.",
     duration: "6 meses",
     scope: "7+ processos",
+    price: "A partir de R$ 20.000",
+    priceSub: "sob consulta",
+    accentColor: "#5DCAA5",
     items: [
       "Nexxu opera junto ao seu time",
       "Transformação completa da operação",
       "IA e automação em escala real",
-      "Você lidera — a gente executa",
+      "Zero responsabilidade operacional do dono",
     ],
-    accent: "var(--brand-dark)",
-    price: "Sob consulta",
-    priceSub: "projetos a partir de R$ 20.000",
-    priceColor: "#5DCAA5",
-    priceSubColor: "var(--brand-muted)",
   },
 ];
 
@@ -120,6 +114,11 @@ function ClockIcon() {
 }
 
 function ProductCard({ p }: { p: Product }) {
+  const isGradient = p.accentColor === "gradient";
+  const accentBg = isGradient
+    ? "linear-gradient(90deg,#185FA5,#534AB7)"
+    : p.accentColor;
+
   return (
     <article
       className={cn(
@@ -130,10 +129,10 @@ function ProductCard({ p }: { p: Product }) {
           : "border-[rgba(26,21,32,0.08)] shadow-[0_2px_8px_rgba(0,0,0,0.03)]",
       )}
     >
-      {/* step accent — barra superior fina */}
+      {/* barra superior accent */}
       <div
         className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[24px]"
-        style={{ background: p.accent }}
+        style={{ background: accentBg }}
       />
 
       {p.featured && (
@@ -143,52 +142,47 @@ function ProductCard({ p }: { p: Product }) {
       )}
 
       <div className="p-7 pt-8 flex-1 flex flex-col">
-        {/* eyebrow: etapa + categoria */}
+        {/* eyebrow: ETAPA N · CATEGORIA */}
         <div className="flex items-center gap-2 mb-5">
-          <span
-            className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]"
-          >
+          <span className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]">
             ETAPA {p.step}
           </span>
-          <span className="w-1 h-1 rounded-full bg-[var(--brand-subtle)]/40" />
+          <span className="w-1 h-1 rounded-full bg-[var(--brand-subtle)]/40" aria-hidden />
           <span className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]">
             {p.category.toUpperCase()}
           </span>
         </div>
 
-        {/* verbo de ação */}
-        <h3 className="font-display font-extrabold text-[28px] leading-none tracking-tight text-[var(--brand-text)] mb-3">
+        {/* verbo */}
+        <h3 className="font-display font-extrabold text-[30px] leading-none tracking-tight text-[var(--brand-text)] mb-3">
           {p.verb}
         </h3>
 
         {/* preço */}
         <div className="mb-4">
-          {p.priceColor === "gradient" ? (
-            <div className="font-display font-extrabold text-[20px] leading-tight grad-text">
+          {isGradient ? (
+            <div className="font-display font-extrabold text-[18px] leading-tight grad-text">
               {p.price}
             </div>
           ) : (
             <div
-              className="font-display font-extrabold text-[20px] leading-tight"
-              style={{ color: p.priceColor }}
+              className="font-display font-extrabold text-[18px] leading-tight"
+              style={{ color: p.accentColor }}
             >
               {p.price}
             </div>
           )}
-          <div
-            className="text-[11px] font-medium tracking-wide mt-0.5"
-            style={{ color: p.priceSubColor }}
-          >
+          <div className="text-[11px] font-medium tracking-wide mt-0.5 text-[var(--brand-subtle)]">
             {p.priceSub}
           </div>
         </div>
 
         {/* promessa */}
-        <p className="text-[14px] leading-relaxed text-[var(--brand-muted)] mb-5 min-h-[60px]">
+        <p className="text-[14px] leading-relaxed text-[var(--brand-muted)] mb-5 min-h-[56px]">
           {p.promise}
         </p>
 
-        {/* meta info */}
+        {/* meta */}
         <div className="flex items-center gap-2 text-[12px] text-[var(--brand-subtle)] mb-5">
           <ClockIcon />
           <span>{p.duration}</span>
@@ -211,7 +205,7 @@ function ProductCard({ p }: { p: Product }) {
           ))}
         </ul>
 
-        {/* CTA por card */}
+        {/* CTA */}
         <div className="mt-7">
           {p.featured ? (
             <Link
@@ -253,14 +247,22 @@ export function Products() {
         />
 
         {/* indicador de progressão */}
-        <div className="flex items-center justify-center gap-2 mb-10">
-          {[1, 2, 3, 4].map((n) => (
-            <div key={n} className="flex items-center gap-2">
-              <span className="text-[11px] font-bold tracking-widest text-[var(--brand-subtle)]">
-                0{n}
-              </span>
-              {n < 4 && (
-                <span className="w-8 h-px bg-[var(--brand-subtle)]/30" aria-hidden />
+        <div className="flex items-center justify-center gap-3 mb-10 flex-wrap">
+          {[1, 2, 3, 4].map((n, i) => (
+            <div key={n} className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-gradient text-white text-[11px] font-bold">
+                  {n}
+                </span>
+                <span className="text-[11px] font-bold tracking-[0.14em] text-[var(--brand-subtle)] uppercase">
+                  Etapa {n}
+                </span>
+              </div>
+              {i < 3 && (
+                <span
+                  className="w-8 h-px bg-[var(--brand-subtle)]/30"
+                  aria-hidden
+                />
               )}
             </div>
           ))}
@@ -274,7 +276,7 @@ export function Products() {
 
         <div className="text-center mt-12">
           <p className="text-[14px] text-[var(--brand-muted)] mb-4">
-            Não sabe qual caminho? Comece pelo diagnóstico.
+            Não sabe qual caminho? A conversa de diagnóstico clareia isso em 15 minutos.
           </p>
           <Link
             to="/diagnostico"
