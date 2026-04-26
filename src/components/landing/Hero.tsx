@@ -6,7 +6,7 @@ export function Hero() {
     <section
       id="main-content"
       aria-labelledby="hero-headline"
-      className="relative bg-[var(--brand-dark)] min-h-svh flex flex-col items-center justify-center overflow-hidden px-4 sm:px-[5%] pt-20 sm:pt-28 pb-16 sm:pb-28 text-center"
+      className="relative bg-[var(--brand-dark)] min-h-svh flex flex-col items-center overflow-hidden px-5 sm:px-[5%] pt-[88px] sm:pt-[108px] pb-10 sm:pb-16 text-center"
     >
       {/* Orbs decorativos — invisíveis para leitores de tela */}
       <div
@@ -25,11 +25,11 @@ export function Hero() {
         style={{ background: "radial-gradient(circle,rgba(93,202,165,.10) 0%,transparent 70%)" }}
       />
 
-      <div className="relative z-[2] w-full max-w-[860px] mx-auto">
+      <div className="relative z-[2] w-full max-w-[600px] mx-auto">
         {/* Badge */}
         <div className="mb-4 sm:mb-6 animate-fade-in animation-delay-100 flex justify-center">
           <Badge variant="hero">
-            Para PMEs que já tentaram IA — e o caos continuou
+            Para PMEs que já tentaram IA
           </Badge>
         </div>
 
@@ -75,12 +75,12 @@ export function Hero() {
         {/* Stats — grid 3 colunas em mobile pra evitar pilha enorme */}
         <ul
           aria-label="Diferenciais da Nexxu"
-          className="list-none p-0 m-0 grid grid-cols-3 gap-x-2 sm:flex sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-6 justify-center items-start animate-fade-up animation-delay-700 max-w-[560px] sm:max-w-none mx-auto"
+          className="list-none p-0 m-0 grid grid-cols-3 gap-x-2 sm:flex sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-6 justify-center items-start animate-fade-up animation-delay-700 max-w-[360px] sm:max-w-none mx-auto"
         >
           {[
-            { num: "90 dias", lbl: "para sair do operacional" },
-            { num: "IA no passo 4", lbl: "Processo vem antes. Sempre." },
-            { num: "R$20k+/mês", lbl: "Para quem já tem operação" },
+            { num: "90 dias",     lbl: "no operacional"  },
+            { num: "Passo 4",    lbl: "IA entra depois" },
+            { num: "R$20k+/mês", lbl: "para começar"   },
           ].map((s) => (
             <li
               key={s.num}
@@ -90,7 +90,7 @@ export function Hero() {
               <div className="grad-text-light text-[14px] sm:text-[20px] font-extrabold leading-tight text-center whitespace-nowrap">
                 {s.num}
               </div>
-              <div className="text-[11px] sm:text-[11px] text-white/65 mt-1.5 sm:mt-2 text-center leading-snug">
+              <div className="text-[10px] sm:text-[11px] text-white/45 mt-1 sm:mt-2 text-center leading-tight">
                 {s.lbl}
               </div>
             </li>
