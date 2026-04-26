@@ -5,7 +5,7 @@ const LEVELS = [
   {
     num: "01",
     name: "Caos",
-    desc: "Opera no improviso total. Cada dia é uma surpresa — boa ou ruim. Você está em todos os lugares ao mesmo tempo.",
+    desc: "Opera no improviso total. Cada dia é uma surpresa. Implementar IA aqui não resolve — só automatiza a bagunça.",
     border: "#EF9F27",
     glow: "rgba(239,159,39,0.3)",
   },
