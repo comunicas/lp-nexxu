@@ -36,7 +36,7 @@ export function Hero() {
         {/* Headline — 3 linhas curtas com impacto progressivo */}
         <h1
           id="hero-headline"
-          className="grad-text-hero font-extrabold leading-[1.05] tracking-[-0.01em] sm:tracking-tight mb-4 sm:mb-6 max-w-[820px] mx-auto text-balance animate-fade-up animation-delay-200 text-[32px] sm:text-[48px] md:text-[60px] lg:text-[74px]"
+          className="grad-text-hero text-white font-extrabold leading-[1.05] tracking-[-0.01em] sm:tracking-tight mb-4 sm:mb-6 max-w-[820px] mx-auto text-balance animate-fade-up animation-delay-200 text-[32px] sm:text-[48px] md:text-[60px] lg:text-[74px]"
         >
           <span className="block">IA sem processo</span>
           <span className="block">não resolve.</span>
