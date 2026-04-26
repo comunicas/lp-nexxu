@@ -3,24 +3,28 @@ import { SectionHeader } from "@/components/ui-nexxu/SectionHeader";
 
 const PAINS = [
   {
-    title: "Tudo trava sem você",
-    desc: "Nenhuma decisão sai sem a sua aprovação. Você virou o gargalo da própria empresa.",
+    title: "Nenhuma decisão sai sem você",
+    desc: "Você não consegue tirar nem um dia de folga sem o celular vibrar. A empresa parou de crescer porque você é o gargalo.",
   },
   {
-    title: "Você trabalha mais que o time",
-    desc: "Entra cedo, sai tarde, trabalha no fim de semana. E ainda sente que está sempre atrasado.",
+    title: "Você é o primeiro a entrar e o último a sair",
+    desc: "Enquanto o time vai embora no horário, você ainda está resolvendo o que eles não conseguem resolver sozinhos.",
   },
   {
-    title: "Os números variam sem explicação",
-    desc: "Meses bons e ruins se alternam sem você entender o padrão. Decisão no achismo.",
+    title: "Você toma decisão no achismo",
+    desc: "Mês bom, mês ruim — você não sabe por quê. Sem dado confiável, qualquer decisão é um chute.",
   },
   {
-    title: "Já contratou, mas o problema voltou",
-    desc: "Nova pessoa, mesma bagunça. Porque o problema nunca foi quem — foi o processo.",
+    title: "Contratou. O problema ficou.",
+    desc: "Já tentou software, consultoria, novo gerente. A bagunça sempre volta. Porque o problema nunca foi quem — foi o processo.",
   },
   {
-    title: "Crescer assusta mais do que motiva",
-    desc: "Você sabe que mais cliente significa mais caos. Escalar parece risco, não oportunidade.",
+    title: "Mais cliente, mais caos",
+    desc: "Você sabe que escalar do jeito que está vai quebrar tudo. Crescer virou ameaça, não oportunidade.",
+  },
+  {
+    title: "Já usou IA. O caos continuou.",
+    desc: "Ferramentas novas, processo velho. A IA não resolveu — só fez o ruim acontecer mais rápido. Era de se esperar.",
   },
 ];
 
@@ -38,7 +42,7 @@ export function PainSection() {
               O caos também.
             </>
           }
-          description="Se você chegou até aqui, provavelmente já tentou de tudo. O problema não é você."
+          description="Se você chegou até aqui, provavelmente já tentou de tudo. Ferramenta nova. Novo funcionário. Talvez até IA. O problema não é você — é a sequência errada."
         />
 
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -68,14 +72,14 @@ export function PainSection() {
           >
             <p className="text-base font-bold text-[var(--brand-text)] leading-snug mb-5">
               "Você não tem problema de esforço.{" "}
-              <span className="grad-text">Tem problema de processo.</span> A gente organiza isso em
-              90 dias."
+              <span className="grad-text">Tem problema de sequência.</span> Processo primeiro. IA
+              quando fizer sentido. A gente organiza isso em 90 dias."
             </p>
             <Link
               to="/diagnostico"
               className="inline-flex items-center justify-center gap-1.5 font-display font-bold transition-all duration-200 px-5 py-3 rounded-xl text-white text-sm bg-brand-gradient shadow-brand-glow-sm w-fit hover:opacity-90"
             >
-              Fazer diagnóstico gratuito →
+              Descobrir meu nível operacional →
             </Link>
           </div>
         </div>
