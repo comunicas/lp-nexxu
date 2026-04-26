@@ -54,25 +54,28 @@ export function IndiceSection() {
         />
 
         <div className="grid gap-3.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-14">
-          {LEVELS.map((l) => (
-            <div
-              key={l.num}
-              className="p-7 rounded-3xl bg-white/[0.025] transition-all duration-200 hover:bg-white/[0.04]"
-              style={{ border: `1px solid ${l.border}` }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `0 0 28px ${l.glow}`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              <div className="text-xs font-bold text-white/30 tracking-widest mb-2.5">{l.num}</div>
-              <div className="text-[22px] font-extrabold text-white mb-3 tracking-tight">
-                {l.name}
+          {LEVELS.map((l, i) => {
+            const delay = ["", "animation-delay-100", "animation-delay-200", "animation-delay-300"][i] ?? "";
+            return (
+              <div
+                key={l.num}
+                className={`p-7 rounded-3xl bg-white/[0.025] transition-all duration-200 hover:bg-white/[0.04] animate-fade-up ${delay}`}
+                style={{ border: `1px solid ${l.border}` }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `0 0 28px ${l.glow}`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div className="text-xs font-bold text-white/30 tracking-widest mb-2.5">{l.num}</div>
+                <div className="text-[22px] font-extrabold text-white mb-3 tracking-tight">
+                  {l.name}
+                </div>
+                <p className="text-[13px] text-white/50 leading-relaxed m-0">{l.desc}</p>
               </div>
-              <p className="text-[13px] text-white/50 leading-relaxed m-0">{l.desc}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div
