@@ -114,51 +114,53 @@ export function OrdemMethod() {
           description="Criatividade sem estrutura é improviso. Estrutura sem criatividade é burocracia. IA sem processo é gambiarra cara. A Nexxu faz os três — na ordem certa."
         />
 
-        <div
-          role="tablist"
-          aria-label="Etapas do Método ORDEM"
-          className="flex gap-2.5 justify-center flex-wrap mb-10"
-        >
-          {LETTERS.map((l, i) => (
-            <button
-              key={l.letter}
-              ref={(el) => { tabsRef.current[i] = el; }}
-              role="tab"
-              id={`ordem-tab-${i}`}
-              type="button"
-              aria-selected={active === i}
-              aria-controls="ordem-panel"
-              tabIndex={active === i ? 0 : -1}
-              aria-label={`${l.name} — etapa ${i + 1} do método`}
-              onClick={() => setActive(i)}
-              onKeyDown={(e) => onTabKey(e, i)}
-              className={cn(
-                "w-[72px] h-[72px] rounded-3xl border-0 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-0.5 font-display focus-ring-light",
-                active === i
-                  ? "bg-brand-gradient shadow-brand-glow-sm"
-                  : "bg-[rgba(83,74,183,0.08)] hover:bg-[rgba(83,74,183,0.15)]",
-              )}
-            >
-              <span
-                aria-hidden="true"
+        <div className="w-full overflow-x-auto pb-2 -mb-2 sm:overflow-visible">
+          <div
+            role="tablist"
+            aria-label="Etapas do Método ORDEM"
+            className="flex gap-2.5 justify-center flex-wrap mb-10 pt-2"
+          >
+            {LETTERS.map((l, i) => (
+              <button
+                key={l.letter}
+                ref={(el) => { tabsRef.current[i] = el; }}
+                role="tab"
+                id={`ordem-tab-${i}`}
+                type="button"
+                aria-selected={active === i}
+                aria-controls="ordem-panel"
+                tabIndex={active === i ? 0 : -1}
+                aria-label={`${l.name} — etapa ${i + 1} do método`}
+                onClick={() => setActive(i)}
+                onKeyDown={(e) => onTabKey(e, i)}
                 className={cn(
-                  "text-[26px] font-extrabold leading-none",
-                  active === i ? "text-white" : "text-[var(--brand-purple)]",
+                  "w-[72px] h-[72px] rounded-3xl border-0 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-0.5 font-display focus-ring-light",
+                  active === i
+                    ? "bg-brand-gradient shadow-brand-glow-sm"
+                    : "bg-[rgba(83,74,183,0.08)] hover:bg-[rgba(83,74,183,0.15)]",
                 )}
               >
-                {l.letter}
-              </span>
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "text-[9px] font-semibold tracking-wide uppercase",
-                  active === i ? "text-white/80" : "text-[#8880C0]",
-                )}
-              >
-                {l.short}
-              </span>
-            </button>
-          ))}
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "text-[26px] font-extrabold leading-none",
+                    active === i ? "text-white" : "text-[var(--brand-purple)]",
+                  )}
+                >
+                  {l.letter}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "text-[9px] font-semibold tracking-wide uppercase",
+                    active === i ? "text-white/80" : "text-[#8880C0]",
+                  )}
+                >
+                  {l.short}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
 
         <div
