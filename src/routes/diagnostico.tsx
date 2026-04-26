@@ -1,29 +1,100 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { QuizHeader } from "@/components/diagnostico/QuizHeader";
+import { QuizIntro } from "@/components/diagnostico/QuizIntro";
+import { QuizQuestionView } from "@/components/diagnostico/QuizQuestionView";
+import { QuizResult } from "@/components/diagnostico/QuizResult";
+import { QUESTIONS } from "@/components/diagnostico/quizData";
 
 export const Route = createFileRoute("/diagnostico")({
   head: () => ({
     meta: [
-      { title: "Diagnóstico ORDEM™ — Nexxu" },
+      { title: "Diagnóstico ORDEM™ — Descubra seu nível operacional | Nexxu" },
       {
         name: "description",
         content:
-          "9 perguntas rápidas para descobrir o nível operacional da sua empresa e o próximo passo recomendado.",
+          "10 perguntas rápidas para mapear o nível operacional da sua empresa nos 5 pilares ORDEM™ e descobrir o próximo passo recomendado.",
+      },
+      { property: "og:title", content: "Diagnóstico ORDEM™ — Nexxu" },
+      {
+        property: "og:description",
+        content:
+          "Descubra em 3 minutos se sua operação está no nível Caos, Reativo, Estruturado ou Autônoma.",
       },
     ],
   }),
   component: DiagnosticoPage,
 });
 
+type Stage =
+  | { kind: "intro" }
+  | { kind: "question"; index: number }
+  | { kind: "result" };
+
 function DiagnosticoPage() {
+  const [stage, setStage] = useState<Stage>({ kind: "intro" });
+  const [answers, setAnswers] = useState<number[]>([]);
+
+  const total = QUESTIONS.length;
+
+  const headerCurrent =
+    stage.kind === "intro" ? -1 : stage.kind === "result" ? total : stage.index;
+
+  const start = () => {
+    setAnswers([]);
+    setStage({ kind: "question", index: 0 });
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSelect = (index: number, optionIndex: number) => {
+    setAnswers((prev) => {
+      const next = [...prev];
+      next[index] = optionIndex;
+      return next;
+    });
+  };
+
+  const goNext = (index: number) => {
+    if (index + 1 < total) {
+      setStage({ kind: "question", index: index + 1 });
+    } else {
+      setStage({ kind: "result" });
+    }
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const goBack = (index: number) => {
+    if (index > 0) {
+      setStage({ kind: "question", index: index - 1 });
+      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const restart = () => {
+    setAnswers([]);
+    setStage({ kind: "intro" });
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-[var(--brand-page)]">
-      <div className="max-w-md text-center">
-        <p className="section-label text-[var(--brand-purple)] mb-3">EM CONSTRUÇÃO</p>
-        <h1 className="text-3xl font-extrabold text-[var(--brand-text)]">Diagnóstico ORDEM™</h1>
-        <p className="mt-3 text-[var(--brand-muted)]">
-          O quiz interativo será implementado na Fase 4.
-        </p>
-      </div>
+    <div className="min-h-screen bg-[var(--brand-page)]">
+      <QuizHeader current={headerCurrent} total={total} />
+
+      {stage.kind === "intro" && <QuizIntro onStart={start} />}
+
+      {stage.kind === "question" && (
+        <QuizQuestionView
+          question={QUESTIONS[stage.index]}
+          selected={answers[stage.index]}
+          onSelect={(opt) => handleSelect(stage.index, opt)}
+          onBack={() => goBack(stage.index)}
+          onNext={() => goNext(stage.index)}
+          canGoBack={stage.index > 0}
+          isLast={stage.index === total - 1}
+        />
+      )}
+
+      {stage.kind === "result" && <QuizResult answers={answers} onRestart={restart} />}
     </div>
   );
 }
