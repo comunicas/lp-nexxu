@@ -15,6 +15,7 @@ export function Nav() {
 
   return (
     <nav
+      aria-label="Navegação principal"
       className={cn(
         "fixed top-0 left-0 right-0 z-50 px-[5%] h-16 flex items-center justify-between transition-all duration-300 animate-fade-in",
         scrolled
@@ -22,25 +23,30 @@ export function Nav() {
           : "bg-transparent",
       )}
     >
-      <Link to="/" className="flex items-center" aria-label="Nexxu — início">
+      <Link
+        to="/"
+        className="flex items-center rounded-md focus-ring"
+        aria-label="Nexxu — ir para a página inicial"
+      >
         <Logo />
       </Link>
       <div className="flex gap-3 items-center">
         <a
           href="#metodo"
-          className="hidden sm:inline-block text-white/65 text-sm font-medium px-1 py-1.5 hover:text-white transition-colors"
+          className="hidden sm:inline-block text-white/65 text-sm font-medium px-2 py-1.5 rounded-md hover:text-white transition-colors focus-ring"
         >
           Método
         </a>
         <a
           href="#produtos"
-          className="hidden sm:inline-block text-white/65 text-sm font-medium px-1 py-1.5 hover:text-white transition-colors"
+          className="hidden sm:inline-block text-white/65 text-sm font-medium px-2 py-1.5 rounded-md hover:text-white transition-colors focus-ring"
         >
           Produtos
         </a>
         <Link
           to="/diagnostico"
-          className="px-5 py-2.5 rounded-2xl bg-brand-gradient text-white text-sm font-semibold shadow-brand-glow-sm hover:opacity-90 transition-opacity"
+          aria-label="Falar com a Nexxu — iniciar diagnóstico"
+          className="px-5 py-2.5 rounded-2xl bg-brand-gradient text-white text-sm font-semibold shadow-brand-glow-sm hover:opacity-90 transition-opacity focus-ring"
         >
           Falar com a Nexxu
         </Link>

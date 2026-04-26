@@ -118,9 +118,11 @@ function ProductCard({ p }: { p: Product }) {
   const accentBg = isGradient
     ? "linear-gradient(90deg,#185FA5,#534AB7)"
     : p.accentColor;
+  const titleId = `prod-${p.step}-title`;
 
   return (
     <article
+      aria-labelledby={titleId}
       className={cn(
         "group relative flex flex-col rounded-[24px] bg-white border transition-all duration-300",
         "hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(83,74,183,0.12)]",
@@ -131,13 +133,16 @@ function ProductCard({ p }: { p: Product }) {
     >
       {/* barra superior accent */}
       <div
+        aria-hidden="true"
         className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[24px]"
         style={{ background: accentBg }}
       />
 
       {p.featured && (
         <div className="absolute -top-3 right-6">
-          <Badge variant="featured">mais escolhido</Badge>
+          <Badge variant="featured">
+            <span className="sr-only">Produto </span>mais escolhido
+          </Badge>
         </div>
       )}
 
@@ -147,14 +152,17 @@ function ProductCard({ p }: { p: Product }) {
           <span className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]">
             ETAPA {p.step}
           </span>
-          <span className="w-1 h-1 rounded-full bg-[var(--brand-subtle)]/40" aria-hidden />
+          <span className="w-1 h-1 rounded-full bg-[var(--brand-subtle)]/40" aria-hidden="true" />
           <span className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]">
             {p.category.toUpperCase()}
           </span>
         </div>
 
         {/* verbo */}
-        <h3 className="font-display font-extrabold text-[30px] leading-none tracking-tight text-[var(--brand-text)] mb-3">
+        <h3
+          id={titleId}
+          className="font-display font-extrabold text-[30px] leading-none tracking-tight text-[var(--brand-text)] mb-3"
+        >
           {p.verb}
         </h3>
 
@@ -185,12 +193,18 @@ function ProductCard({ p }: { p: Product }) {
         {/* meta */}
         <div className="flex items-center gap-2 text-[12px] text-[var(--brand-subtle)] mb-5">
           <ClockIcon />
-          <span>{p.duration}</span>
-          <span className="opacity-40">·</span>
-          <span>{p.scope}</span>
+          <span>
+            <span className="sr-only">Duração: </span>
+            {p.duration}
+          </span>
+          <span className="opacity-40" aria-hidden="true">·</span>
+          <span>
+            <span className="sr-only">Escopo: </span>
+            {p.scope}
+          </span>
         </div>
 
-        <div className="h-px bg-[rgba(26,21,32,0.06)] mb-5" />
+        <div className="h-px bg-[rgba(26,21,32,0.06)] mb-5" aria-hidden="true" />
 
         {/* bullets */}
         <ul className="m-0 p-0 list-none flex flex-col gap-3 flex-1">
@@ -210,17 +224,20 @@ function ProductCard({ p }: { p: Product }) {
           {p.featured ? (
             <Link
               to="/diagnostico"
-              className="inline-flex w-full items-center justify-center gap-2 font-display font-bold px-5 py-3 rounded-xl text-white text-[14px] bg-brand-gradient transition-all duration-200 hover:-translate-y-0.5"
+              aria-label={`Quero o caminho ${p.verb} (etapa ${p.step}: ${p.category}) — iniciar diagnóstico`}
+              className="inline-flex w-full items-center justify-center gap-2 font-display font-bold px-5 py-3 rounded-xl text-white text-[14px] bg-brand-gradient transition-all duration-200 hover:-translate-y-0.5 focus-ring-light"
               style={{ boxShadow: "0 0 20px rgba(83,74,183,.4)" }}
             >
-              Quero esse caminho →
+              <span>Quero esse caminho</span>
+              <span aria-hidden="true">→</span>
             </Link>
           ) : (
             <Link
               to="/diagnostico"
-              className="inline-flex items-center gap-1.5 font-display font-bold text-[13.5px] text-[var(--brand-purple)] transition-all duration-200 hover:gap-2.5"
+              aria-label={`Quero o caminho ${p.verb} (etapa ${p.step}: ${p.category}) — iniciar diagnóstico`}
+              className="inline-flex items-center gap-1.5 font-display font-bold text-[13.5px] text-[var(--brand-purple)] transition-all duration-200 hover:gap-2.5 rounded-md focus-ring-light"
             >
-              Quero esse <span aria-hidden>→</span>
+              Quero esse <span aria-hidden="true">→</span>
             </Link>
           )}
         </div>
@@ -231,9 +248,14 @@ function ProductCard({ p }: { p: Product }) {
 
 export function Products() {
   return (
-    <section id="produtos" className="bg-white px-[5%] py-24">
+    <section
+      id="produtos"
+      aria-labelledby="produtos-title"
+      className="bg-white px-[5%] py-24"
+    >
       <div className="max-w-[1200px] mx-auto">
         <SectionHeader
+          titleId="produtos-title"
           label="PRODUTOS"
           labelColor="var(--brand-blue)"
           title={
@@ -247,11 +269,17 @@ export function Products() {
         />
 
         {/* indicador de progressão */}
-        <div className="flex items-center justify-center gap-3 mb-10 flex-wrap">
+        <ol
+          aria-label="Progressão de etapas dos produtos"
+          className="list-none p-0 flex items-center justify-center gap-3 mb-10 flex-wrap"
+        >
           {[1, 2, 3, 4].map((n, i) => (
-            <div key={n} className="flex items-center gap-3">
+            <li key={n} className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-gradient text-white text-[11px] font-bold">
+                <span
+                  aria-hidden="true"
+                  className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-gradient text-white text-[11px] font-bold"
+                >
                   {n}
                 </span>
                 <span className="text-[11px] font-bold tracking-[0.14em] text-[var(--brand-subtle)] uppercase">
@@ -261,12 +289,12 @@ export function Products() {
               {i < 3 && (
                 <span
                   className="w-8 h-px bg-[var(--brand-subtle)]/30"
-                  aria-hidden
+                  aria-hidden="true"
                 />
               )}
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
 
         <div className="grid gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
           {PRODUCTS.map((p) => (
@@ -280,10 +308,12 @@ export function Products() {
           </p>
           <Link
             to="/diagnostico"
-            className="inline-flex items-center justify-center gap-2 font-display font-bold transition-all duration-200 px-7 py-3.5 rounded-2xl text-white text-[15px] bg-brand-gradient hover:-translate-y-0.5"
+            aria-label="Conversar com a Nexxu sobre meu caso — iniciar diagnóstico"
+            className="inline-flex items-center justify-center gap-2 font-display font-bold transition-all duration-200 px-7 py-3.5 rounded-2xl text-white text-[15px] bg-brand-gradient hover:-translate-y-0.5 focus-ring-light"
             style={{ boxShadow: "0 0 28px rgba(83,74,183,.45)" }}
           >
-            Conversar sobre meu caso →
+            <span>Conversar sobre meu caso</span>
+            <span aria-hidden="true">→</span>
           </Link>
           <p className="text-[12px] text-[var(--brand-subtle)] mt-3">
             15 minutos. Sem pitch. Só diagnóstico.

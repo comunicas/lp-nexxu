@@ -38,12 +38,16 @@ function FaqItem({
   a,
   open,
   onToggle,
+  index,
 }: {
   q: string;
   a: string;
   open: boolean;
   onToggle: () => void;
+  index: number;
 }) {
+  const buttonId = `faq-q-${index}`;
+  const panelId = `faq-panel-${index}`;
   return (
     <div
       className={cn(
@@ -54,9 +58,12 @@ function FaqItem({
       )}
     >
       <button
+        id={buttonId}
+        type="button"
         onClick={onToggle}
-        className="w-full px-6 py-5 bg-transparent border-0 cursor-pointer flex justify-between items-center gap-4 text-left font-sans"
+        className="w-full px-6 py-5 bg-transparent border-0 cursor-pointer flex justify-between items-center gap-4 text-left font-sans rounded-[20px] focus-ring-light"
         aria-expanded={open}
+        aria-controls={panelId}
       >
         <span className="text-[15px] font-bold text-[var(--brand-text)] leading-snug">{q}</span>
         <svg
@@ -69,6 +76,7 @@ function FaqItem({
           viewBox="0 0 20 20"
           fill="none"
           aria-hidden="true"
+          focusable="false"
         >
           <polyline
             points="5,7 10,13 15,7"
@@ -80,6 +88,12 @@ function FaqItem({
         </svg>
       </button>
       <div
+        id={panelId}
+        role="region"
+        aria-labelledby={buttonId}
+        aria-hidden={!open}
+        // @ts-expect-error inert is a valid HTML attribute supported by modern browsers
+        inert={!open ? "" : undefined}
         className={cn(
           "overflow-hidden transition-[max-height] duration-300",
           open ? "max-h-[500px]" : "max-h-0",
@@ -95,9 +109,13 @@ export function Faq() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section className="bg-white px-[5%] py-20">
+    <section
+      aria-labelledby="faq-title"
+      className="bg-white px-[5%] py-20"
+    >
       <div className="max-w-[720px] mx-auto">
         <SectionHeader
+          titleId="faq-title"
           title="Perguntas frequentes"
           description="Sem enrolação."
           titleClassName="text-[clamp(28px,3.5vw,44px)]"
@@ -107,6 +125,7 @@ export function Faq() {
           {FAQS.map((f, i) => (
             <FaqItem
               key={f.q}
+              index={i}
               q={f.q}
               a={f.a}
               open={openIdx === i}
