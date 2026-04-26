@@ -26,7 +26,7 @@ const LEVELS = [
   {
     num: "04",
     name: "Autônoma",
-    desc: "A empresa funciona sem depender do dono. Decisões acontecem com dado. O dono lidera — não opera.",
+    desc: "A empresa funciona sem o dono. IA amplifica o que já funciona. O dono lidera — não opera.",
     border: "#5DCAA5",
     glow: "rgba(93,202,165,0.3)",
   },
