@@ -84,11 +84,11 @@ export function IndiceSection() {
         >
           <div>
             <h3 className="text-[22px] font-extrabold text-white m-0 mb-2">
-              Descubra seu Índice ORDEM™
+              Descubra onde sua operação está — antes de qualquer investimento em IA
             </h3>
             <p className="text-[15px] text-white/55 m-0 max-w-[420px] leading-relaxed">
-              Em 15 minutos de conversa, mapeamos onde sua operação está e o que faz sentido fazer
-              primeiro.
+              Em 15 minutos de conversa, mapeamos seu nível operacional e se — e quando — a IA faz
+              sentido para o seu caso. Sem pitch. Sem pressão.
             </p>
           </div>
           <Link
