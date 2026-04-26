@@ -29,16 +29,16 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Nexxu | Consultoria de IA para PMEs" },
-      { name: "description", content: "A **Nexxu** resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Nexxu | Consultoria de IA para PMEs" },
-      { property: "og:description", content: "A **Nexxu** resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
+      { title: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
+      { name: "description", content: "A Nexxu resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
+      { name: "author", content: "Nexxu — Flavio Horita & Rafael Bruno" },
+      { property: "og:title", content: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
+      { property: "og:description", content: "A Nexxu resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@nexxulab" },
       { name: "twitter:title", content: "Nexxu | Consultoria de IA para PMEs" },
-      { name: "twitter:description", content: "A **Nexxu** resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
+      { name: "twitter:description", content: "A Nexxu resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777189907399-logo-branco-horizontal.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777189907399-logo-branco-horizontal.webp" },
     ],
@@ -56,7 +56,7 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
