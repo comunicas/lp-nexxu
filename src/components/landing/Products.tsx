@@ -118,9 +118,11 @@ function ProductCard({ p }: { p: Product }) {
   const accentBg = isGradient
     ? "linear-gradient(90deg,#185FA5,#534AB7)"
     : p.accentColor;
+  const titleId = `prod-${p.step}-title`;
 
   return (
     <article
+      aria-labelledby={titleId}
       className={cn(
         "group relative flex flex-col rounded-[24px] bg-white border transition-all duration-300",
         "hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(83,74,183,0.12)]",
@@ -131,13 +133,16 @@ function ProductCard({ p }: { p: Product }) {
     >
       {/* barra superior accent */}
       <div
+        aria-hidden="true"
         className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[24px]"
         style={{ background: accentBg }}
       />
 
       {p.featured && (
         <div className="absolute -top-3 right-6">
-          <Badge variant="featured">mais escolhido</Badge>
+          <Badge variant="featured">
+            <span className="sr-only">Produto </span>mais escolhido
+          </Badge>
         </div>
       )}
 
@@ -147,14 +152,17 @@ function ProductCard({ p }: { p: Product }) {
           <span className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]">
             ETAPA {p.step}
           </span>
-          <span className="w-1 h-1 rounded-full bg-[var(--brand-subtle)]/40" aria-hidden />
+          <span className="w-1 h-1 rounded-full bg-[var(--brand-subtle)]/40" aria-hidden="true" />
           <span className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]">
             {p.category.toUpperCase()}
           </span>
         </div>
 
         {/* verbo */}
-        <h3 className="font-display font-extrabold text-[30px] leading-none tracking-tight text-[var(--brand-text)] mb-3">
+        <h3
+          id={titleId}
+          className="font-display font-extrabold text-[30px] leading-none tracking-tight text-[var(--brand-text)] mb-3"
+        >
           {p.verb}
         </h3>
 
@@ -185,12 +193,18 @@ function ProductCard({ p }: { p: Product }) {
         {/* meta */}
         <div className="flex items-center gap-2 text-[12px] text-[var(--brand-subtle)] mb-5">
           <ClockIcon />
-          <span>{p.duration}</span>
-          <span className="opacity-40">·</span>
-          <span>{p.scope}</span>
+          <span>
+            <span className="sr-only">Duração: </span>
+            {p.duration}
+          </span>
+          <span className="opacity-40" aria-hidden="true">·</span>
+          <span>
+            <span className="sr-only">Escopo: </span>
+            {p.scope}
+          </span>
         </div>
 
-        <div className="h-px bg-[rgba(26,21,32,0.06)] mb-5" />
+        <div className="h-px bg-[rgba(26,21,32,0.06)] mb-5" aria-hidden="true" />
 
         {/* bullets */}
         <ul className="m-0 p-0 list-none flex flex-col gap-3 flex-1">
@@ -210,17 +224,20 @@ function ProductCard({ p }: { p: Product }) {
           {p.featured ? (
             <Link
               to="/diagnostico"
-              className="inline-flex w-full items-center justify-center gap-2 font-display font-bold px-5 py-3 rounded-xl text-white text-[14px] bg-brand-gradient transition-all duration-200 hover:-translate-y-0.5"
+              aria-label={`Quero o caminho ${p.verb} (etapa ${p.step}: ${p.category}) — iniciar diagnóstico`}
+              className="inline-flex w-full items-center justify-center gap-2 font-display font-bold px-5 py-3 rounded-xl text-white text-[14px] bg-brand-gradient transition-all duration-200 hover:-translate-y-0.5 focus-ring-light"
               style={{ boxShadow: "0 0 20px rgba(83,74,183,.4)" }}
             >
-              Quero esse caminho →
+              <span>Quero esse caminho</span>
+              <span aria-hidden="true">→</span>
             </Link>
           ) : (
             <Link
               to="/diagnostico"
-              className="inline-flex items-center gap-1.5 font-display font-bold text-[13.5px] text-[var(--brand-purple)] transition-all duration-200 hover:gap-2.5"
+              aria-label={`Quero o caminho ${p.verb} (etapa ${p.step}: ${p.category}) — iniciar diagnóstico`}
+              className="inline-flex items-center gap-1.5 font-display font-bold text-[13.5px] text-[var(--brand-purple)] transition-all duration-200 hover:gap-2.5 rounded-md focus-ring-light"
             >
-              Quero esse <span aria-hidden>→</span>
+              Quero esse <span aria-hidden="true">→</span>
             </Link>
           )}
         </div>
