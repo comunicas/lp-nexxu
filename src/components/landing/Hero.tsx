@@ -6,7 +6,7 @@ export function Hero() {
     <section
       id="main-content"
       aria-labelledby="hero-headline"
-      className="relative bg-[var(--brand-dark)] min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 sm:px-[5%] pt-28 sm:pt-32 pb-24 sm:pb-32 text-center"
+      className="relative bg-[var(--brand-dark)] min-h-svh flex flex-col items-center justify-center overflow-hidden px-4 sm:px-[5%] pt-28 sm:pt-32 pb-24 sm:pb-32 text-center"
     >
       {/* Orbs decorativos — invisíveis para leitores de tela */}
       <div
