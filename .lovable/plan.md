@@ -1,122 +1,61 @@
 
-# Plano — Nexxu: Landing Page + Diagnóstico ORDEM™
+# Fase 2 — Componentes da Landing Page
 
-Vamos portar os dois HTMLs anexos para o stack do projeto (TanStack Start + React + Tailwind v4), priorizando **componentização** e **manutenibilidade**. O trabalho é dividido em 5 fases pequenas e independentes, cada uma entregando algo testável.
+Criar 5 componentes em `src/components/landing/` usando o design system da Fase 1 (tokens `--brand-*`, utilities `grad-text*`, `bg-brand-gradient`, `shadow-brand-glow*`, e primitivos `Logo`, `Button`, `Badge`, `SectionHeader`, `CheckIcon`).
 
----
+## Arquivos a criar
 
-## Visão geral
+### 1. `Nav.tsx`
+- Nav fixo no topo, transparente por padrão.
+- Hook de scroll (`window.scrollY > 20`) ativa fundo `rgba(15,12,26,0.92)` + blur + borda inferior roxa.
+- Logo (componente `Logo` full) à esquerda dentro de `<Link to="/">`.
+- Links âncora `#metodo` e `#produtos` (ocultos abaixo de `sm`).
+- CTA `<Link to="/diagnostico">` "Falar com a Nexxu" com gradiente da marca.
 
-Duas páginas:
-- **`/`** — Landing page institucional (Nav, Hero, Dor, Método ORDEM™, Produtos, Índice, Cases, FAQ, Footer)
-- **`/diagnostico`** — Quiz interativo de 9 perguntas com captura de lead e cálculo do Índice ORDEM™ (níveis 1–4)
+### 2. `Hero.tsx`
+- Seção dark full-height (`bg-[var(--brand-dark)]`, `min-h-screen`).
+- Dois orbs ambientais via `radial-gradient` (azul à esquerda, roxo à direita).
+- `<Badge variant="hero">` com dot teal: "CONSULTORIA DE INOVAÇÃO OPERACIONAL".
+- H1 com classe `grad-text-hero` (clamp 44–80px), 3 linhas: "Você não tem / problema de esforço. / Tem problema de processo."
+- Subhead em `text-white/60`.
+- Dois CTAs: `Link` primário "Descubra seu nível operacional →" para `/diagnostico` e âncora ghost "Ver o método" para `#metodo`.
+- 3 stats com números em `grad-text-light`.
+- Indicador "SCROLL" no rodapé.
 
-Identidade visual extraída dos HTMLs:
-- **Cores**: azul `#185FA5`, roxo `#534AB7`, roxo profundo `#3C3489`, teal `#5DCAA5`, âmbar `#EF9F27`, dark `#0F0C1A`, page `#F8F7FF`
-- **Tipografia**: `Space Grotesk` (headings) + `Outfit` (body), via Google Fonts
-- **Linguagem**: gradientes lineares azul→roxo, cantos arredondados (16–28px), glow/shadow roxo, layout escuro no Hero/Índice/Footer e claro nas demais seções
+### 3. `OrdemMethod.tsx`
+- Seção com `id="metodo"`, fundo gradiente azul→roxo claro.
+- Estado local `useState<number>` controla letra ativa (0 = O).
+- Constante `LETTERS` com 5 itens: O/Organização, R/Rotinas, D/Dados, E/Eficiência IA, M/Maturidade — cada um com `letter`, `short`, `name`, `desc`.
+- 5 botões 72×72 px arredondados; o ativo recebe `bg-brand-gradient` + `shadow-brand-glow-sm`, os demais `bg-[rgba(83,74,183,0.08)]`.
+- Card central reativo (600px) exibe a letra grande em `grad-text` + nome + descrição.
+- Timeline grid (1 col mobile, 3 cols desktop) com 30/60/90 dias, cores azul/roxo/teal por item.
 
----
+### 4. `Products.tsx`
+- Seção com `id="produtos"`, fundo branco.
+- Constante `PRODUCTS` com 4 itens (T1 Diagnóstico, T2 Mentoria, T3 Implementação featured, T4 Serviço dark).
+- Componente interno `ProductCard` com prop `variant`: `"light-blue" | "light-purple" | "featured" | "dark"`.
+- Variante `featured`: gradiente sutil azul→roxo, outline roxo, glow forte, badge "mais escolhido", barra superior gradiente, leve `-translate-y`.
+- Variante `dark`: fundo `#0F0C1A` com texto branco e checks roxo claro (usa `<CheckIcon variant="dark" />`).
+- Variantes claras usam `<CheckIcon />` padrão (verde teal).
+- CTA inferior `<Link to="/diagnostico">` + texto "15 minutos. Sem pitch de venda. Só diagnóstico."
 
-## Fase 1 — Design System & Fundamentos
+### 5. `Faq.tsx`
+- Container 720px, fundo branco.
+- Constante `FAQS` com 5 perguntas/respostas (cópia fiel do HTML).
+- Estado `useState<number | null>` controla qual item está aberto (apenas um por vez; primeiro aberto por padrão).
+- Cada `FaqItem` é um `<button>` (`aria-expanded`) com chevron que rotaciona 180° quando aberto.
+- Resposta usa `max-h` animado para efeito accordion suave.
+- Item aberto recebe borda e fundo levemente roxos.
 
-Estabelecer base visual reutilizável antes de qualquer página.
+## Padrões aplicados em todos os componentes
 
-1. **Tokens em `src/styles.css`**: substituir paleta padrão por tokens semânticos Nexxu (em oklch + variantes diretas para os hex acima), adicionar `--gradient-brand`, `--shadow-glow`, fontes Space Grotesk + Outfit via `@import url(...)`.
-2. **Utilities**: classes `.grad-text`, `.section-label` no styles.css (reutilizadas em várias seções).
-3. **Componentes primitivos** em `src/components/ui-nexxu/`:
-   - `Logo.tsx` (SVG inline com 2 variantes de tamanho — usado em Nav e Header do diagnóstico)
-   - `Button.tsx` (variantes: `primary`, `ghost`, `sm`, `secondary`)
-   - `Badge.tsx` (variantes: `hero` com dot teal, `gradient`, `section-label`)
-   - `SectionHeader.tsx` (label + h2 + parágrafo, usado em todas as seções)
-   - `CheckIcon.tsx` (SVG do bullet dos cards de produto)
+- Sem cores hard-coded de Tailwind (`text-white`, etc) onde houver token equivalente — uso direto de `var(--brand-*)` ou utilities da marca quando há gradiente/glow.
+- `cn()` (de `@/lib/utils`) para classes condicionais.
+- Imports com alias `@/components/ui-nexxu/*`.
+- Links internos via `<Link>` do `@tanstack/react-router` (nunca `<a href="/...">`).
+- Acessibilidade: `aria-pressed` nos botões da letra, `aria-expanded` no FAQ, `aria-label` nos SVGs.
 
-Entregável: build funciona, tokens disponíveis, componentes prontos para uso.
+## Fora do escopo desta fase
 
----
-
-## Fase 2 — Componentes de Seção da Landing
-
-Cada seção da LP vira um componente isolado em `src/components/landing/`:
-
-- `Nav.tsx` — fixa no topo, fica opaca ao scroll (estado `scrolled`)
-- `Hero.tsx` — fundo dark, headline com gradiente, badge, CTAs, 3 stats, indicador de scroll. Canvas animado vira efeito CSS estático (mais leve, sem JS de física)
-- `PainSection.tsx` — grid de 5 `PainCard` + 1 `PainCtaCard`
-- `OrdemMethod.tsx` — 5 botões de letra interativos (`O R D E M`), card de detalhe reativo, timeline 30/60/90 dias. Estado local com `useState`
-- `Products.tsx` — 4 `ProductCard` (T1..T4) com prop `variant` (light/featured/dark)
-- `IndiceSection.tsx` — fundo dark, 4 níveis + CTA box
-- `CasesSection.tsx` — 3 `CaseCard` com stat grande
-- `Faq.tsx` — lista de `FaqItem` com accordion controlado
-- `Footer.tsx` — duas colunas + linha gradiente
-
-Entregável: cada componente renderiza isolado, props tipadas, conteúdo em PT-BR fiel aos HTMLs.
-
----
-
-## Fase 3 — Página `/` (Landing Page)
-
-- Atualizar `src/routes/index.tsx`: remover placeholder, montar página compondo as seções da Fase 2 na ordem: Nav → Hero → Pain → OrdemMethod → Products → Indice → Cases → Faq → Footer.
-- Atualizar `head()` da rota com title/description/og em PT-BR ("Nexxu — Criatividade. Processo. Tecnologia.").
-- Atualizar `__root.tsx` com meta padrão pt-BR e charset.
-- Garantir scroll suave para âncoras `#metodo`, `#produtos`, `#diagnostico`.
-
-Entregável: LP completa navegável, responsiva (≤768px ajusta grids e esconde links da nav).
-
----
-
-## Fase 4 — Página `/diagnostico` (Quiz)
-
-- Criar `src/routes/diagnostico.tsx` com `head()` próprio.
-- Componentes em `src/components/diagnostico/`:
-  - `DiagHeader.tsx` (logo + voltar)
-  - `ProgressBar.tsx`
-  - `WelcomeScreen.tsx`
-  - `QuestionScreen.tsx` (renderiza pergunta atual + 4 opções, suporta atalho teclado 1–4)
-  - `LeadForm.tsx` (nome obrigatório, email, whatsapp; Enter envia)
-  - `ResultScreen.tsx` (header com nível, análise, barras por dimensão animadas, recomendação de produto, CTAs)
-- Dados em `src/data/diagnostico.ts`: arrays `questions`, `levels`, `dims` (cópia fiel do JS do HTML).
-- Lógica em `src/hooks/useDiagnostico.ts`: estado de `cur`, `answers`, `scores`, transições entre telas, cálculo de nível (≤15→1, ≤22→2, ≤29→3, senão 4).
-- Animações: barra de progresso, fade-in das telas, fill animado das barras de dimensão (Tailwind transitions).
-
-Entregável: quiz funcional ponta-a-ponta. Dados do lead apenas exibem o resultado por enquanto (sem envio para backend — fica para fase futura, se desejado).
-
----
-
-## Fase 5 — Polimento & SEO
-
-- Revisar responsividade nas 2 páginas (mobile-first).
-- og:image: gerar imagem placeholder ou omitir até termos arte oficial.
-- Verificar contraste e foco de teclado (acessibilidade básica).
-- Validar `<Link>` interno entre `/` e `/diagnostico` (substituir `href="diagnostico.html"` dos HTMLs).
-- Build de produção e checagem de console.
-
----
-
-## Estrutura de arquivos esperada
-
-```text
-src/
-  components/
-    ui-nexxu/        Logo, Button, Badge, SectionHeader, CheckIcon
-    landing/         Nav, Hero, PainSection, OrdemMethod, Products,
-                     IndiceSection, CasesSection, Faq, Footer
-    diagnostico/     DiagHeader, ProgressBar, WelcomeScreen,
-                     QuestionScreen, LeadForm, ResultScreen
-  data/
-    diagnostico.ts   questions, levels, dims
-  hooks/
-    useDiagnostico.ts
-  routes/
-    index.tsx        Landing
-    diagnostico.tsx  Quiz
-  styles.css         Tokens Nexxu + fontes
-```
-
----
-
-## Fora de escopo (podem virar próximos pedidos)
-
-- Persistência dos leads (Lovable Cloud + tabela `diagnostico_leads`)
-- Integração WhatsApp / envio de e-mail com resultado
-- Animação canvas de partículas no Hero (substituída por gradiente/orbs)
-- Blog, área de cliente, autenticação
+- `PainSection`, `IndiceSection`, `CasesSection`, `Footer` — virão na Fase 2b (mesma fase do plano original, separadas só para entregar este lote primeiro).
+- Composição em `src/routes/index.tsx` — Fase 3.
