@@ -11,6 +11,8 @@ type Props = {
   titleClassName?: string;
   descriptionClassName?: string;
   className?: string;
+  /** id aplicado ao <h2> para uso com aria-labelledby */
+  titleId?: string;
 };
 
 export function SectionHeader({
@@ -22,6 +24,7 @@ export function SectionHeader({
   titleClassName,
   descriptionClassName,
   className,
+  titleId,
 }: Props) {
   return (
     <div
@@ -39,6 +42,7 @@ export function SectionHeader({
         </div>
       )}
       <h2
+        id={titleId}
         className={cn(
           "text-[clamp(32px,4vw,52px)] font-extrabold tracking-tight leading-tight m-0",
           titleClassName,
