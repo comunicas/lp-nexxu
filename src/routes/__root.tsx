@@ -29,18 +29,18 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Component Canvas builds a component-driven website with a reusable design system." },
+      { title: "Nexxu | Consultoria de IA para PMEs" },
+      { name: "description", content: "A **Nexxu** resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Component Canvas builds a component-driven website with a reusable design system." },
+      { property: "og:title", content: "Nexxu | Consultoria de IA para PMEs" },
+      { property: "og:description", content: "A **Nexxu** resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "Component Canvas builds a component-driven website with a reusable design system." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/296fa34f-61ab-493a-bba8-498366680275/id-preview-74ed5599--6856c1dd-8455-464e-89ce-1899f538430e.lovable.app-1777178765456.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/296fa34f-61ab-493a-bba8-498366680275/id-preview-74ed5599--6856c1dd-8455-464e-89ce-1899f538430e.lovable.app-1777178765456.png" },
+      { name: "twitter:title", content: "Nexxu | Consultoria de IA para PMEs" },
+      { name: "twitter:description", content: "A **Nexxu** resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777189907399-logo-branco-horizontal.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777189907399-logo-branco-horizontal.webp" },
     ],
     links: [
       {
@@ -56,14 +56,11 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR">
+    <html lang="en">
       <head>
         <HeadContent />
       </head>
       <body>
-        <a href="#main-content" className="skip-link">
-          Pular para o conteúdo
-        </a>
         {children}
         <Scripts />
       </body>
