@@ -49,7 +49,7 @@ export function Hero() {
           <span className="text-white/95 font-semibold">antes da IA entrar</span>
           {" — "}em 90 dias sua empresa para de depender de você.
         </p>
-        <p className="text-[12px] sm:text-[13px] text-white/60 mb-7 sm:mb-10 max-w-[560px] mx-auto animate-fade-up animation-delay-500">
+        <p className="text-[11.5px] sm:text-[13px] text-white/60 mb-7 sm:mb-10 max-w-[560px] mx-auto animate-fade-up animation-delay-500">
           Método ORDEM™ · PMEs com R$20k+/mês
         </p>
 
