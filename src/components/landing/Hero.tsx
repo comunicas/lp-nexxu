@@ -27,72 +27,70 @@ export function Hero() {
 
       <div className="relative z-[2] w-full max-w-[860px] mx-auto">
         {/* Badge */}
-        <div className="mb-6 sm:mb-7 animate-fade-in animation-delay-100 flex justify-center">
+        <div className="mb-5 sm:mb-7 animate-fade-in animation-delay-100 flex justify-center">
           <Badge variant="hero">
-            Para donos de PME que já tentaram IA — e o caos continuou
+            Para PMEs que já tentaram IA — e o caos continuou
           </Badge>
         </div>
 
         {/* Headline — 3 linhas curtas com impacto progressivo */}
         <h1
           id="hero-headline"
-          className="grad-text-hero font-extrabold leading-[1.05] tracking-tight mb-5 sm:mb-6 max-w-[820px] mx-auto text-balance animate-fade-up animation-delay-200 text-[34px] sm:text-[48px] md:text-[60px] lg:text-[74px]"
+          className="grad-text-hero font-extrabold leading-[1.05] tracking-tight mb-4 sm:mb-6 max-w-[820px] mx-auto text-balance animate-fade-up animation-delay-200 text-[32px] sm:text-[48px] md:text-[60px] lg:text-[74px]"
         >
           <span className="block">IA sem processo</span>
           <span className="block">não resolve.</span>
           <span className="block">Só escala o caos.</span>
         </h1>
 
-        {/* Sub — 2 frases, clara e específica */}
-        <p className="text-[15px] sm:text-[16px] md:text-[17px] lg:text-[19px] text-white/70 leading-relaxed mb-3 max-w-[640px] mx-auto animate-fade-up animation-delay-400">
+        {/* Sub — 1 frase enxuta + reforço da promessa */}
+        <p className="text-[15px] sm:text-[16px] md:text-[17px] lg:text-[19px] text-white/75 leading-relaxed mb-3 max-w-[560px] sm:max-w-[640px] mx-auto animate-fade-up animation-delay-400 text-pretty">
           A Nexxu organiza processo, rotina e dados{" "}
-          <span className="text-white/90 font-semibold">antes de qualquer IA entrar.</span>
-          <span className="block mt-2">
-            Em 90 dias, sua empresa para de depender de você para funcionar.
-          </span>
+          <span className="text-white/95 font-semibold">antes da IA entrar</span>
+          {" — "}em 90 dias sua empresa para de depender de você.
         </p>
-        <p className="text-[12px] sm:text-[13px] text-white/60 mb-9 sm:mb-10 max-w-[560px] mx-auto animate-fade-up animation-delay-500">
-          Método ORDEM™ · Consultoria de inovação operacional · PMEs com R$20k+/mês
+        <p className="text-[12px] sm:text-[13px] text-white/60 mb-7 sm:mb-10 max-w-[560px] mx-auto animate-fade-up animation-delay-500">
+          Método ORDEM™ · PMEs com R$20k+/mês
         </p>
 
         {/* CTAs — coluna no mobile, linha no sm+ */}
-        <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center sm:flex-wrap mb-12 animate-fade-up animation-delay-600">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center sm:flex-wrap mb-10 sm:mb-12 animate-fade-up animation-delay-600">
           <Link
             to="/diagnostico"
             aria-label="Iniciar diagnóstico gratuito do nível operacional"
-            className="inline-flex items-center justify-center gap-2 font-display font-bold transition-all duration-200 px-7 py-3.5 sm:px-8 sm:py-4 rounded-2xl text-white text-[15px] sm:text-base bg-brand-gradient shadow-brand-glow hover:-translate-y-0.5 focus-ring"
+            className="inline-flex items-center justify-center gap-2 font-display font-bold transition-all duration-200 px-6 py-3.5 sm:px-8 sm:py-4 rounded-2xl text-white text-[15px] sm:text-base bg-brand-gradient shadow-brand-glow hover:-translate-y-0.5 focus-ring"
           >
-            <span>Descobrir meu nível operacional</span>
+            <span>Descobrir meu nível</span>
             <span aria-hidden="true">→</span>
           </Link>
           <a
             href="#metodo"
             aria-label="Ver detalhes do Método ORDEM"
-            className="inline-flex items-center justify-center gap-2 font-display font-semibold px-7 py-3.5 sm:px-8 sm:py-4 rounded-2xl text-[15px] sm:text-base text-white/80 border border-white/15 bg-white/[0.04] backdrop-blur-md hover:border-white/35 hover:bg-white/[0.08] transition-all focus-ring"
+            className="inline-flex items-center justify-center gap-2 font-display font-semibold px-6 py-3.5 sm:px-8 sm:py-4 rounded-2xl text-[15px] sm:text-base text-white/80 border border-white/15 bg-white/[0.04] backdrop-blur-md hover:border-white/35 hover:bg-white/[0.08] transition-all focus-ring"
           >
             Ver o Método ORDEM™
           </a>
         </div>
 
-        {/* Stats — coluna no mobile, linha no sm+ */}
+        {/* Stats — grid 3 colunas em mobile pra evitar pilha enorme */}
         <ul
           aria-label="Diferenciais da Nexxu"
-          className="list-none p-0 m-0 flex flex-col sm:flex-row sm:flex-wrap gap-y-6 sm:gap-x-10 justify-center items-center animate-fade-up animation-delay-700"
+          className="list-none p-0 m-0 grid grid-cols-3 gap-x-3 sm:flex sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-6 justify-center items-start animate-fade-up animation-delay-700 max-w-[560px] sm:max-w-none mx-auto"
         >
           {[
-            { num: "90 dias", lbl: "para parar de apagar incêndio na própria empresa" },
-            { num: "IA no passo 4", lbl: "Processo, rotinas e dados vêm antes. Sempre." },
-            { num: "R$20k+/mês", lbl: "Para quem já tem operação — e quer ela funcionando" },
+            { num: "90 dias", lbl: "para sair do operacional" },
+            { num: "IA no passo 4", lbl: "Processo vem antes. Sempre." },
+            { num: "R$20k+/mês", lbl: "Para quem já tem operação" },
           ].map((s) => (
             <li
               key={s.num}
               aria-label={`${s.num}: ${s.lbl}`}
-              className="flex flex-col items-center max-w-[200px]"
+              className="flex flex-col items-center sm:max-w-[200px]"
             >
-              <div className="grad-text-light text-[18px] sm:text-[20px] font-extrabold leading-none">
+              <div className="grad-text-light text-[14px] sm:text-[20px] font-extrabold leading-tight text-center">
                 {s.num}
               </div>
-              <div className="text-[11px] text-white/65 mt-2 text-center leading-snug">
+              <div className="text-[10.5px] sm:text-[11px] text-white/65 mt-1.5 sm:mt-2 text-center leading-snug">
                 {s.lbl}
               </div>
             </li>
