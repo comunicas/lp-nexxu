@@ -15,7 +15,7 @@ export function Hero() {
 
       <div className="relative z-[2] max-w-[780px] mx-auto">
         <div className="mb-8">
-          <Badge variant="hero">CONSULTORIA DE INOVAÇÃO OPERACIONAL</Badge>
+          <Badge variant="hero">Para donos que já tentaram de tudo — inclusive IA</Badge>
         </div>
 
         <h1 className="grad-text-hero text-[clamp(44px,6vw,80px)] font-extrabold leading-[1.05] tracking-tight mb-6">
