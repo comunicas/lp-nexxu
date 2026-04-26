@@ -28,17 +28,16 @@ export function Hero() {
         </div>
 
         {/* Headline — 3 linhas curtas com impacto progressivo */}
-        <h1 className="grad-text-hero font-extrabold leading-[1.05] tracking-tight mb-5 sm:mb-6 max-w-[820px] mx-auto text-balance animate-fade-up animation-delay-200 text-[38px] sm:text-[54px] lg:text-[74px]">
+        <h1 className="grad-text-hero font-extrabold leading-[1.05] tracking-tight mb-5 sm:mb-6 max-w-[820px] mx-auto text-balance animate-fade-up animation-delay-200 text-[34px] sm:text-[48px] md:text-[60px] lg:text-[74px]">
           <span className="block">IA sem processo</span>
           <span className="block">não resolve.</span>
-          <span className="block mt-1">Só escala o caos.</span>
+          <span className="block">Só escala o caos.</span>
         </h1>
 
         {/* Sub — 2 frases, clara e específica */}
-        <p className="text-[15px] sm:text-[17px] lg:text-[19px] text-white/70 leading-relaxed mb-3 max-w-[640px] mx-auto animate-fade-up animation-delay-400">
+        <p className="text-[15px] sm:text-[16px] md:text-[17px] lg:text-[19px] text-white/70 leading-relaxed mb-3 max-w-[640px] mx-auto animate-fade-up animation-delay-400">
           A Nexxu organiza processo, rotina e dados{" "}
           <span className="text-white/90 font-semibold">antes de qualquer IA entrar.</span>
-          <br className="hidden sm:block" />
           <span className="block mt-2">
             Em 90 dias, sua empresa para de depender de você para funcionar.
           </span>
