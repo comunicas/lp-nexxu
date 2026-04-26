@@ -12,7 +12,7 @@ const LEVELS = [
   {
     num: "02",
     name: "Reativo",
-    desc: "Apaga incêndio com mais eficiência. Sente que melhora, mas continua dependente de você para tudo que importa.",
+    desc: "Apaga incêndio com mais eficiência. Melhora aos trancos. IA nesse nível acelera o problema — não elimina.",
     border: "rgba(175,169,236,0.4)",
     glow: "rgba(83,74,183,0.2)",
   },
