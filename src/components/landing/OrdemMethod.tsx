@@ -121,7 +121,8 @@ export function OrdemMethod() {
         </div>
 
         <div
-          className="max-w-[600px] mx-auto px-9 py-8 rounded-[28px] bg-white border border-[rgba(83,74,183,0.2)] text-center"
+          key={cur.letter}
+          className="max-w-[600px] mx-auto px-9 py-8 rounded-[28px] bg-white border border-[rgba(83,74,183,0.2)] text-center animate-scale-in"
           style={{ boxShadow: "0 0 40px rgba(83,74,183,.1)", marginBottom: 60 }}
         >
           <div className="grad-text text-5xl font-black leading-none mb-1.5">{cur.letter}</div>
