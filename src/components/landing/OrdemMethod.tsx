@@ -95,7 +95,7 @@ export function OrdemMethod() {
     <section
       id="metodo"
       aria-labelledby="metodo-title"
-      className="px-[5%] py-24 border-t border-[rgba(83,74,183,0.1)]"
+      className="px-[5%] py-24 scroll-mt-20 border-t border-[rgba(83,74,183,0.1)]"
       style={{
         background:
           "linear-gradient(160deg,rgba(83,74,183,.07) 0%,rgba(24,95,165,.05) 50%,var(--brand-page) 100%)",
