@@ -3,24 +3,28 @@ import { SectionHeader } from "@/components/ui-nexxu/SectionHeader";
 
 const PAINS = [
   {
-    title: "Tudo trava sem você",
-    desc: "Nenhuma decisão sai sem a sua aprovação. Você virou o gargalo da própria empresa.",
+    title: "Nenhuma decisão sai sem você",
+    desc: "Você não consegue tirar nem um dia de folga sem o celular vibrar. A empresa parou de crescer porque você é o gargalo.",
   },
   {
-    title: "Você trabalha mais que o time",
-    desc: "Entra cedo, sai tarde, trabalha no fim de semana. E ainda sente que está sempre atrasado.",
+    title: "Você é o primeiro a entrar e o último a sair",
+    desc: "Enquanto o time vai embora no horário, você ainda está resolvendo o que eles não conseguem resolver sozinhos.",
   },
   {
-    title: "Os números variam sem explicação",
-    desc: "Meses bons e ruins se alternam sem você entender o padrão. Decisão no achismo.",
+    title: "Você toma decisão no achismo",
+    desc: "Mês bom, mês ruim — você não sabe por quê. Sem dado confiável, qualquer decisão é um chute.",
   },
   {
-    title: "Já contratou, mas o problema voltou",
-    desc: "Nova pessoa, mesma bagunça. Porque o problema nunca foi quem — foi o processo.",
+    title: "Contratou. O problema ficou.",
+    desc: "Já tentou software, consultoria, novo gerente. A bagunça sempre volta. Porque o problema nunca foi quem — foi o processo.",
   },
   {
-    title: "Crescer assusta mais do que motiva",
-    desc: "Você sabe que mais cliente significa mais caos. Escalar parece risco, não oportunidade.",
+    title: "Mais cliente, mais caos",
+    desc: "Você sabe que escalar do jeito que está vai quebrar tudo. Crescer virou ameaça, não oportunidade.",
+  },
+  {
+    title: "Já usou IA. O caos continuou.",
+    desc: "Ferramentas novas, processo velho. A IA não resolveu — só fez o ruim acontecer mais rápido. Era de se esperar.",
   },
 ];
 
