@@ -82,7 +82,7 @@ function FaqItem({
       <div
         className={cn(
           "overflow-hidden transition-[max-height] duration-300",
-          open ? "max-h-64" : "max-h-0",
+          open ? "max-h-[500px]" : "max-h-0",
         )}
       >
         <p className="px-6 pb-5 pt-0 text-sm text-[var(--brand-muted)] leading-relaxed m-0">{a}</p>
