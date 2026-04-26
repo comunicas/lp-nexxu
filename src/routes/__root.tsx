@@ -35,12 +35,12 @@ export const Route = createRootRoute({
       { property: "og:title", content: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
       { property: "og:description", content: "A Nexxu resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@nexxulab" },
       { name: "twitter:title", content: "Nexxu | Consultoria de IA para PMEs" },
       { name: "twitter:description", content: "A Nexxu resolve problemas reais com criatividade, processo estruturado e IA aplicada com propósito." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777189907399-logo-branco-horizontal.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777189907399-logo-branco-horizontal.webp" },
+      { property: "og:image", content: "https://nexxulab.com/og-nexxu.jpg" },
+      { name: "twitter:image", content: "https://nexxulab.com/og-nexxu.jpg" },
     ],
     links: [
       {
