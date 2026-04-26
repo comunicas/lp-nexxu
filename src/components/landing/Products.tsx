@@ -13,6 +13,10 @@ type Product = {
   scope: string;
   items: string[];
   accent: string;
+  price: string;
+  priceSub: string;
+  priceColor: string;
+  priceSubColor: string;
   featured?: boolean;
 };
 
@@ -31,6 +35,10 @@ const PRODUCTS: Product[] = [
       "Índice ORDEM™ calculado",
     ],
     accent: "var(--brand-blue)",
+    price: "A partir de R$ 500",
+    priceSub: "pagamento único",
+    priceColor: "#185FA5",
+    priceSubColor: "var(--brand-subtle)",
   },
   {
     step: 2,
@@ -46,6 +54,10 @@ const PRODUCTS: Product[] = [
       "Suporte direto nas travadas",
     ],
     accent: "var(--brand-purple)",
+    price: "R$ 3.000 – 6.000",
+    priceSub: "investimento total · 6 meses",
+    priceColor: "#534AB7",
+    priceSubColor: "var(--brand-subtle)",
   },
   {
     step: 3,
@@ -61,6 +73,10 @@ const PRODUCTS: Product[] = [
       "Operação autônoma ao final do ciclo",
     ],
     accent: "linear-gradient(90deg,#185fa5,#534ab7)",
+    price: "R$ 8.000 – 15.000",
+    priceSub: "investimento total · 6 meses",
+    priceColor: "gradient",
+    priceSubColor: "var(--brand-purple)",
     featured: true,
   },
   {
@@ -77,6 +93,10 @@ const PRODUCTS: Product[] = [
       "Você lidera — a gente executa",
     ],
     accent: "var(--brand-dark)",
+    price: "Sob consulta",
+    priceSub: "projetos a partir de R$ 20.000",
+    priceColor: "#5DCAA5",
+    priceSubColor: "var(--brand-muted)",
   },
 ];
 
