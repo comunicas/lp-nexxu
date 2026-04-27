@@ -38,11 +38,17 @@ export function Nav() {
         >
           Produtos
         </a>
+        <a
+          href="#diagnostico"
+          className="hidden sm:inline-block text-white/65 text-sm font-medium px-1 py-1.5 hover:text-white transition-colors"
+        >
+          Diagnóstico
+        </a>
         <Link
           to="/diagnostico"
           className="px-5 py-2.5 rounded-2xl bg-brand-gradient text-white text-sm font-semibold shadow-brand-glow-sm hover:opacity-90 transition-opacity"
         >
-          Falar com a Nexxu
+          Fazer diagnóstico →
         </Link>
       </div>
     </nav>
