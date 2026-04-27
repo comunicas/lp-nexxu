@@ -25,7 +25,7 @@ const LETTERS = [
     letter: "E",
     short: "Eficiência",
     name: "Eficiência IA",
-    desc: "IA entra depois do processo — nunca antes. Quando o processo está claro, a IA multiplica. Quando não está, ela escala o caos.",
+    desc: "IA entra aqui — depois do processo claro. Aí ela multiplica. Antes disso, só escala o caos.",
   },
   {
     letter: "M",
@@ -38,24 +38,24 @@ const LETTERS = [
 const TIMELINE = [
   {
     days: "30 dias",
-    title: "Diagnóstico + Mapa",
-    desc: "Processos identificados, gargalos mapeados, prioridades definidas. Pela primeira vez, você sabe onde está o problema de verdade.",
+    title: "Você sabe onde trava.",
+    desc: "Processos mapeados, gargalos no papel. Pela primeira vez, você para de operar no achismo.",
     color: "#185FA5",
     bgColor: "rgba(24,95,165,0.1)",
     border: "rgba(24,95,165,0.2)",
   },
   {
     days: "60 dias",
-    title: "Rotinas implementadas",
-    desc: "Processos críticos rodando sem depender de você lembrar. Time opera com clareza. Primeiros dados confiáveis surgem.",
+    title: "O time roda. Você respira.",
+    desc: "Processos críticos funcionando sem depender da sua memória. Time opera com clareza.",
     color: "#534AB7",
     bgColor: "rgba(83,74,183,0.1)",
     border: "rgba(83,74,183,0.2)",
   },
   {
     days: "90 dias",
-    title: "Autonomia operacional",
-    desc: "Empresa opera. Dono lidera. IA amplificando o que já funciona — não consertando o que está quebrado.",
+    title: "Dono lidera. IA amplifica.",
+    desc: "Empresa opera. Você decide. IA fazendo sentido — não hype.",
     color: "#5DCAA5",
     bgColor: "rgba(93,202,165,0.1)",
     border: "rgba(93,202,165,0.2)",
@@ -84,7 +84,7 @@ export function OrdemMethod() {
               Método <span className="grad-text">ORDEM™</span>
             </>
           }
-          description="Criatividade sem estrutura é improviso. Estrutura sem criatividade é burocracia. A Nexxu faz os dois."
+          description="A sequência que faltava na sua empresa: processo primeiro, IA depois. Em 90 dias."
         />
 
         <div className="flex gap-2.5 justify-center flex-wrap mb-10">
@@ -131,9 +131,13 @@ export function OrdemMethod() {
 
         <div className="mb-10 p-5 rounded-2xl border border-[rgba(83,74,183,0.15)] bg-[rgba(83,74,183,0.03)] max-w-[600px]">
           <p className="text-sm text-[var(--brand-muted)] leading-relaxed m-0">
-            <span className="font-semibold text-[var(--brand-text)]">A sequência é sempre a mesma.</span>{" "}
-            O que muda é quem executa — você com nossa orientação, ou a gente lado a lado com o seu time.{" "}
-            <span className="text-[var(--brand-purple)] font-medium">A conversa de diagnóstico define isso.</span>
+            <span className="font-semibold text-[var(--brand-text)]">
+              A sequência é sempre essa.
+            </span>{" "}
+            O que muda é quanto da execução a Nexxu assume.{" "}
+            <span className="text-[var(--brand-purple)] font-medium">
+              A conversa de diagnóstico define isso.
+            </span>
           </p>
         </div>
 
