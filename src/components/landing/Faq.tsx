@@ -87,7 +87,7 @@ export function Faq() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section className="bg-white px-[5%] py-20">
+    <section id="faq" className="bg-white px-[5%] py-20">
       <div className="max-w-[720px] mx-auto">
         <SectionHeader
           title="Perguntas frequentes"
