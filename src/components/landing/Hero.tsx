@@ -36,7 +36,7 @@ export function Hero() {
             to="/diagnostico"
             className="inline-flex items-center justify-center gap-2 font-display font-bold transition-all duration-200 px-8 py-4 rounded-2xl text-white text-base bg-brand-gradient shadow-brand-glow hover:-translate-y-0.5"
           >
-            Descubra seu nível operacional →
+            Descobrir meu nível operacional — gratuito →
           </Link>
           <a
             href="#metodo"
