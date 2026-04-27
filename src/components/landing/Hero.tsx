@@ -49,7 +49,7 @@ export function Hero() {
         <div className="flex gap-10 justify-center flex-wrap">
           {[
             { num: "90 dias", lbl: "é o que leva para parar de apagar incêndio" },
-            { num: "0", lbl: "implementações de IA jogadas fora por falta de processo" },
+            { num: "Processo", lbl: "antes de IA — sem exceção. Essa é a regra." },
             { num: "ORDEM™", lbl: "processo antes de IA. Sempre." },
           ].map((s) => (
             <div key={s.num} className="flex flex-col items-center">
