@@ -5,28 +5,28 @@ const LEVELS = [
   {
     num: "01",
     name: "Caos",
-    desc: "Opera no improviso total. Cada dia é uma surpresa — boa ou ruim. Você está em todos os lugares ao mesmo tempo.",
+    desc: "Cada dia é uma surpresa. Você está em todo lugar ao mesmo tempo — e nada resolve sem você.",
     border: "#EF9F27",
     glow: "rgba(239,159,39,0.3)",
   },
   {
     num: "02",
     name: "Reativo",
-    desc: "Apaga incêndio com mais eficiência. Sente que melhora, mas continua dependente de você para tudo que importa.",
+    desc: "Você apaga incêndio melhor. Mas ainda é indispensável para tudo que importa.",
     border: "rgba(175,169,236,0.4)",
     glow: "rgba(83,74,183,0.2)",
   },
   {
     num: "03",
     name: "Estruturado",
-    desc: "Processos existem e o time os segue. Mas crescer ainda assusta — a estrutura não escala sem fricção.",
+    desc: "O time segue o processo. Mas escalar ainda assusta — a estrutura não aguenta mais volume.",
     border: "rgba(24,95,165,0.5)",
     glow: "rgba(24,95,165,0.25)",
   },
   {
     num: "04",
     name: "Autônoma",
-    desc: "A empresa funciona sem depender do dono. Decisões acontecem com dado. O dono lidera — não opera.",
+    desc: "A empresa funciona sem você no centro. Decisões acontecem com dado. Você lidera.",
     border: "#5DCAA5",
     glow: "rgba(93,202,165,0.3)",
   },
@@ -41,15 +41,14 @@ export function IndiceSection() {
           labelColor="rgba(175,169,236,0.7)"
           title={
             <span className="text-white">
-              Em qual nível está
-              <br />
-              <span className="grad-text-pale">sua operação hoje?</span>
+              Em qual nível{" "}
+              <span className="grad-text-pale">sua empresa está?</span>
             </span>
           }
           description={
             <span className="text-white/50">
-              Toda empresa está em algum nível. Saber onde você está é o primeiro passo para sair de
-              lá.
+              A maioria dos donos descobre que está no Nível 1 ou 2.{" "}
+              Em qual você está?
             </span>
           }
         />
@@ -58,7 +57,7 @@ export function IndiceSection() {
           {LEVELS.map((l) => (
             <div
               key={l.num}
-              className="p-7 rounded-3xl bg-white/[0.025] transition-all duration-200 hover:bg-white/[0.04]"
+              className="p-5 rounded-3xl bg-white/[0.025] transition-all duration-200 hover:bg-white/[0.04]"
               style={{ border: `1px solid ${l.border}` }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.boxShadow = `0 0 28px ${l.glow}`;
@@ -67,7 +66,7 @@ export function IndiceSection() {
                 e.currentTarget.style.boxShadow = "none";
               }}
             >
-              <div className="text-xs font-bold text-white/30 tracking-widest mb-2.5">{l.num}</div>
+              <div className="text-xs font-bold text-white/55 tracking-widest mb-2.5">{l.num}</div>
               <div className="text-[22px] font-extrabold text-white mb-3 tracking-tight">
                 {l.name}
               </div>
@@ -77,7 +76,7 @@ export function IndiceSection() {
         </div>
 
         <div
-          className="p-9 rounded-[28px] flex items-center justify-between flex-wrap gap-6 border border-[rgba(83,74,183,0.3)]"
+          className="p-7 rounded-[28px] flex items-center justify-between flex-wrap gap-6 border border-[rgba(83,74,183,0.3)]"
           style={{
             background: "rgba(83,74,183,0.1)",
             boxShadow: "0 0 40px rgba(83,74,183,.15)",
@@ -85,11 +84,11 @@ export function IndiceSection() {
         >
           <div>
             <h3 className="text-[22px] font-extrabold text-white m-0 mb-2">
-              Descubra seu Índice ORDEM™
+              Descubra seu nível agora.
             </h3>
             <p className="text-[15px] text-white/55 m-0 max-w-[420px] leading-relaxed">
-              Em 15 minutos de conversa, mapeamos onde sua operação está e o que faz sentido fazer
-              primeiro.
+              Responda 10 perguntas em 3 minutos e receba seu Índice ORDEM™ — com o próximo passo
+              recomendado para a sua operação.
             </p>
           </div>
           <Link
