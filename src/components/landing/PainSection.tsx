@@ -3,28 +3,28 @@ import { SectionHeader } from "@/components/ui-nexxu/SectionHeader";
 
 const PAINS = [
   {
-    title: "Nenhuma decisão sai sem você",
-    desc: "Você não consegue tirar nem um dia de folga sem o celular vibrar. A empresa parou de crescer porque você é o gargalo.",
+    title: "Você é o gargalo",
+    desc: "Não tira um dia sem o celular vibrar. A empresa parou porque tudo precisa passar por você.",
   },
   {
-    title: "Você é o primeiro a entrar e o último a sair",
-    desc: "Enquanto o time vai embora no horário, você ainda está resolvendo o que eles não conseguem resolver sozinhos.",
+    title: "O time vai. Você fica.",
+    desc: "Enquanto todos saem no horário, você ainda está resolvendo o que eles não conseguem.",
   },
   {
-    title: "Você toma decisão no achismo",
-    desc: "Mês bom, mês ruim — você não sabe por quê. Sem dado confiável, qualquer decisão é um chute.",
+    title: "Mês bom, mês ruim — sem saber por quê.",
+    desc: "Sem dado confiável, qualquer decisão é um chute. Você opera no achismo.",
   },
   {
-    title: "Contratou. O problema ficou.",
-    desc: "Já tentou software, consultoria, novo gerente. A bagunça sempre volta. Porque o problema nunca foi quem — foi o processo.",
+    title: "Contratou. O caos voltou.",
+    desc: "Software, gerente, consultoria. A bagunça sempre retorna. O problema é o processo — não quem.",
   },
   {
-    title: "Mais cliente, mais caos",
-    desc: "Você sabe que escalar do jeito que está vai quebrar tudo. Crescer virou ameaça, não oportunidade.",
+    title: "Crescer virou ameaça.",
+    desc: "Você sabe que escalar do jeito que está vai quebrar tudo. Mais cliente, mais caos.",
   },
   {
-    title: "Já usou IA. O caos continuou.",
-    desc: "Ferramentas novas, processo velho. A IA não resolveu — só fez o ruim acontecer mais rápido. Era de se esperar.",
+    title: "Usou IA. O caos continuou.",
+    desc: "Ferramenta nova, processo velho. A IA só fez o ruim acontecer mais rápido. Era de se esperar.",
   },
 ];
 
@@ -35,23 +35,14 @@ export function PainSection() {
         <SectionHeader
           label="VOCÊ SE RECONHECE?"
           labelColor="var(--brand-blue)"
-          title={
-            <>
-              O negócio cresceu.
-              <br />
-              O caos também.
-            </>
-          }
-          description="Se você chegou até aqui, provavelmente já tentou de tudo. Ferramenta nova. Novo funcionário. Talvez até IA. O problema não é você — é a sequência errada."
+          title="Parece familiar?"
+          description=""
         />
 
         <div className="mb-12 max-w-[640px]">
           <p className="text-[15px] text-[var(--brand-muted)] leading-relaxed">
-            Tem um perfil que a gente vê toda semana.{" "}
-            <span className="font-bold text-[var(--brand-text)]">Chamamos de Bombeiro-Chefe.</span>{" "}
-            É dono. É competente. Trabalha mais que todo o time junto.
-            E está preso na operação porque ninguém montou o sistema ainda.
-            Você se reconhece em algum desses?
+            <span className="font-bold text-[var(--brand-text)]">O Bombeiro-Chefe:</span>{" "}
+            dono que trabalha mais que o time inteiro — e ainda assim sente que a empresa não anda.
           </p>
         </div>
 
@@ -81,9 +72,9 @@ export function PainSection() {
             }}
           >
             <p className="text-base font-bold text-[var(--brand-text)] leading-snug mb-5">
-              "Você não tem problema de esforço.{" "}
-              <span className="grad-text">Tem problema de sequência.</span> Processo primeiro. IA
-              quando fizer sentido. A gente organiza isso em 90 dias."
+              O problema nunca foi esforço.{" "}
+              <span className="grad-text">Foi processo.</span>{" "}
+              A gente organiza isso em 90 dias.
             </p>
             <Link
               to="/diagnostico"
