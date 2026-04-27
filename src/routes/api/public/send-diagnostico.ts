@@ -20,8 +20,8 @@ type Body = {
   score: number;
   scoreMax: number;
   scorePct: number;
-  answers: unknown;
-  pillarBreakdown: unknown;
+  answers: any;
+  pillarBreakdown: any;
   pdfBase64?: string;
 };
 
