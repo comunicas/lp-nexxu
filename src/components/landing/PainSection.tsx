@@ -89,7 +89,7 @@ export function PainSection() {
               to="/diagnostico"
               className="inline-flex items-center justify-center gap-1.5 font-display font-bold transition-all duration-200 px-5 py-3 rounded-xl text-white text-sm bg-brand-gradient shadow-brand-glow-sm w-fit hover:opacity-90"
             >
-              Descobrir meu nível operacional →
+              Descobrir meu nível operacional — gratuito →
             </Link>
           </div>
         </div>
