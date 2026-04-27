@@ -82,7 +82,7 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
               answers,
               pillar_breakdown: pillarBreakdown,
               email_sent: false,
-            })
+            }])
             .select("id")
             .single();
 
