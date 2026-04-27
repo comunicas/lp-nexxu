@@ -39,11 +39,12 @@ export function PainSection() {
           description=""
         />
 
-        <div className="mb-12 max-w-[640px]">
-          <p className="text-[15px] text-[var(--brand-muted)] leading-relaxed">
-            <span className="font-bold text-[var(--brand-text)]">O Bombeiro-Chefe:</span>{" "}
-            dono que trabalha mais que o time inteiro — e ainda assim sente que a empresa não anda.
-          </p>
+        <div className="flex justify-center mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(83,74,183,0.2)] bg-[rgba(83,74,183,0.06)]">
+            <span className="text-[13px] font-bold text-[var(--brand-purple)]">Bombeiro-Chefe</span>
+            <span className="text-[var(--brand-muted)] text-[13px]">—</span>
+            <span className="text-[13px] text-[var(--brand-muted)]">dono que trabalha mais que o time e ainda assim a empresa não anda</span>
+          </div>
         </div>
 
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -53,9 +54,6 @@ export function PainSection() {
               className="group p-7 rounded-3xl bg-white border border-[rgba(24,95,165,0.15)] transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(24,95,165,0.45)]"
               style={{ boxShadow: "0 2px 8px rgba(0,0,0,.04)" }}
             >
-              <div
-                className="w-2 h-2 rounded-full bg-brand-gradient mb-5 transition-shadow duration-300 group-hover:shadow-brand-glow-sm"
-              />
               <h3 className="text-[17px] font-bold text-[var(--brand-text)] mb-2.5 tracking-tight">
                 {p.title}
               </h3>
@@ -65,22 +63,21 @@ export function PainSection() {
 
           {/* CTA card */}
           <div
-            className="p-7 rounded-3xl border border-[rgba(83,74,183,0.25)] flex flex-col justify-center"
+            className="col-span-full p-7 rounded-3xl border border-[rgba(83,74,183,0.25)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6"
             style={{
-              background:
-                "linear-gradient(135deg,rgba(24,95,165,.06),rgba(83,74,183,.08))",
+              background: "linear-gradient(135deg,rgba(24,95,165,.06),rgba(83,74,183,.08))",
             }}
           >
-            <p className="text-base font-bold text-[var(--brand-text)] leading-snug mb-5">
+            <p className="text-base font-bold text-[var(--brand-text)] leading-snug m-0 max-w-[480px]">
               O problema nunca foi esforço.{" "}
               <span className="grad-text">Foi processo.</span>{" "}
               A gente organiza isso em 90 dias.
             </p>
             <Link
               to="/diagnostico"
-              className="inline-flex items-center justify-center gap-1.5 font-display font-bold transition-all duration-200 px-5 py-3 rounded-xl text-white text-sm bg-brand-gradient shadow-brand-glow-sm w-fit hover:opacity-90"
+              className="inline-flex items-center justify-center gap-1.5 font-display font-bold transition-all duration-200 px-6 py-3.5 rounded-xl text-white text-sm bg-brand-gradient shadow-brand-glow-sm whitespace-nowrap hover:opacity-90 shrink-0"
             >
-              Descobrir meu nível operacional — gratuito →
+              Descobrir meu nível operacional →
             </Link>
           </div>
         </div>
