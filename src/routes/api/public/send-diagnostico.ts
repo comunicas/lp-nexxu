@@ -70,7 +70,7 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
           // 1. Salvar lead
           const { data: lead, error: dbError } = await supabaseAdmin
             .from("leads")
-            .insert({
+            .insert([{
               name,
               email,
               whatsapp,
