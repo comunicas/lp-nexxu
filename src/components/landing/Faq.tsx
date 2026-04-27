@@ -21,7 +21,7 @@ const FAQS = [
   },
   {
     q: "Como funciona a call de diagnóstico?",
-    a: "É uma conversa de 15–30 minutos onde mapeamos: quantos processos precisam ser estruturados, o tamanho do time, se há demanda de IA e quanto tempo você tem para implementar. A partir daí, fica claro qual tier faz sentido. Sem pressão de venda.",
+    a: "São dois momentos distintos. Primeiro, o formulário online: 10 perguntas objetivas, ~3 minutos, resultado imediato com seu Índice ORDEM™. Depois, se fizer sentido, uma call de 15–30 minutos com a gente para aprofundar o diagnóstico e definir o caminho certo — sem pressão de venda.",
   },
 ];
 
