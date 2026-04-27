@@ -35,6 +35,68 @@ export function QuizResult({ answers, onRestart }: Props) {
   const breakdown = getPillarBreakdown(answers);
   const pct = Math.round((score / MAX_SCORE) * 100);
 
+  const [formState, setFormState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [formData, setFormData] = useState({ name: "", email: "", whatsapp: "" });
+  const [formError, setFormError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email) {
+      setFormError("Nome e email são obrigatórios.");
+      return;
+    }
+    setFormState("loading");
+    setFormError("");
+
+    try {
+      const pdfBase64 = generateDiagnosticoPDF({
+        name: formData.name,
+        nivel: parseInt(level.num),
+        nivelNome: level.name,
+        nivelHeadline: level.headline,
+        nivelDesc: level.desc,
+        nivelRecommendation: level.recommendation,
+        nivelRecommendedTier: level.recommendedTier,
+        score,
+        scoreMax: MAX_SCORE,
+        scorePct: pct,
+        pillarBreakdown: breakdown as Record<"O" | "R" | "D" | "E" | "M", number>,
+      });
+
+      const res = await fetch("/api/public/send-diagnostico", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          whatsapp: formData.whatsapp,
+          nivel: parseInt(level.num),
+          nivelNome: level.name,
+          nivelHeadline: level.headline,
+          nivelDesc: level.desc,
+          nivelRecommendation: level.recommendation,
+          nivelRecommendedTier: level.recommendedTier,
+          score,
+          scoreMax: MAX_SCORE,
+          scorePct: pct,
+          answers,
+          pillarBreakdown: breakdown,
+          pdfBase64,
+        }),
+      });
+
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}));
+        throw new Error(errBody.error || "Request failed");
+      }
+      setFormState("success");
+    } catch (err) {
+      console.error(err);
+      setFormError("Algo deu errado. Tente novamente.");
+      setFormState("error");
+    }
+  };
+
   return (
     <section className="px-[5%] py-12 md:py-20">
       <div className="max-w-[760px] mx-auto">
