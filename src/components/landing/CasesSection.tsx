@@ -21,7 +21,7 @@ const PROMISES = [
 
 export function CasesSection() {
   return (
-    <section className="bg-[var(--brand-page)] px-[5%] py-24">
+    <section id="resultados" className="bg-[var(--brand-page)] px-[5%] py-24">
       <div className="max-w-[1040px] mx-auto">
         <SectionHeader
           label="RESULTADOS"

@@ -24,13 +24,13 @@ export function Footer() {
           <div className="flex gap-15 flex-wrap" style={{ gap: 60 }}>
             <div>
               <div className="text-[11px] font-semibold tracking-widest text-white/30 uppercase mb-4">
-                Método
+                Navegação
               </div>
               <a
                 href="#metodo"
                 className="block text-[13px] text-white/50 mb-2.5 hover:text-white/80 transition-colors"
               >
-                ORDEM™
+                Método ORDEM™
               </a>
               <a
                 href="#produtos"
@@ -42,7 +42,13 @@ export function Footer() {
                 href="#diagnostico"
                 className="block text-[13px] text-white/50 mb-2.5 hover:text-white/80 transition-colors"
               >
-                Índice
+                Índice ORDEM™
+              </a>
+              <a
+                href="#faq"
+                className="block text-[13px] text-white/50 mb-2.5 hover:text-white/80 transition-colors"
+              >
+                FAQ
               </a>
             </div>
 
