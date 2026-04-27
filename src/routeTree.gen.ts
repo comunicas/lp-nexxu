@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicSendDiagnosticoRouteImport } from './routes/api/public/send-diagnostico'
 
 const DiagnosticoRoute = DiagnosticoRouteImport.update({
   id: '/diagnostico',
@@ -28,35 +29,54 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicSendDiagnosticoRoute =
+  ApiPublicSendDiagnosticoRouteImport.update({
+    id: '/api/public/send-diagnostico',
+    path: '/api/public/send-diagnostico',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/design-system' | '/diagnostico'
+  fullPaths:
+    | '/'
+    | '/design-system'
+    | '/diagnostico'
+    | '/api/public/send-diagnostico'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/design-system' | '/diagnostico'
-  id: '__root__' | '/' | '/design-system' | '/diagnostico'
+  to: '/' | '/design-system' | '/diagnostico' | '/api/public/send-diagnostico'
+  id:
+    | '__root__'
+    | '/'
+    | '/design-system'
+    | '/diagnostico'
+    | '/api/public/send-diagnostico'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DesignSystemRoute: typeof DesignSystemRoute
   DiagnosticoRoute: typeof DiagnosticoRoute
+  ApiPublicSendDiagnosticoRoute: typeof ApiPublicSendDiagnosticoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/send-diagnostico': {
+      id: '/api/public/send-diagnostico'
+      path: '/api/public/send-diagnostico'
+      fullPath: '/api/public/send-diagnostico'
+      preLoaderRoute: typeof ApiPublicSendDiagnosticoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +116,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DesignSystemRoute: DesignSystemRoute,
   DiagnosticoRoute: DiagnosticoRoute,
+  ApiPublicSendDiagnosticoRoute: ApiPublicSendDiagnosticoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
