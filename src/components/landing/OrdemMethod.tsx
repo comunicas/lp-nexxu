@@ -129,6 +129,14 @@ export function OrdemMethod() {
           <p className="text-[15px] text-[var(--brand-muted)] leading-relaxed m-0">{cur.desc}</p>
         </div>
 
+        <div className="mb-10 p-5 rounded-2xl border border-[rgba(83,74,183,0.15)] bg-[rgba(83,74,183,0.03)] max-w-[600px]">
+          <p className="text-sm text-[var(--brand-muted)] leading-relaxed m-0">
+            <span className="font-semibold text-[var(--brand-text)]">A sequência é sempre a mesma.</span>{" "}
+            O que muda é quem executa — você com nossa orientação, ou a gente lado a lado com o seu time.{" "}
+            <span className="text-[var(--brand-purple)] font-medium">A conversa de diagnóstico define isso.</span>
+          </p>
+        </div>
+
         <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
           {TIMELINE.map((t) => (
             <div
