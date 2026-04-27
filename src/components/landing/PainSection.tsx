@@ -45,6 +45,16 @@ export function PainSection() {
           description="Se você chegou até aqui, provavelmente já tentou de tudo. Ferramenta nova. Novo funcionário. Talvez até IA. O problema não é você — é a sequência errada."
         />
 
+        <div className="mb-12 max-w-[640px]">
+          <p className="text-[15px] text-[var(--brand-muted)] leading-relaxed">
+            Tem um perfil que a gente vê toda semana.{" "}
+            <span className="font-bold text-[var(--brand-text)]">Chamamos de Bombeiro-Chefe.</span>{" "}
+            É dono. É competente. Trabalha mais que todo o time junto.
+            E está preso na operação porque ninguém montou o sistema ainda.
+            Você se reconhece em algum desses?
+          </p>
+        </div>
+
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {PAINS.map((p) => (
             <div
