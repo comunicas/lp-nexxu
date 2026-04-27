@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicSendDiagnosticoRouteImport } from './routes/api/public/send-diagnostico'
 
@@ -22,6 +23,11 @@ const DiagnosticoRoute = DiagnosticoRouteImport.update({
 const DesignSystemRoute = DesignSystemRouteImport.update({
   id: '/design-system',
   path: '/design-system',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -38,12 +44,14 @@ const ApiPublicSendDiagnosticoRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
@@ -51,6 +59,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
@@ -59,14 +68,21 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/design-system'
     | '/diagnostico'
     | '/api/public/send-diagnostico'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/design-system' | '/diagnostico' | '/api/public/send-diagnostico'
+  to:
+    | '/'
+    | '/admin'
+    | '/design-system'
+    | '/diagnostico'
+    | '/api/public/send-diagnostico'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/design-system'
     | '/diagnostico'
     | '/api/public/send-diagnostico'
@@ -74,6 +90,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   DesignSystemRoute: typeof DesignSystemRoute
   DiagnosticoRoute: typeof DiagnosticoRoute
   ApiPublicSendDiagnosticoRoute: typeof ApiPublicSendDiagnosticoRoute
@@ -95,6 +112,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DesignSystemRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -114,6 +138,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   DesignSystemRoute: DesignSystemRoute,
   DiagnosticoRoute: DiagnosticoRoute,
   ApiPublicSendDiagnosticoRoute: ApiPublicSendDiagnosticoRoute,
@@ -121,3 +146,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
