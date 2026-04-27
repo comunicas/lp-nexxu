@@ -96,14 +96,14 @@ export function OrdemMethod() {
                 "w-[72px] h-[72px] rounded-3xl border-0 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-0.5 font-display",
                 active === i
                   ? "bg-brand-gradient shadow-brand-glow-sm"
-                  : "bg-[rgba(83,74,183,0.08)] hover:bg-[rgba(83,74,183,0.15)]",
+                  : "bg-[rgba(83,74,183,0.12)] hover:bg-[rgba(83,74,183,0.22)] hover:shadow-brand-glow-sm",
               )}
               aria-pressed={active === i}
             >
               <span
                 className={cn(
                   "text-[26px] font-extrabold leading-none",
-                  active === i ? "text-white" : "text-[var(--brand-purple)]",
+                  active === i ? "text-white" : "text-[var(--brand-purple-deep)]",
                 )}
               >
                 {l.letter}
@@ -111,7 +111,7 @@ export function OrdemMethod() {
               <span
                 className={cn(
                   "text-[9px] font-semibold tracking-wide uppercase",
-                  active === i ? "text-white/80" : "text-[#8880C0]",
+                  active === i ? "text-white/80" : "text-[var(--brand-purple-mid)]",
                 )}
               >
                 {l.short}
@@ -121,7 +121,7 @@ export function OrdemMethod() {
         </div>
 
         <div
-          className="max-w-[600px] mx-auto px-9 py-8 rounded-[28px] bg-white border border-[rgba(83,74,183,0.2)] text-center"
+          className="max-w-[600px] mx-auto px-8 py-6 rounded-[28px] bg-white border border-[rgba(83,74,183,0.2)] text-center"
           style={{ boxShadow: "0 0 40px rgba(83,74,183,.1)", marginBottom: 60 }}
         >
           <div className="grad-text text-5xl font-black leading-none mb-1.5">{cur.letter}</div>
@@ -129,7 +129,7 @@ export function OrdemMethod() {
           <p className="text-[15px] text-[var(--brand-muted)] leading-relaxed m-0">{cur.desc}</p>
         </div>
 
-        <div className="mb-10 p-5 rounded-2xl border border-[rgba(83,74,183,0.15)] bg-[rgba(83,74,183,0.03)] max-w-[600px]">
+        <div className="mb-10 mx-auto p-5 rounded-2xl border border-[rgba(83,74,183,0.15)] bg-[rgba(83,74,183,0.03)] max-w-[600px]">
           <p className="text-sm text-[var(--brand-muted)] leading-relaxed m-0">
             <span className="font-semibold text-[var(--brand-text)]">
               A sequência é sempre essa.
