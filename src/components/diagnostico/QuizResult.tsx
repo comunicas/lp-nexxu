@@ -222,6 +222,70 @@ export function QuizResult({ answers, onRestart }: Props) {
           </div>
         </div>
 
+        {formState !== "success" ? (
+          <div className="bg-white border border-[rgba(83,74,183,0.12)] rounded-3xl p-7 md:p-9 mb-8 shadow-[var(--shadow-card)]">
+            <p className="section-label text-[var(--brand-purple)] mb-3">RECEBA O PDF COMPLETO</p>
+            <h3 className="font-display font-extrabold text-[22px] md:text-[24px] text-[var(--brand-text)] leading-tight mb-2">
+              Enviaremos o diagnóstico no seu email.
+            </h3>
+            <p className="text-[14px] text-[var(--brand-muted)] mb-6 leading-relaxed">
+              Análise completa + recomendação de produto + próximos passos. Sem spam.
+            </p>
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <input
+                type="text"
+                placeholder="Seu nome"
+                value={formData.name}
+                onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-[rgba(83,74,183,0.2)] text-[var(--brand-text)] text-[14px] outline-none focus:border-[var(--brand-purple)] transition-colors bg-[var(--brand-page)]"
+              />
+              <input
+                type="email"
+                placeholder="Seu email"
+                value={formData.email}
+                onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-[rgba(83,74,183,0.2)] text-[var(--brand-text)] text-[14px] outline-none focus:border-[var(--brand-purple)] transition-colors bg-[var(--brand-page)]"
+              />
+              <input
+                type="tel"
+                placeholder="WhatsApp (opcional)"
+                value={formData.whatsapp}
+                onChange={(e) => setFormData((p) => ({ ...p, whatsapp: e.target.value }))}
+                className="w-full px-4 py-3 rounded-xl border border-[rgba(83,74,183,0.2)] text-[var(--brand-text)] text-[14px] outline-none focus:border-[var(--brand-purple)] transition-colors bg-[var(--brand-page)]"
+              />
+              {formError && (
+                <p className="text-[13px] text-red-600 font-medium">{formError}</p>
+              )}
+              <button
+                type="submit"
+                disabled={formState === "loading"}
+                className="w-full px-5 py-3.5 rounded-xl bg-brand-gradient text-white text-[14px] font-bold font-display transition-opacity hover:opacity-90 disabled:opacity-60"
+              >
+                {formState === "loading" ? "Enviando..." : "Receber diagnóstico completo →"}
+              </button>
+              <p className="text-[12px] text-[var(--brand-muted)] text-center pt-1">
+                Gratuito. Sem spam. Usado apenas pela Nexxu.
+              </p>
+            </form>
+          </div>
+        ) : (
+          <div className="bg-white border border-[rgba(93,202,165,0.4)] rounded-3xl p-8 md:p-10 mb-8 shadow-[var(--shadow-card)] text-center">
+            <div className="w-14 h-14 rounded-full bg-[#5DCAA5] text-white text-2xl font-bold flex items-center justify-center mx-auto mb-4">
+              ✓
+            </div>
+            <h3 className="font-display font-extrabold text-[22px] text-[var(--brand-text)] mb-2">
+              PDF enviado!
+            </h3>
+            <p className="text-[14px] text-[var(--brand-muted)] leading-relaxed">
+              Verifique <span className="font-semibold text-[var(--brand-text)]">{formData.email}</span>.
+              <br />
+              Se não chegar em 5 minutos, confira o spam.
+            </p>
+          </div>
+        )}
+
         <div className="text-center">
           <button
             type="button"
