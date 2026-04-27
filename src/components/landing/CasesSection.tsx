@@ -1,26 +1,21 @@
+import { Link } from "@tanstack/react-router";
 import { SectionHeader } from "@/components/ui-nexxu/SectionHeader";
 
 const PROMISES = [
   {
-    icon: "🗓️",
     stat: "30 dias",
-    label: "para saber onde está o problema de verdade",
-    detail:
-      "Mapa de processos completo. Gargalos identificados. Pela primeira vez, você para de operar no achismo.",
+    label: "você sai do achismo",
+    detail: "Processos mapeados. Gargalos no papel. Pela primeira vez, uma decisão com dado.",
   },
   {
-    icon: "🔁",
     stat: "60 dias",
-    label: "para o time operar sem depender de você",
-    detail:
-      "Rotinas documentadas e ativas. O time resolve. Você aprova só o que importa.",
+    label: "o time opera. você respira.",
+    detail: "Rotinas rodando. Time resolve. Você aprova só o que importa.",
   },
   {
-    icon: "📈",
     stat: "90 dias",
-    label: "para a empresa funcionar sem você no centro",
-    detail:
-      "Decisões com dado. Processos rodando. Dono lidera — não opera. IA amplificando o que já funciona.",
+    label: "dono lidera. empresa roda.",
+    detail: "Empresa funciona. Dono lidera. IA amplificando — não consertando.",
   },
 ];
 
@@ -31,18 +26,23 @@ export function CasesSection() {
         <SectionHeader
           label="RESULTADOS"
           labelColor="var(--brand-blue)"
-          title="O que muda de verdade"
-          description="Não prometemos milagre de faturamento. Prometemos que sua empresa para de depender de você para funcionar."
+          title="Sua empresa para de depender de você."
+          description="Não prometemos milagre de faturamento. Prometemos isso."
         />
 
         <div className="grid gap-5 grid-cols-1 md:grid-cols-3">
           {PROMISES.map((p) => (
             <div
               key={p.stat}
-              className="p-8 rounded-[28px] bg-white border border-[rgba(93,202,165,0.2)]"
+              className="relative p-8 rounded-[28px] bg-white border border-[rgba(93,202,165,0.2)] overflow-hidden"
               style={{ boxShadow: "0 2px 16px rgba(0,0,0,.05)" }}
             >
-              <div className="text-3xl mb-4">{p.icon}</div>
+              {/* linha decorativa teal no topo */}
+              <div
+                className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[28px]"
+                style={{ background: "var(--brand-teal)" }}
+                aria-hidden
+              />
               <div className="text-[52px] font-black text-[var(--brand-teal)] tracking-tight leading-none mb-1.5">
                 {p.stat}
               </div>
@@ -52,6 +52,19 @@ export function CasesSection() {
               </p>
             </div>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Link
+            to="/diagnostico"
+            className="inline-flex items-center justify-center gap-2 font-display font-bold transition-all duration-200 px-7 py-3.5 rounded-2xl text-white text-[15px] bg-brand-gradient hover:-translate-y-0.5"
+            style={{ boxShadow: "0 0 28px rgba(93,202,165,.45)" }}
+          >
+            Descobrir meu nível operacional →
+          </Link>
+          <p className="text-[12px] text-[var(--brand-subtle)] mt-3">
+            Gratuito. 3 minutos. Resultado imediato.
+          </p>
         </div>
       </div>
     </section>
