@@ -15,20 +15,17 @@ export function Hero() {
 
       <div className="relative z-[2] max-w-[780px] mx-auto">
         <div className="mb-8">
-          <Badge variant="hero">Para donos que já tentaram de tudo — inclusive IA</Badge>
+          <Badge variant="hero">Você não é o problema. O processo é.</Badge>
         </div>
 
         <h1 className="grad-text-hero text-[clamp(44px,6vw,80px)] font-extrabold leading-[1.05] tracking-tight mb-6">
-          Você não tem
+          Esforço não falta.
           <br />
-          problema de esforço.
-          <br />
-          Tem problema de processo.
+          Processo falta.
         </h1>
 
         <p className="text-[clamp(16px,2vw,20px)] text-white/60 leading-relaxed mb-11 max-w-[540px] mx-auto">
-          Em 90 dias, você para de ser o gargalo da sua própria empresa. Processo primeiro. IA
-          depois — quando vale a pena usar.
+          Em 90 dias, sua empresa funciona sem você no centro.
         </p>
 
         <div className="flex gap-3.5 justify-center flex-wrap mb-14">
