@@ -21,11 +21,11 @@ const PRODUCTS: Product[] = [
     step: 1,
     category: "Diagnóstico",
     verb: "Mapear",
-    promise: "Você sai sabendo onde está o problema — e o que fazer primeiro.",
+    promise: "Você sai sabendo exatamente onde o negócio trava — e por onde começar.",
     duration: "45 dias",
     scope: "1 a 3 processos",
     items: [
-      "Processos mapeados no papel",
+      "Processos críticos mapeados no papel",
       "Gargalos identificados com clareza",
       "Plano de ação priorizado",
       "Índice ORDEM™ calculado",
@@ -36,11 +36,11 @@ const PRODUCTS: Product[] = [
     step: 2,
     category: "Mentoria",
     verb: "Estruturar",
-    promise: "Seu time ganha rotina e indicadores reais para decidir.",
+    promise: "Seu time passa a operar sem precisar de você em tudo.",
     duration: "6 meses",
     scope: "2 a 4 processos",
     items: [
-      "Rotinas documentadas e ativas",
+      "Rotinas documentadas e rodando",
       "Time opera sem depender de você",
       "Indicadores reais para decisão",
       "Suporte direto nas travadas",
@@ -51,14 +51,14 @@ const PRODUCTS: Product[] = [
     step: 3,
     category: "Implementação",
     verb: "Implementar",
-    promise: "Sua operação para de depender de você ao final do ciclo.",
+    promise: "A Nexxu implementa junto. Você acompanha. A operação para de depender de você.",
     duration: "6 meses",
     scope: "4 a 7 processos",
     items: [
-      "Implementação lado a lado com o time",
-      "IA onde faz sentido — não por hype",
-      "Automações que reduzem retrabalho",
-      "Operação autônoma ao final do ciclo",
+      "Implementação lado a lado com seu time",
+      "IA aplicada onde faz sentido — não por hype",
+      "Automações que eliminam retrabalho",
+      "Operação autônoma ao fim do ciclo",
     ],
     accent: "linear-gradient(90deg,#185fa5,#534ab7)",
     featured: true,
@@ -67,14 +67,14 @@ const PRODUCTS: Product[] = [
     step: 4,
     category: "Serviço",
     verb: "Terceirizar",
-    promise: "A Nexxu opera junto ao seu time. Você lidera, a gente executa.",
+    promise: "A Nexxu assume a execução. Você só lidera.",
     duration: "6 meses",
     scope: "7+ processos",
     items: [
       "Nexxu opera junto ao seu time",
-      "Transformação completa da operação",
+      "Transformação completa em 6 meses",
       "IA e automação em escala real",
-      "Você lidera — a gente executa",
+      "Zero operacional nas suas costas",
     ],
     accent: "var(--brand-dark)",
   },
@@ -142,7 +142,7 @@ function ProductCard({ p }: { p: Product }) {
         </h3>
 
         {/* promessa */}
-        <p className="text-[14px] leading-relaxed text-[var(--brand-muted)] mb-5 min-h-[60px]">
+        <p className="text-[14px] leading-relaxed text-[var(--brand-muted)] mb-5">
           {p.promise}
         </p>
 
@@ -182,9 +182,9 @@ function ProductCard({ p }: { p: Product }) {
           ) : (
             <Link
               to="/diagnostico"
-              className="inline-flex items-center gap-1.5 font-display font-bold text-[13.5px] text-[var(--brand-purple)] transition-all duration-200 hover:gap-2.5"
+              className="inline-flex w-full items-center justify-center gap-1.5 font-display font-bold text-[13.5px] text-[var(--brand-purple)] border border-[rgba(83,74,183,0.3)] rounded-xl px-5 py-2.5 transition-all duration-200 hover:bg-[rgba(83,74,183,0.05)] hover:border-[rgba(83,74,183,0.5)]"
             >
-              Quero esse <span aria-hidden>→</span>
+              Quero esse caminho →
             </Link>
           )}
         </div>
@@ -212,13 +212,23 @@ export function Products() {
 
         {/* indicador de progressão */}
         <div className="flex items-center justify-center gap-2 mb-10">
-          {[1, 2, 3, 4].map((n) => (
+          {[
+            { n: 1, label: "Diagnóstico" },
+            { n: 2, label: "Mentoria" },
+            { n: 3, label: "Implementação" },
+            { n: 4, label: "Serviço" },
+          ].map(({ n, label }) => (
             <div key={n} className="flex items-center gap-2">
-              <span className="text-[11px] font-bold tracking-widest text-[var(--brand-subtle)]">
-                0{n}
-              </span>
+              <div className="flex flex-col items-center gap-0.5">
+                <span className="text-[10px] font-extrabold tracking-widest text-[var(--brand-purple)]">
+                  0{n}
+                </span>
+                <span className="text-[9px] font-medium text-[var(--brand-subtle)] tracking-wide hidden sm:block">
+                  {label}
+                </span>
+              </div>
               {n < 4 && (
-                <span className="w-8 h-px bg-[var(--brand-subtle)]/30" aria-hidden />
+                <span className="w-8 h-px bg-[var(--brand-purple)]/20" aria-hidden />
               )}
             </div>
           ))}
@@ -232,7 +242,7 @@ export function Products() {
 
         <div className="text-center mt-12">
           <p className="text-[14px] text-[var(--brand-muted)] mb-4">
-            Não sabe qual caminho? Comece pelo diagnóstico.
+            Não sabe por onde começar? O diagnóstico define isso.
           </p>
           <Link
             to="/diagnostico"
