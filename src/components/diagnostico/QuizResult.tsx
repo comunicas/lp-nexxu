@@ -384,14 +384,14 @@ export function QuizResult({ answers, onRestart }: Props) {
               background: "linear-gradient(135deg, rgba(24,95,165,0.05), rgba(83,74,183,0.08))",
             }}
           >
-            <p className="section-label text-[var(--brand-purple)] mb-3">PRÓXIMO PASSO</p>
-            <h3 className="font-display font-extrabold text-[24px] md:text-[28px] text-[var(--brand-text)] leading-tight mb-4">
+            <p className="section-label text-[var(--brand-purple)] mb-3 text-center sm:text-left">PRÓXIMO PASSO</p>
+            <h3 className="font-display font-extrabold text-[24px] md:text-[28px] text-[var(--brand-text)] leading-tight mb-4 text-center sm:text-left">
               {level.recommendedTier}
             </h3>
-            <p className="text-[15px] md:text-[16px] text-[var(--brand-text)]/80 leading-relaxed mb-6">
+            <p className="text-[15px] md:text-[16px] text-[var(--brand-text)]/80 leading-relaxed mb-6 text-center sm:text-left">
               {level.recommendation}
             </p>
-            <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4">
+            <div className="flex flex-col items-center sm:items-center sm:flex-row sm:flex-wrap sm:justify-start gap-3 sm:gap-4">
               <Button
                 as="a"
                 variant="primary"
