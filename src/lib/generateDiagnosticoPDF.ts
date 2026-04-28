@@ -191,6 +191,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 10;
 
   // ── BREAKDOWN POR PILAR ──────────────────────────────────
+  ensureSpace(20 + 16 * 5);
   doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
   setColor("#1A1520");
