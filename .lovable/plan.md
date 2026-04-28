@@ -1,32 +1,36 @@
-# Criar usuários admin via server route
+# Login admin sem email — link gerado na própria tela
 
-## O que será feito
+## Arquivos
 
-Criar uma server route TanStack temporária que usa a Admin API do Supabase (com `SUPABASE_SERVICE_ROLE_KEY`) para criar os 2 usuários admin de uma só vez. Como o trigger `grant_admin_to_whitelist` só dispara em login, a route também garante a role `admin` na tabela `user_roles` via upsert.
+### 1. Criar `src/utils/admin-auth.functions.ts`
 
-## Arquivo a criar
+Server function `generateAdminMagicLink({ email })`:
+- Valida que `email` está na whitelist `["rbruno@nexxulab.com", "fhorita@nexxulab.com"]` (rejeita qualquer outro)
+- Usa `SUPABASE_SERVICE_ROLE_KEY` (somente server) para chamar `admin.auth.admin.generateLink({ type: 'magiclink', email })`
+- Retorna `{ success: true, actionLink }` ou `{ success: false, error }`
 
-**`src/routes/api/public/setup-admins.ts`** — server route POST que, para cada email da whitelist (`rbruno@nexxulab.com`, `fhorita@nexxulab.com`):
+### 2. Editar `src/routes/admin.tsx`
 
-1. Chama `admin.auth.admin.createUser({ email, email_confirm: true })` (sem senha — eles entrarão via magic link)
-2. Se já existir, busca o `user_id` via `listUsers`
-3. Faz `upsert` em `user_roles` com role `admin` (idempotente, on conflict do nothing)
-4. Retorna JSON com status de cada email
+Substituir o formulário de email atual por **2 botões fixos** (um para cada admin):
 
-## Como executar
+- "Entrar como rbruno@nexxulab.com"
+- "Entrar como fhorita@nexxulab.com"
 
-Após criação, eu chamo a route uma vez via `curl_edge_functions`/fetch interno. Depois:
-- Você confere o resultado (devem aparecer como `created` ou `already_existed_role_ok`)
-- **Apago a route** (`src/routes/api/public/setup-admins.ts`) para não ficar exposta
+Ao clicar:
+1. Estado `loading` no botão clicado
+2. Chama `generateAdminMagicLink({ data: { email } })`
+3. Se sucesso → `window.location.href = actionLink` (redireciona pro link, que loga e volta pra `/admin`)
+4. Se erro → exibe mensagem
+
+Remove os states `loginEmail`, `sendMagicLink` e o estado `"sent"` (não precisa mais aguardar email).
 
 ## Segurança
 
-A route fica em `/api/public/*` (pública), mas:
-- É temporária — apagada logo após uso
-- Whitelist hardcoded — só cria esses 2 emails específicos, nada mais
-- Signup público já está desabilitado no Supabase Auth
-- Não recebe input do caller
+- `SUPABASE_SERVICE_ROLE_KEY` nunca sai do servidor (server function)
+- Whitelist hardcoded valida no servidor — mesmo que alguém chame a função direto via DevTools, só funciona pros 2 emails
+- Página continua `noindex, nofollow`
+- Signup público segue desabilitado
 
-## Resultado esperado
+## Resultado
 
-Após a execução, os 2 emails existem em `auth.users` (confirmados) e têm role `admin` em `user_roles`. Eles podem ir em `/admin`, pedir magic link e entrar direto no dashboard.
+Você abre `/admin`, clica no seu nome, ~1s depois está logado no dashboard. Sem email envolvido.
