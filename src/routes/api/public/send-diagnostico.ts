@@ -166,6 +166,45 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
               .eq("id", lead.id);
           }
 
+          // 4. Notificar admins (não bloqueia resposta em caso de falha)
+          try {
+            const adminEmailPayload = {
+              from: "Nexxu Sistema <diagnostico@nexxulab.com>",
+              to: ["rbruno@nexxulab.com", "fhorita@nexxulab.com"],
+              subject: `🔔 Novo lead: ${name} — Nível ${nivel} (${nivelNome})`,
+              html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+                  <div style="background: #0B0B14; padding: 24px; text-align: center;">
+                    <h1 style="color: #ffffff; margin: 0; font-size: 20px;">🔔 Novo diagnóstico recebido</h1>
+                  </div>
+                  <div style="padding: 32px;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">NOME</td><td style="padding: 8px 0; color: #1a1a2e; font-weight: 600;">${name}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">EMAIL</td><td style="padding: 8px 0; color: #1a1a2e;">${email}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">WHATSAPP</td><td style="padding: 8px 0; color: #1a1a2e;">${whatsapp || "—"}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">NÍVEL</td><td style="padding: 8px 0; color: #1a1a2e; font-weight: 600;">${nivel} — ${nivelNome}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">SCORE</td><td style="padding: 8px 0; color: #1a1a2e;">${score}/${scoreMax} (${scorePct}%)</td></tr>
+                    </table>
+                    <div style="text-align: center; margin: 32px 0 0;">
+                      <a href="https://nexxulab.com/admin" style="display: inline-block; background: linear-gradient(135deg, #185FA5, #534AB7); color: #ffffff; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: bold;">Ver no painel →</a>
+                    </div>
+                  </div>
+                </div>
+              `,
+            };
+
+            await fetch("https://api.resend.com/emails", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${RESEND_API_KEY}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(adminEmailPayload),
+            });
+          } catch (notifyErr) {
+            console.error("admin notify error:", notifyErr);
+          }
+
           return new Response(JSON.stringify({ success: true }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" },
           });
