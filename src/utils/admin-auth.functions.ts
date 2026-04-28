@@ -25,6 +25,9 @@ export const generateAdminMagicLink = createServerFn({ method: "POST" })
     const { data: linkData, error } = await admin.auth.admin.generateLink({
       type: "magiclink",
       email: data.email,
+      options: {
+        redirectTo: "https://nexxulab.com/admin",
+      },
     });
 
     if (error || !linkData?.properties?.action_link) {
