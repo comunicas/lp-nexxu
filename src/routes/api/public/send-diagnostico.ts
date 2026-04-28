@@ -60,6 +60,7 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
             scorePct,
             answers,
             pillarBreakdown,
+            aiRecommendations,
             pdfBase64,
           } = body;
 
