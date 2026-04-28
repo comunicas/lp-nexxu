@@ -34,8 +34,10 @@ type DiagnosticoPDFData = {
 export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   const W = 210;
+  
   const margin = 20;
   const contentW = W - margin * 2;
+  const bottomLimit = 270; // leave room for footer (footer at 280)
   let y = 0;
 
   // ── Helpers ──────────────────────────────────────────────
@@ -71,6 +73,28 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
     const lines = doc.splitTextToSize(text, maxWidth);
     doc.text(lines, x, yPos);
     return yPos + lines.length * lineHeight;
+  };
+
+  const drawFooter = () => {
+    setFillColor("#F0EFFE");
+    doc.rect(0, 280, W, 17, "F");
+    doc.setFontSize(8);
+    doc.setFont("helvetica", "normal");
+    setColor("#9090A8");
+    doc.text(
+      "nexxu · Criatividade. Processo. Tecnologia.  ·  nexxulab.com  ·  contato@nexxu.com.br",
+      W / 2,
+      289,
+      { align: "center" }
+    );
+  };
+
+  const ensureSpace = (needed: number) => {
+    if (y + needed > bottomLimit) {
+      drawFooter();
+      doc.addPage();
+      y = margin;
+    }
   };
 
   // ── HEADER ───────────────────────────────────────────────
@@ -152,11 +176,13 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 62;
 
   // ── HEADLINE + DESCRIÇÃO ─────────────────────────────────
+  ensureSpace(40);
   doc.setFontSize(13);
   doc.setFont("helvetica", "bold");
   setColor("#1A1520");
-  doc.text(data.nivelHeadline, margin, y);
-  y += 8;
+  const headlineLines = doc.splitTextToSize(data.nivelHeadline, contentW);
+  doc.text(headlineLines, margin, y);
+  y += headlineLines.length * 7 + 2;
 
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
@@ -165,6 +191,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 10;
 
   // ── BREAKDOWN POR PILAR ──────────────────────────────────
+  ensureSpace(20 + 16 * 5);
   doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
   setColor("#1A1520");
@@ -179,6 +206,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
 
   const pillars: Pillar[] = ["O", "R", "D", "E", "M"];
   pillars.forEach((p) => {
+    ensureSpace(16);
     const value = data.pillarBreakdown[p] ?? 0;
     const pct = Math.round((value / 8) * 100);
 
@@ -210,27 +238,37 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 4;
 
   // ── PRÓXIMO PASSO ─────────────────────────────────────────
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  const recLines = doc.splitTextToSize(data.nivelRecommendation, contentW - 12);
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "bold");
+  const tierLinesPre = doc.splitTextToSize(data.nivelRecommendedTier, contentW - 12);
+  const recBlockH = 14 + tierLinesPre.length * 6 + recLines.length * 4.5 + 6;
+  ensureSpace(recBlockH + 6);
+
   setFillColor("#F0EFFE");
   setDrawColor("#534AB7");
   doc.setLineWidth(0.4);
-  doc.roundedRect(margin, y, contentW, 38, 4, 4, "FD");
+  doc.roundedRect(margin, y, contentW, recBlockH, 4, 4, "FD");
 
   doc.setFontSize(8);
   doc.setFont("helvetica", "bold");
   setColor("#534AB7");
-  doc.text("PRÓXIMO PASSO RECOMENDADO", margin + 6, y + 10);
+  doc.text("PRÓXIMO PASSO RECOMENDADO", margin + 6, y + 8);
 
   doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
   setColor("#1A1520");
-  doc.text(data.nivelRecommendedTier, margin + 6, y + 20);
+  const tierLines = doc.splitTextToSize(data.nivelRecommendedTier, contentW - 12);
+  doc.text(tierLines, margin + 6, y + 17);
 
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
   setColor("#6B6580");
-  y = addWrappedText(data.nivelRecommendation, margin + 6, y + 27, contentW - 12, 4.5);
+  doc.text(recLines, margin + 6, y + 17 + tierLines.length * 6 + 2);
 
-  y += 14;
+  y += recBlockH + 8;
 
   // ── APRESENTAÇÃO DOS PRODUTOS ─────────────────────────────
   const products = [
@@ -242,6 +280,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
 
   const recommendedTierNum = data.nivel;
 
+  ensureSpace(14);
   doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
   setColor("#1A1520");
@@ -249,6 +288,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 10;
 
   products.forEach((prod, idx) => {
+    ensureSpace(26);
     const isRecommended = idx + 1 === recommendedTierNum;
 
     setFillColor(isRecommended ? "#0F0C1A" : "#F8F7FF");
@@ -283,6 +323,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 6;
 
   // ── CTA FINAL ─────────────────────────────────────────────
+  ensureSpace(20);
   setFillColor("#185FA5");
   doc.roundedRect(margin, y, contentW, 18, 3, 3, "F");
 
@@ -294,13 +335,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 26;
 
   // ── FOOTER ────────────────────────────────────────────────
-  setFillColor("#F0EFFE");
-  doc.rect(0, 280, W, 17, "F");
-
-  doc.setFontSize(8);
-  doc.setFont("helvetica", "normal");
-  setColor("#9090A8");
-  doc.text("nexxu · Criatividade. Processo. Tecnologia.  ·  nexxulab.com  ·  contato@nexxu.com.br", W / 2, 289, { align: "center" });
+  drawFooter();
 
   return doc.output("datauristring").split(",")[1]; // base64 puro
 }
