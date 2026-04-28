@@ -322,18 +322,6 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
 
   y += 6;
 
-  // ── CTA FINAL ─────────────────────────────────────────────
-  ensureSpace(20);
-  setFillColor("#185FA5");
-  doc.roundedRect(margin, y, contentW, 18, 3, 3, "F");
-
-  doc.setFontSize(11);
-  doc.setFont("helvetica", "bold");
-  setColor("#FFFFFF");
-  doc.text("Agende sua call de diagnóstico: nexxulab.com/diagnostico", W / 2, y + 11, { align: "center" });
-
-  y += 26;
-
   // ── FOOTER ────────────────────────────────────────────────
   drawFooter();
 
