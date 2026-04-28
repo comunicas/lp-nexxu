@@ -176,11 +176,13 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 62;
 
   // ── HEADLINE + DESCRIÇÃO ─────────────────────────────────
+  ensureSpace(40);
   doc.setFontSize(13);
   doc.setFont("helvetica", "bold");
   setColor("#1A1520");
-  doc.text(data.nivelHeadline, margin, y);
-  y += 8;
+  const headlineLines = doc.splitTextToSize(data.nivelHeadline, contentW);
+  doc.text(headlineLines, margin, y);
+  y += headlineLines.length * 7 + 2;
 
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
