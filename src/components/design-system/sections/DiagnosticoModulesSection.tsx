@@ -23,7 +23,7 @@ function QuestionDemo() {
 }
 
 function ResultDemo() {
-  // Mock answers — escolhe a opção 2 (score=2) em todas as 10 perguntas → score 20 (Reativo)
+  // Mock answers — escolhe a opção 2 (Neutro · score=3) em todas as 10 perguntas → ~50% (Organizada)
   const mockAnswers = QUESTIONS.map(() => 2);
   return <QuizResult answers={mockAnswers} onRestart={() => {}} />;
 }
