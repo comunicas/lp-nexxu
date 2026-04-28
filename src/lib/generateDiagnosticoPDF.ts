@@ -34,8 +34,10 @@ type DiagnosticoPDFData = {
 export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   const W = 210;
+  const H = 297;
   const margin = 20;
   const contentW = W - margin * 2;
+  const bottomLimit = 270; // leave room for footer (footer at 280)
   let y = 0;
 
   // ── Helpers ──────────────────────────────────────────────
