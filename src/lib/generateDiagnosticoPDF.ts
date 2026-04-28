@@ -239,7 +239,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
 
     doc.setFont("helvetica", "bold");
     setColor("#6B6580");
-    doc.text(`${value}/8`, W - margin, y + 4, { align: "right" });
+    doc.text(`${pct}%`, W - margin, y + 4, { align: "right" });
 
     // Barra de progresso (largura limitada para não invadir a coluna do valor)
     setFillColor("#E0DFF5");
