@@ -45,10 +45,10 @@ export function QuizIntro({ onStart }: Props) {
           </p>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {[
-              { num: "01", name: "Caos", color: "var(--brand-amber)", desc: "Opera no improviso total" },
-              { num: "02", name: "Reativo", color: "var(--brand-purple-mid)", desc: "Apaga incêndio com eficiência" },
-              { num: "03", name: "Estruturado", color: "var(--brand-blue)", desc: "Processos existem — mas não escalam" },
-              { num: "04", name: "Autônoma", color: "var(--brand-teal)", desc: "Empresa funciona sem o dono" },
+              { num: "01", name: "Caos", color: "var(--brand-amber)", desc: "0–25% · opera no improviso" },
+              { num: "02", name: "Organizada", color: "var(--brand-purple-mid)", desc: "26–50% · estrutura inicial, dono no centro" },
+              { num: "03", name: "Inteligente", color: "var(--brand-blue)", desc: "51–75% · dado e rotina, mas não escala sozinho" },
+              { num: "04", name: "Autônoma", color: "var(--brand-teal)", desc: "76–100% · empresa funciona sem o dono" },
             ].map((level) => (
               <div
                 key={level.num}
