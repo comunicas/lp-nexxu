@@ -238,8 +238,13 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 4;
 
   // ── PRÓXIMO PASSO ─────────────────────────────────────────
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
   const recLines = doc.splitTextToSize(data.nivelRecommendation, contentW - 12);
-  const recBlockH = 28 + recLines.length * 4.5 + 6;
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "bold");
+  const tierLinesPre = doc.splitTextToSize(data.nivelRecommendedTier, contentW - 12);
+  const recBlockH = 14 + tierLinesPre.length * 6 + recLines.length * 4.5 + 6;
   ensureSpace(recBlockH + 6);
 
   setFillColor("#F0EFFE");
