@@ -45,14 +45,52 @@ type DiagnosticoPDFData = {
   aiRecommendations?: AIRecommendationsData;
 };
 
+// Garante que um valor de maturidade esteja sempre num intervalo [0, 100] inteiro.
+// Aceita números fora da faixa (negativos, > 100), strings numéricas, NaN, null
+// ou undefined — tudo vira um inteiro coerente que a barra pode renderizar.
+const clampPct = (v: unknown): number => {
+  const n = typeof v === "number" ? v : Number(v);
+  if (!Number.isFinite(n)) return 0;
+  return Math.max(0, Math.min(100, Math.round(n)));
+};
+
+const sanitizePillarBreakdown = (
+  raw: Partial<Record<Pillar, unknown>> | null | undefined,
+): Record<Pillar, number> => {
+  const pillars: Pillar[] = ["O", "R", "D", "E", "M"];
+  const out = {} as Record<Pillar, number>;
+  pillars.forEach((p) => {
+    out[p] = clampPct(raw?.[p]);
+  });
+  return out;
+};
+
 export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   const W = 210;
-  
+
   const margin = 20;
   const contentW = W - margin * 2;
   const bottomLimit = 270; // leave room for footer (footer at 280)
   let y = 0;
+
+  // ── Validação / sanitização de dados de maturidade ────────
+  // Sempre operamos em escala 0–100 (%). Score "bruto" também é tratado como %.
+  const safePillarBreakdown = sanitizePillarBreakdown(data.pillarBreakdown);
+  const pillarValues = Object.values(safePillarBreakdown);
+  const computedAvg = pillarValues.length
+    ? Math.round(pillarValues.reduce((s, v) => s + v, 0) / pillarValues.length)
+    : 0;
+
+  // scorePct deve ser coerente com a média dos pilares. Se o caller passar um
+  // valor incoerente (ou nada), usamos a média calculada como fonte da verdade.
+  const incomingPct = clampPct(data.scorePct);
+  const safeScorePct =
+    Math.abs(incomingPct - computedAvg) > 1 ? computedAvg : incomingPct;
+
+  // score / scoreMax: garantimos scoreMax = 100 e score = scorePct (ambos em %).
+  const safeScoreMax = 100;
+  const safeScore = safeScorePct;
 
   // ── Helpers ──────────────────────────────────────────────
   const hex2rgb = (hex: string) => {
@@ -179,13 +217,13 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
   setColor("#6B6580");
-  doc.text(`${data.score}/${data.scoreMax} pontos  ·  ${data.scorePct}% de maturidade operacional`, margin + 10, y + 34);
+  doc.text(`${safeScore}/${safeScoreMax} pontos  ·  ${safeScorePct}% de maturidade operacional`, margin + 10, y + 34);
 
   // Barra de progresso
   setFillColor("#E0DFF5");
   doc.roundedRect(margin + 10, y + 40, contentW - 20, 4, 2, 2, "F");
   setFillColor(nivelColor);
-  doc.roundedRect(margin + 10, y + 40, (contentW - 20) * (data.scorePct / 100), 4, 2, 2, "F");
+  doc.roundedRect(margin + 10, y + 40, (contentW - 20) * (safeScorePct / 100), 4, 2, 2, "F");
 
   y += 62;
 
@@ -224,8 +262,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   const barW = contentW - valueColW;
   pillars.forEach((p) => {
     ensureSpace(16);
-    const value = data.pillarBreakdown[p] ?? 0;
-    const pct = Math.max(0, Math.min(100, Math.round(value)));
+    const pct = safePillarBreakdown[p];
 
     // Label
     doc.setFontSize(10);
