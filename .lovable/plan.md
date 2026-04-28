@@ -1,84 +1,84 @@
-## Reestruturar diagnóstico ORDEM™ para escala Likert 1–5
+## Recomendações personalizadas com IA após o Diagnóstico ORDEM™
 
-Substituir o sistema atual (10 perguntas com 4 alternativas únicas, score 0–4 cada, total 0–40) por uma escala Likert uniforme (1–5) com novos nomes de nível baseados em percentual.
+Adicionar geração de plano de ação personalizado via Lovable AI Gateway logo após o usuário ver o resultado do quiz. Implementado como **server route TanStack Start** (não Supabase Edge Function — este projeto não usa edge functions; segue o padrão de `send-diagnostico.ts`).
 
-### 1. Reescrever banco de perguntas e cálculo (`src/components/diagnostico/quizData.ts`)
+### 1. Novo endpoint: `src/routes/api/public/generate-recommendations.ts`
 
-**Novas perguntas** (2 por pilar, todas afirmativas, mesma escala Likert):
+**Contrato (input POST JSON):**
 
-- **O — Organização**
-  1. Os processos críticos da minha empresa estão mapeados e documentados.
-  2. Identificamos e priorizamos gargalos operacionais de forma sistemática.
-- **R — Rotinas**
-  3. Realizamos reuniões de gestão com pauta definida e decisões registradas.
-  4. Delego responsabilidades com padrão claro de entrega e acompanhamento.
-- **D — Dados**
-  5. Acompanho indicadores-chave (KPIs) do negócio regularmente.
-  6. Minhas decisões são baseadas em dados concretos, não apenas em intuição.
-- **E — Eficiência Inteligente**
-  7. Utilizo ferramentas de IA no meu dia a dia para aumentar a produtividade.
-  8. Já implementamos automações em processos-chave da empresa.
-- **M — Maturidade Operacional**
-  9. O negócio funciona bem mesmo quando não estou presente no operacional.
-  10. A empresa consegue crescer sem aumentar proporcionalmente o caos e a sobrecarga.
+```ts
+{
+  name: string;
+  overallScore: number;        // 0–100
+  maturityLevel: "Caos" | "Organizada" | "Inteligente" | "Autônoma";
+  pillarScores: Array<{ pillar: "O"|"R"|"D"|"E"|"M"; score: number; maxScore: number }>;
+}
+```
 
-**Escala única** (mesma para todas as 10 perguntas):
-1. Discordo totalmente
-2. Discordo
-3. Neutro
-4. Concordo
-5. Concordo totalmente
+**Output JSON:**
 
-**Modelo de cálculo:**
-- Score por pilar: soma das 2 respostas (mín 2, máx 10) → percentual = `((soma − 2) / 8) × 100`.
-- Índice geral: média dos percentuais dos 5 pilares (0–100%).
-- Compatibilidade com a UI/PDF/email atuais: `score` passa a ser o índice geral em pontos percentuais (0–100), `scoreMax = 100`, `scorePct = score`.
+```ts
+{
+  recommendations: Array<{ title: string; description: string; pillar: "O"|"R"|"D"|"E"|"M"; link?: string }>; // 4–5 itens
+  mentoriaCTA: { headline: string; justification: string; urgency: string };
+  summary: string;
+}
+```
 
-**Novos níveis (4) por percentual do índice geral:**
-| # | Nome | Faixa | Tier recomendado |
-|---|------|-------|------------------|
-| 01 | Caos | 0–25% | T1 — Diagnóstico ORDEM™ |
-| 02 | Organizada | 26–50% | T2 — Mentoria ORDEM™ |
-| 03 | Inteligente | 51–75% | T3 — Implementação ORDEM™ |
-| 04 | Autônoma | 76–100% | T4 — Serviço ORDEM™ |
+**Lógica do handler:**
 
-Reescrever `headline`, `desc`, `recommendation` para os novos rótulos (mantendo o tom atual). Cores/borders existentes ficam mapeadas: Caos=âmbar, Organizada=roxo, Inteligente=azul, Autônoma=teal.
+- `OPTIONS` para preflight + CORS completo (`Access-Control-Allow-Origin`, `Methods: POST, OPTIONS`, `Headers: Content-Type, Authorization, Origin`).
+- **Allowed origins:** validar header `Origin` contra lista (`*.lovable.app`, `*.lovable.dev`, `*.lovableproject.com`, `nexxulab.com`, `www.nexxulab.com`, `localhost:*`). Se inválido → 403.
+- **Validação de input** (manual, sem dependência nova): `name` 2–100 chars, `overallScore` 0–100, `pillarScores` array não vazio com pillars ∈ {O,R,D,E,M}. Erros → 400.
+- **Sanitizar `name**`: `name.replace(/[<>{}\[\]\\]/g, "").trim().slice(0, 100)`.
+- **Rate limit**: 5 req/min por IP, em helper compartilhado `**src/lib/rate-limiter.ts**` (Map em memória com janela deslizante, `(ip, route) → timestamps[]`). IP via `getRequestHeader("x-forwarded-for")` ou `cf-connecting-ip`. Excedido → 429.
+- **Calcular 3 pilares mais fracos** ordenando `score/maxScore` ascendente.
+- Verificar `LOVABLE_API_KEY` (já existe em secrets). Ausente → 503.
+- **Chamar Lovable AI Gateway** (`POST https://ai.gateway.lovable.dev/v1/chat/completions`) com `Authorization: Bearer ${LOVABLE_API_KEY}`.
+  - Modelo: `google/gemini-2.5-flash` (boa relação custo × qualidade para JSON estruturado).
+  - **Tool calling** (não pedir JSON em texto livre) com schema da resposta — function `emit_recommendations` com `parameters` espelhando o output. `tool_choice` forçado nessa função.
+  - System prompt conforme spec do usuário (mentor ORDEM™, comunicação direta, descrição dos 5 pilares e dos 4 níveis, regras: priorizar 3 pilares mais fracos, recomendações acionáveis "esta semana").
+  - User prompt: nome sanitizado, score geral, nível, breakdown por pilar com %, lista explícita dos 3 pilares mais fracos.
+- **Tratamento de erros do gateway:**
+  - 429 → `{ error: "Rate limit exceeded. Tente novamente em alguns segundos." }` status 429.
+  - 402 → `{ error: "Créditos insuficientes para gerar recomendações." }` status 402.
+  - Outros → 502 com mensagem genérica.
+- **Parse robusto:** preferir `tool_calls[0].function.arguments` (JSON.parse). Fallback: extrair de bloco `json ...`  ou JSON solto em `choices[0].message.content`.
+- **Fallback estático** se o parse falhar: gerar recomendações pré-definidas baseadas nos 3 pilares mais fracos (mapa pillar → recomendação template) + CTA padrão para Mentoria ORDEM™ + summary genérico. Garante que o usuário sempre vê algo.
+- **Logs:** apenas `console.error` para falhas técnicas, sem dados pessoais (nunca logar `name`, score do usuário, etc.). Logar status do gateway, IP truncado, mensagem de erro.
 
-**API mantida:** `QUESTIONS`, `LEVELS`, `getLevel(scorePct)`, `getPillarBreakdown(answers)` (retorna percentuais 0–100 por pilar), `MAX_SCORE = 100`. As opções continuam tendo `score` (agora 1–5) para o cálculo interno.
+### 2. Helper de rate limiting: `src/lib/rate-limiter.ts`
 
-### 2. Ajustar `QuizResult.tsx`
+Função `checkRateLimit(key: string, limit: number, windowMs: number): { allowed: boolean; retryAfter?: number }`. Map em memória escopado ao módulo (Worker dura o suficiente entre requests para casos comuns; aceitável para MVP). Usado por `key = \`${ip}:generate-recommendations`.
 
-- Calcular percentual por pilar (média ponderada → `((soma − 2)/8) × 100`).
-- `score` passa a ser o índice geral em % (inteiro), `MAX_SCORE = 100`, `pct = score`.
-- Card principal: trocar “{score}/{MAX_SCORE} PONTOS” por “{score}% DE MATURIDADE”.
-- Breakdown por pilar: trocar “Cada pilar vale até 8 pontos (2 perguntas)” por “Cada pilar vale 0–100% (média de 2 perguntas)” e exibir “{value}%” em vez de “{value}/8”.
-- Continuar enviando `score`, `scoreMax`, `scorePct` no payload (todos coerentes com 0–100).
+### 3. Integração no `QuizResult.tsx`
 
-### 3. Ajustar `QuizIntro.tsx` e `IndiceSection.tsx`
+Após o usuário responder as 10 perguntas (componente já renderiza com `answers`), **antes do formulário de email** mostrar uma nova seção "Plano de ação personalizado":
 
-- Atualizar os 4 cards de nível para os novos nomes/descrições: **Caos**, **Organizada**, **Inteligente**, **Autônoma**.
-- Manter as cores existentes (âmbar/roxo/azul/teal).
-- Atualizar copy curta de cada nível para refletir o novo significado (foco em maturidade, não só em caos→escala).
+- Estado: `aiState: "loading" | "ready" | "error"`, `aiData: typeof Output | null`.
+- `useEffect` no mount do `QuizResult`: chamar `POST /api/public/generate-recommendations` com:
+  - `name: "Visitante"` (ainda não temos nome — será atualizado se quisermos refazer após submit; MVP usa "Visitante" para gerar imediatamente).
+  - `overallScore: score`, `maturityLevel: level.name`, `pillarScores: [{pillar:"O", score: breakdown.O, maxScore: 100}, ...]`.
+- Exibir skeleton/loader enquanto `loading`.
+- Renderizar:
+  - **Cards das 4–5 recomendações** (título + descrição + badge do pilar).
+  - `**summary**` como frase de impacto destacada acima das recomendações.
+- Se `error` ou fallback: mostrar mensagem discreta + recomendações estáticas (mesmo fallback do servidor já cobre, então o usuário vê algo útil).
+- Incluir `aiData` no payload enviado para `/api/public/send-diagnostico` (campo opcional `aiRecommendations`) para que o admin/PDF possam usar futuramente. **Sem mudança de schema do banco** nesta entrega — apenas passa pelo body.
 
-### 4. Ajustar Design System demo (`DiagnosticoModulesSection.tsx`)
+### 4. Sem mudanças em banco, secrets ou edge functions
 
-- Trocar `mockAnswers` para usar índices válidos da nova escala (ex.: opção `2` → score 3 “Neutro”). Sem mudanças estruturais.
+- `LOVABLE_API_KEY` já existe nos secrets.
+- Sem migrações.
+- Nenhuma edge function Supabase (projeto usa TanStack Start server routes).
 
-### 5. Backend / Admin / PDF — sem alteração de schema
+### Arquivos editados/criados
 
-- `send-diagnostico.ts`, `admin.tsx`, `generateDiagnosticoPDF.ts` continuam funcionando: `nivel` (1–4), `nivel_nome`, `score`, `score_max`, `score_pct` permanecem com o mesmo contrato. Apenas a interpretação muda (score agora é 0–100 em vez de 0–40), o que é transparente para o backend.
-- Email de admin e admin dashboard exibirão “{score}/{scoreMax} ({scorePct}%)” → ficará “85/100 (85%)”, o que é coerente.
-
-### Arquivos editados
-
-- `src/components/diagnostico/quizData.ts` — reescrita completa de QUESTIONS + LEVELS + cálculo
-- `src/components/diagnostico/QuizResult.tsx` — labels de pontuação e breakdown
-- `src/components/diagnostico/QuizIntro.tsx` — cards dos 4 níveis
-- `src/components/landing/IndiceSection.tsx` — cards dos 4 níveis
-- `src/components/design-system/sections/DiagnosticoModulesSection.tsx` — mock answers
+- **Criar** `src/routes/api/public/generate-recommendations.ts`
+- **Criar** `src/lib/rate-limiter.ts`
+- **Editar** `src/components/diagnostico/QuizResult.tsx` (nova seção AI + chamada no mount + propagar `aiRecommendations` para o send)
 
 ### Resultado esperado
 
-- Quiz passa a usar a mesma Likert 1–5 em todas as 10 perguntas.
-- Índice exibido em % (0–100) com 4 níveis: Caos / Organizada / Inteligente / Autônoma.
-- PDF, email e admin continuam funcionando sem migração de banco.
+- Ao terminar o quiz, o usuário vê em ~2–4s um plano de ação com 4–5 ações acionáveis priorizando seus 3 pilares mais fracos, uma frase de impacto.
+- Endpoint protegido por CORS, allowed origins, rate limit (5/min/IP), validação de input e fallback estático garantindo resposta útil mesmo se a IA falhar.
