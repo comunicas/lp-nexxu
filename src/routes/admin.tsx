@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
 import { Logo } from "@/components/ui-nexxu/Logo";
+import { generateAdminMagicLink } from "@/utils/admin-auth.functions";
 
 const ADMIN_EMAILS = ["rbruno@nexxulab.com", "fhorita@nexxulab.com"];
 
