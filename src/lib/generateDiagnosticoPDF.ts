@@ -215,17 +215,17 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
   setColor("#6B6580");
-  doc.text("Cada pilar vale até 8 pontos (2 perguntas).", margin, y + 5);
+  doc.text("Cada pilar é avaliado de 0 a 100% de maturidade.", margin, y + 5);
   y += 12;
 
   const pillars: Pillar[] = ["O", "R", "D", "E", "M"];
-  // Reserva espaço à direita para o valor "X/8" (evita barra encostando no número)
-  const valueColW = 14;
+  // Reserva espaço à direita para o valor "X%" (evita barra encostando no número)
+  const valueColW = 16;
   const barW = contentW - valueColW;
   pillars.forEach((p) => {
     ensureSpace(16);
     const value = data.pillarBreakdown[p] ?? 0;
-    const pct = Math.max(0, Math.min(100, Math.round((value / 8) * 100)));
+    const pct = Math.max(0, Math.min(100, Math.round(value)));
 
     // Label
     doc.setFontSize(10);
@@ -239,7 +239,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
 
     doc.setFont("helvetica", "bold");
     setColor("#6B6580");
-    doc.text(`${value}/8`, W - margin, y + 4, { align: "right" });
+    doc.text(`${pct}%`, W - margin, y + 4, { align: "right" });
 
     // Barra de progresso (largura limitada para não invadir a coluna do valor)
     setFillColor("#E0DFF5");
