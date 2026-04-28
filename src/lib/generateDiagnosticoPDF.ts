@@ -219,10 +219,13 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 12;
 
   const pillars: Pillar[] = ["O", "R", "D", "E", "M"];
+  // Reserva espaço à direita para o valor "X/8" (evita barra encostando no número)
+  const valueColW = 14;
+  const barW = contentW - valueColW;
   pillars.forEach((p) => {
     ensureSpace(16);
     const value = data.pillarBreakdown[p] ?? 0;
-    const pct = Math.round((value / 8) * 100);
+    const pct = Math.max(0, Math.min(100, Math.round((value / 8) * 100)));
 
     // Label
     doc.setFontSize(10);
@@ -238,18 +241,95 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
     setColor("#6B6580");
     doc.text(`${value}/8`, W - margin, y + 4, { align: "right" });
 
-    // Barra de progresso
+    // Barra de progresso (largura limitada para não invadir a coluna do valor)
     setFillColor("#E0DFF5");
-    doc.roundedRect(margin, y + 7, contentW, 3, 1, 1, "F");
+    doc.roundedRect(margin, y + 7, barW, 3, 1, 1, "F");
 
-    const barColor = pct >= 75 ? "#5DCAA5" : pct >= 50 ? "#534AB7" : pct >= 25 ? "#EF9F27" : "#EF9F27";
-    setFillColor(barColor);
-    doc.roundedRect(margin, y + 7, contentW * (pct / 100), 3, 1, 1, "F");
+    const barColor = pct >= 75 ? "#5DCAA5" : pct >= 50 ? "#534AB7" : "#EF9F27";
+    if (pct > 0) {
+      setFillColor(barColor);
+      doc.roundedRect(margin, y + 7, barW * (pct / 100), 3, 1, 1, "F");
+    }
 
     y += 16;
   });
 
   y += 4;
+
+  // ── RECOMENDAÇÕES DA IA ──────────────────────────────────
+  const aiRecs = data.aiRecommendations?.recommendations ?? [];
+  const aiSummary = data.aiRecommendations?.summary;
+
+  if (aiSummary || aiRecs.length > 0) {
+    ensureSpace(16);
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    setColor("#1A1520");
+    doc.text("Plano de ação personalizado", margin, y);
+    y += 2;
+
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    setColor("#6B6580");
+    doc.text("Recomendações geradas a partir dos seus pilares mais fracos.", margin, y + 5);
+    y += 12;
+
+    if (aiSummary) {
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "italic");
+      const sumLines = doc.splitTextToSize(`“${aiSummary}”`, contentW - 8);
+      const sumH = sumLines.length * 5 + 8;
+      ensureSpace(sumH + 4);
+      setFillColor("#F8F7FF");
+      setDrawColor("#534AB7");
+      doc.setLineWidth(0.3);
+      doc.roundedRect(margin, y, contentW, sumH, 3, 3, "FD");
+      setColor("#1A1520");
+      doc.text(sumLines, margin + 4, y + 6);
+      y += sumH + 6;
+    }
+
+    aiRecs.forEach((rec, i) => {
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "bold");
+      const titleLines = doc.splitTextToSize(rec.title || "", contentW - 22);
+      doc.setFontSize(9);
+      doc.setFont("helvetica", "normal");
+      const descLines = doc.splitTextToSize(rec.description || "", contentW - 22);
+      const cardH = 6 + titleLines.length * 5 + descLines.length * 4.4 + 6;
+      ensureSpace(cardH + 4);
+
+      setFillColor("#FAFAFE");
+      setDrawColor("#E0DFF5");
+      doc.setLineWidth(0.3);
+      doc.roundedRect(margin, y, contentW, cardH, 3, 3, "FD");
+
+      // Badge do pilar
+      const badgeLabel = (rec.pillar || String(i + 1)).slice(0, 2).toUpperCase();
+      setFillColor("#534AB7");
+      doc.roundedRect(margin + 4, y + 4, 10, 8, 1.5, 1.5, "F");
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "bold");
+      setColor("#FFFFFF");
+      doc.text(badgeLabel, margin + 9, y + 9.5, { align: "center" });
+
+      // Título
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "bold");
+      setColor("#1A1520");
+      doc.text(titleLines, margin + 18, y + 8);
+
+      // Descrição
+      doc.setFontSize(9);
+      doc.setFont("helvetica", "normal");
+      setColor("#6B6580");
+      doc.text(descLines, margin + 18, y + 8 + titleLines.length * 5 + 1);
+
+      y += cardH + 4;
+    });
+
+    y += 4;
+  }
 
   // ── PRÓXIMO PASSO ─────────────────────────────────────────
   doc.setFontSize(9);
