@@ -391,19 +391,20 @@ export function QuizResult({ answers, onRestart }: Props) {
             <p className="text-[15px] md:text-[16px] text-[var(--brand-text)]/80 leading-relaxed mb-6">
               {level.recommendation}
             </p>
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4">
               <Button
                 as="a"
                 variant="primary"
                 href="https://wa.me/5500000000000?text=Quero%20conversar%20sobre%20o%20diagn%C3%B3stico%20ORDEM"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="w-full sm:w-auto justify-center text-center"
               >
                 Falar com a Nexxu →
               </Button>
               <Link
                 to="/"
-                className="px-5 py-3 rounded-xl text-sm font-semibold font-display text-[var(--brand-muted)] hover:text-[var(--brand-purple)] transition-colors"
+                className="w-full sm:w-auto px-5 py-3 rounded-xl text-sm font-semibold font-display text-center text-[var(--brand-purple)] hover:text-[var(--brand-text)] border border-[rgba(83,74,183,0.25)] sm:border-0 transition-colors"
               >
                 Ver produtos
               </Link>
