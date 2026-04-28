@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Badge } from "@/components/ui-nexxu/Badge";
 import { generateDiagnosticoPDF } from "@/lib/generateDiagnosticoPDF";

@@ -14,6 +14,7 @@ import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicSendDiagnosticoRouteImport } from './routes/api/public/send-diagnostico'
+import { Route as ApiPublicGenerateRecommendationsRouteImport } from './routes/api/public/generate-recommendations'
 
 const DiagnosticoRoute = DiagnosticoRouteImport.update({
   id: '/diagnostico',
@@ -41,12 +42,19 @@ const ApiPublicSendDiagnosticoRoute =
     path: '/api/public/send-diagnostico',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicGenerateRecommendationsRoute =
+  ApiPublicGenerateRecommendationsRouteImport.update({
+    id: '/api/public/generate-recommendations',
+    path: '/api/public/generate-recommendations',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/api/public/generate-recommendations': typeof ApiPublicGenerateRecommendationsRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
 }
 export interface FileRoutesByTo {
@@ -54,6 +62,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/api/public/generate-recommendations': typeof ApiPublicGenerateRecommendationsRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
 }
 export interface FileRoutesById {
@@ -62,6 +71,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/api/public/generate-recommendations': typeof ApiPublicGenerateRecommendationsRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
 }
 export interface FileRouteTypes {
@@ -71,6 +81,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/design-system'
     | '/diagnostico'
+    | '/api/public/generate-recommendations'
     | '/api/public/send-diagnostico'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -78,6 +89,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/design-system'
     | '/diagnostico'
+    | '/api/public/generate-recommendations'
     | '/api/public/send-diagnostico'
   id:
     | '__root__'
@@ -85,6 +97,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/design-system'
     | '/diagnostico'
+    | '/api/public/generate-recommendations'
     | '/api/public/send-diagnostico'
   fileRoutesById: FileRoutesById
 }
@@ -93,6 +106,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   DesignSystemRoute: typeof DesignSystemRoute
   DiagnosticoRoute: typeof DiagnosticoRoute
+  ApiPublicGenerateRecommendationsRoute: typeof ApiPublicGenerateRecommendationsRoute
   ApiPublicSendDiagnosticoRoute: typeof ApiPublicSendDiagnosticoRoute
 }
 
@@ -133,6 +147,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicSendDiagnosticoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/generate-recommendations': {
+      id: '/api/public/generate-recommendations'
+      path: '/api/public/generate-recommendations'
+      fullPath: '/api/public/generate-recommendations'
+      preLoaderRoute: typeof ApiPublicGenerateRecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -141,6 +162,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   DesignSystemRoute: DesignSystemRoute,
   DiagnosticoRoute: DiagnosticoRoute,
+  ApiPublicGenerateRecommendationsRoute: ApiPublicGenerateRecommendationsRoute,
   ApiPublicSendDiagnosticoRoute: ApiPublicSendDiagnosticoRoute,
 }
 export const routeTree = rootRouteImport
