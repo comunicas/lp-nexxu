@@ -238,27 +238,32 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   y += 4;
 
   // ── PRÓXIMO PASSO ─────────────────────────────────────────
+  const recLines = doc.splitTextToSize(data.nivelRecommendation, contentW - 12);
+  const recBlockH = 28 + recLines.length * 4.5 + 6;
+  ensureSpace(recBlockH + 6);
+
   setFillColor("#F0EFFE");
   setDrawColor("#534AB7");
   doc.setLineWidth(0.4);
-  doc.roundedRect(margin, y, contentW, 38, 4, 4, "FD");
+  doc.roundedRect(margin, y, contentW, recBlockH, 4, 4, "FD");
 
   doc.setFontSize(8);
   doc.setFont("helvetica", "bold");
   setColor("#534AB7");
-  doc.text("PRÓXIMO PASSO RECOMENDADO", margin + 6, y + 10);
+  doc.text("PRÓXIMO PASSO RECOMENDADO", margin + 6, y + 8);
 
   doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
   setColor("#1A1520");
-  doc.text(data.nivelRecommendedTier, margin + 6, y + 20);
+  const tierLines = doc.splitTextToSize(data.nivelRecommendedTier, contentW - 12);
+  doc.text(tierLines, margin + 6, y + 17);
 
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
   setColor("#6B6580");
-  y = addWrappedText(data.nivelRecommendation, margin + 6, y + 27, contentW - 12, 4.5);
+  doc.text(recLines, margin + 6, y + 17 + tierLines.length * 6 + 2);
 
-  y += 14;
+  y += recBlockH + 8;
 
   // ── APRESENTAÇÃO DOS PRODUTOS ─────────────────────────────
   const products = [
