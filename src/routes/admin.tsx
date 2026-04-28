@@ -87,27 +87,21 @@ function AdminPage() {
     setLeadsLoading(false);
   };
 
-  const sendMagicLink = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const normalized = loginEmail.trim().toLowerCase();
-    if (!ADMIN_EMAILS.includes(normalized)) {
-      setLoginError("Este email não tem permissão de acesso.");
-      return;
-    }
-    setLoginState("sending");
+  const handleAdminLogin = async (email: string) => {
     setLoginError("");
-    const { error } = await supabase.auth.signInWithOtp({
-      email: normalized,
-      options: {
-        shouldCreateUser: true,
-        emailRedirectTo: `${window.location.origin}/admin`,
-      },
-    });
-    if (error) {
-      setLoginError("Erro ao enviar o link. Tente novamente.");
-      setLoginState("error");
-    } else {
-      setLoginState("sent");
+    setLoginLoadingEmail(email);
+    try {
+      const result = await generateAdminMagicLink({ data: { email } });
+      if (result.success) {
+        window.location.href = result.actionLink;
+      } else {
+        setLoginError(result.error || "Falha ao gerar link de acesso.");
+        setLoginLoadingEmail(null);
+      }
+    } catch (err) {
+      console.error(err);
+      setLoginError("Erro ao gerar link. Tente novamente.");
+      setLoginLoadingEmail(null);
     }
   };
 
