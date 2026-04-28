@@ -49,6 +49,12 @@ function AdminPage() {
   const [unauthorized, setUnauthorized] = useState(false);
 
   useEffect(() => {
+    // Processar token do hash (callback do magic link)
+    const hash = window.location.hash;
+    if (hash && hash.includes("access_token")) {
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+
     // Setup listener BEFORE getSession (per Supabase best practice)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
       if (newSession?.user?.email && !ADMIN_EMAILS.includes(newSession.user.email)) {
@@ -58,6 +64,7 @@ function AdminPage() {
         return;
       }
       setSession(newSession);
+      setLoading(false);
     });
 
     supabase.auth.getSession().then(({ data: { session: existing } }) => {
