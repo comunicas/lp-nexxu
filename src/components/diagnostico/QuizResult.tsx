@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Badge } from "@/components/ui-nexxu/Badge";
 import { generateDiagnosticoPDF } from "@/lib/generateDiagnosticoPDF";
@@ -34,6 +34,57 @@ export function QuizResult({ answers, onRestart }: Props) {
   const [formState, setFormState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [formData, setFormData] = useState({ name: "", email: "", whatsapp: "" });
   const [formError, setFormError] = useState("");
+
+  // ===== Plano de ação personalizado (IA) =====
+  type AIRecommendation = {
+    title: string;
+    description: string;
+    pillar: Pillar;
+    link?: string;
+  };
+  type AIData = {
+    recommendations: AIRecommendation[];
+    mentoriaCTA: { headline: string; justification: string; urgency: string };
+    summary: string;
+  };
+  const [aiState, setAiState] = useState<"loading" | "ready" | "error">("loading");
+  const [aiData, setAiData] = useState<AIData | null>(null);
+  const aiFetched = useRef(false);
+
+  useEffect(() => {
+    if (aiFetched.current) return;
+    aiFetched.current = true;
+
+    const payload = {
+      name: "Visitante",
+      overallScore: score,
+      maturityLevel: level.name,
+      pillarScores: (Object.keys(breakdown) as Pillar[]).map((p) => ({
+        pillar: p,
+        score: breakdown[p],
+        maxScore: 100,
+      })),
+    };
+
+    fetch("/api/public/generate-recommendations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then(async (r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data: AIData) => {
+        setAiData(data);
+        setAiState("ready");
+      })
+      .catch((err) => {
+        console.error("AI recommendations error:", err);
+        setAiState("error");
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,6 +128,7 @@ export function QuizResult({ answers, onRestart }: Props) {
           scorePct: pct,
           answers,
           pillarBreakdown: breakdown,
+          aiRecommendations: aiData,
           pdfBase64,
         }),
       });
@@ -216,6 +268,110 @@ export function QuizResult({ answers, onRestart }: Props) {
             </Link>
           </div>
         </div>
+
+        {/* Plano de ação personalizado (IA) */}
+        <div className="bg-white border border-[rgba(83,74,183,0.12)] rounded-3xl p-7 md:p-9 mb-8 shadow-[var(--shadow-card)]">
+          <p className="section-label text-[var(--brand-purple)] mb-3">
+            PLANO DE AÇÃO PERSONALIZADO
+          </p>
+          <h2 className="font-display font-extrabold text-[22px] md:text-[26px] text-[var(--brand-text)] leading-tight mb-2">
+            O que fazer esta semana
+          </h2>
+          <p className="text-[14px] text-[var(--brand-muted)] mb-6 leading-relaxed">
+            Recomendações geradas a partir dos seus 3 pilares mais fracos.
+          </p>
+
+          {aiState === "loading" && (
+            <div className="space-y-3">
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="h-20 rounded-xl bg-[rgba(83,74,183,0.06)] animate-pulse"
+                />
+              ))}
+              <p className="text-[12px] text-[var(--brand-muted)] text-center pt-2">
+                Gerando seu plano com IA...
+              </p>
+            </div>
+          )}
+
+          {aiState === "ready" && aiData && (
+            <>
+              <div
+                className="rounded-2xl p-5 mb-6 border border-[rgba(83,74,183,0.18)]"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(24,95,165,0.04), rgba(83,74,183,0.06))",
+                }}
+              >
+                <p className="text-[15px] md:text-[16px] font-semibold text-[var(--brand-text)] leading-snug">
+                  “{aiData.summary}”
+                </p>
+              </div>
+
+              <div className="space-y-3 mb-7">
+                {aiData.recommendations.map((rec, i) => (
+                  <div
+                    key={i}
+                    className="rounded-xl border border-[rgba(83,74,183,0.12)] bg-[var(--brand-page)] p-4 md:p-5"
+                  >
+                    <div className="flex items-start gap-3">
+                      <span className="grad-text font-extrabold text-[18px] leading-none mt-0.5">
+                        {rec.pillar}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-display font-bold text-[15px] md:text-[16px] text-[var(--brand-text)] leading-tight mb-1.5">
+                          {rec.title}
+                        </p>
+                        <p className="text-[13px] md:text-[14px] text-[var(--brand-muted)] leading-relaxed">
+                          {rec.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div
+                className="rounded-2xl p-6 md:p-7 border border-[rgba(83,74,183,0.3)]"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(24,95,165,0.07), rgba(83,74,183,0.12))",
+                }}
+              >
+                <p className="section-label text-[var(--brand-purple)] mb-2">
+                  MENTORIA ORDEM™
+                </p>
+                <h3 className="font-display font-extrabold text-[20px] md:text-[22px] text-[var(--brand-text)] leading-tight mb-3">
+                  {aiData.mentoriaCTA.headline}
+                </h3>
+                <p className="text-[14px] md:text-[15px] text-[var(--brand-text)]/80 leading-relaxed mb-4">
+                  {aiData.mentoriaCTA.justification}
+                </p>
+                <p className="text-[12px] font-bold tracking-widest uppercase text-[var(--brand-purple)] mb-4">
+                  {aiData.mentoriaCTA.urgency}
+                </p>
+                <Button
+                  as="a"
+                  variant="primary"
+                  href="https://wa.me/5500000000000?text=Quero%20conhecer%20a%20Mentoria%20ORDEM"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Quero a Mentoria ORDEM™ →
+                </Button>
+              </div>
+            </>
+          )}
+
+          {aiState === "error" && (
+            <p className="text-[13px] text-[var(--brand-muted)]">
+              Não foi possível gerar o plano agora. Tente novamente em alguns
+              segundos ou continue para receber o PDF completo abaixo.
+            </p>
+          )}
+        </div>
+
 
         {formState !== "success" ? (
           <div className="bg-white border border-[rgba(83,74,183,0.12)] rounded-3xl p-7 md:p-9 mb-8 shadow-[var(--shadow-card)]">
