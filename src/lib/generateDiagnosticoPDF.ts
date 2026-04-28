@@ -206,6 +206,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
 
   const pillars: Pillar[] = ["O", "R", "D", "E", "M"];
   pillars.forEach((p) => {
+    ensureSpace(16);
     const value = data.pillarBreakdown[p] ?? 0;
     const pct = Math.round((value / 8) * 100);
 
