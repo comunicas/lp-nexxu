@@ -309,7 +309,7 @@ export function QuizResult({ answers, onRestart }: Props) {
                 </p>
               </div>
 
-              <div className="space-y-3 mb-7">
+              <div className="space-y-3">
                 {aiData.recommendations.map((rec, i) => (
                   <div
                     key={i}
@@ -330,36 +330,6 @@ export function QuizResult({ answers, onRestart }: Props) {
                     </div>
                   </div>
                 ))}
-              </div>
-
-              <div
-                className="rounded-2xl p-6 md:p-7 border border-[rgba(83,74,183,0.3)]"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(24,95,165,0.07), rgba(83,74,183,0.12))",
-                }}
-              >
-                <p className="section-label text-[var(--brand-purple)] mb-2">
-                  MENTORIA ORDEM™
-                </p>
-                <h3 className="font-display font-extrabold text-[20px] md:text-[22px] text-[var(--brand-text)] leading-tight mb-3">
-                  {aiData.mentoriaCTA.headline}
-                </h3>
-                <p className="text-[14px] md:text-[15px] text-[var(--brand-text)]/80 leading-relaxed mb-4">
-                  {aiData.mentoriaCTA.justification}
-                </p>
-                <p className="text-[12px] font-bold tracking-widest uppercase text-[var(--brand-purple)] mb-4">
-                  {aiData.mentoriaCTA.urgency}
-                </p>
-                <Button
-                  as="a"
-                  variant="primary"
-                  href="https://wa.me/5500000000000?text=Quero%20conhecer%20a%20Mentoria%20ORDEM"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Quero a Mentoria ORDEM™ →
-                </Button>
               </div>
             </>
           )}
