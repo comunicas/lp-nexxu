@@ -262,8 +262,7 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   const barW = contentW - valueColW;
   pillars.forEach((p) => {
     ensureSpace(16);
-    const value = data.pillarBreakdown[p] ?? 0;
-    const pct = Math.max(0, Math.min(100, Math.round(value)));
+    const pct = safePillarBreakdown[p];
 
     // Label
     doc.setFontSize(10);
