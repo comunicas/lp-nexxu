@@ -217,13 +217,13 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
   setColor("#6B6580");
-  doc.text(`${data.score}/${data.scoreMax} pontos  ·  ${data.scorePct}% de maturidade operacional`, margin + 10, y + 34);
+  doc.text(`${safeScore}/${safeScoreMax} pontos  ·  ${safeScorePct}% de maturidade operacional`, margin + 10, y + 34);
 
   // Barra de progresso
   setFillColor("#E0DFF5");
   doc.roundedRect(margin + 10, y + 40, contentW - 20, 4, 2, 2, "F");
   setFillColor(nivelColor);
-  doc.roundedRect(margin + 10, y + 40, (contentW - 20) * (data.scorePct / 100), 4, 2, 2, "F");
+  doc.roundedRect(margin + 10, y + 40, (contentW - 20) * (safeScorePct / 100), 4, 2, 2, "F");
 
   y += 62;
 
