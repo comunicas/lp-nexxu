@@ -108,6 +108,7 @@ export function QuizResult({ answers, onRestart }: Props) {
         scoreMax: MAX_SCORE,
         scorePct: pct,
         pillarBreakdown: breakdown as Record<"O" | "R" | "D" | "E" | "M", number>,
+        aiRecommendations: aiData,
       });
 
       const res = await fetch("/api/public/send-diagnostico", {
