@@ -17,6 +17,19 @@ const NIVEL_COLORS: Record<number, string> = {
   4: "#5DCAA5",
 };
 
+export type AIRecommendationItem = {
+  title: string;
+  description: string;
+  pillar: string;
+  link?: string;
+};
+
+export type AIRecommendationsData = {
+  recommendations?: AIRecommendationItem[];
+  summary?: string;
+  mentoriaCTA?: { headline?: string; justification?: string; urgency?: string };
+} | null;
+
 type DiagnosticoPDFData = {
   name: string;
   nivel: number;
@@ -29,6 +42,7 @@ type DiagnosticoPDFData = {
   scoreMax: number;
   scorePct: number;
   pillarBreakdown: Record<Pillar, number>;
+  aiRecommendations?: AIRecommendationsData;
 };
 
 export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
