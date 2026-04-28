@@ -108,6 +108,50 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
             throw new Error("RESEND_API_KEY not configured");
           }
 
+          // Escapa HTML para evitar injeção em conteúdo dinâmico (vindo da IA)
+          const escapeHtml = (s: string) =>
+            String(s)
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#39;");
+
+          const aiSummaryHtml = aiRecommendations?.summary
+            ? `
+              <div style="background: linear-gradient(135deg, rgba(24,95,165,0.04), rgba(83,74,183,0.06)); border: 1px solid rgba(83,74,183,0.18); border-radius: 12px; padding: 18px 20px; margin: 24px 0;">
+                <p style="color: #1a1a2e; margin: 0; font-size: 15px; font-weight: 600; line-height: 1.5;">“${escapeHtml(aiRecommendations.summary)}”</p>
+              </div>`
+            : "";
+
+          const recs = aiRecommendations?.recommendations ?? [];
+          const aiRecsHtml = recs.length
+            ? `
+              <div style="margin: 28px 0 8px;">
+                <p style="color: #534AB7; margin: 0 0 6px; font-size: 11px; letter-spacing: 1.5px; font-weight: bold;">PLANO DE AÇÃO PERSONALIZADO</p>
+                <h3 style="color: #1a1a2e; margin: 0 0 6px; font-size: 18px;">O que fazer esta semana</h3>
+                <p style="color: #55575d; margin: 0 0 16px; font-size: 13px; line-height: 1.5;">Recomendações geradas a partir dos seus pilares mais fracos.</p>
+                ${recs
+                  .map(
+                    (rec, i) => `
+                  <div style="border: 1px solid rgba(83,74,183,0.14); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; background: #fafafe;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                      <tr>
+                        <td style="vertical-align: top; padding-right: 10px; width: 28px;">
+                          <span style="display: inline-block; background: linear-gradient(135deg, #185FA5, #534AB7); color: #ffffff; font-weight: bold; font-size: 13px; width: 24px; height: 24px; line-height: 24px; text-align: center; border-radius: 6px;">${escapeHtml(rec.pillar || String(i + 1))}</span>
+                        </td>
+                        <td style="vertical-align: top;">
+                          <p style="color: #1a1a2e; margin: 0 0 4px; font-size: 14px; font-weight: bold; line-height: 1.35;">${escapeHtml(rec.title)}</p>
+                          <p style="color: #55575d; margin: 0; font-size: 13px; line-height: 1.55;">${escapeHtml(rec.description)}</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>`
+                  )
+                  .join("")}
+              </div>`
+            : "";
+
           const emailPayload = {
             from: "Nexxu <diagnostico@nexxulab.com>",
             to: [email],
