@@ -35,6 +35,57 @@ export function QuizResult({ answers, onRestart }: Props) {
   const [formData, setFormData] = useState({ name: "", email: "", whatsapp: "" });
   const [formError, setFormError] = useState("");
 
+  // ===== Plano de ação personalizado (IA) =====
+  type AIRecommendation = {
+    title: string;
+    description: string;
+    pillar: Pillar;
+    link?: string;
+  };
+  type AIData = {
+    recommendations: AIRecommendation[];
+    mentoriaCTA: { headline: string; justification: string; urgency: string };
+    summary: string;
+  };
+  const [aiState, setAiState] = useState<"loading" | "ready" | "error">("loading");
+  const [aiData, setAiData] = useState<AIData | null>(null);
+  const aiFetched = useRef(false);
+
+  useEffect(() => {
+    if (aiFetched.current) return;
+    aiFetched.current = true;
+
+    const payload = {
+      name: "Visitante",
+      overallScore: score,
+      maturityLevel: level.name,
+      pillarScores: (Object.keys(breakdown) as Pillar[]).map((p) => ({
+        pillar: p,
+        score: breakdown[p],
+        maxScore: 100,
+      })),
+    };
+
+    fetch("/api/public/generate-recommendations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then(async (r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data: AIData) => {
+        setAiData(data);
+        setAiState("ready");
+      })
+      .catch((err) => {
+        console.error("AI recommendations error:", err);
+        setAiState("error");
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email) {
