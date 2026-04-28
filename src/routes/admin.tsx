@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
 import { Logo } from "@/components/ui-nexxu/Logo";
+import { generateAdminMagicLink } from "@/utils/admin-auth.functions";
 
 const ADMIN_EMAILS = ["rbruno@nexxulab.com", "fhorita@nexxulab.com"];
 
@@ -41,8 +42,7 @@ export const Route = createFileRoute("/admin")({
 function AdminPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginState, setLoginState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [loginLoadingEmail, setLoginLoadingEmail] = useState<string | null>(null);
   const [loginError, setLoginError] = useState("");
   const [leads, setLeads] = useState<Lead[]>([]);
   const [leadsLoading, setLeadsLoading] = useState(false);
@@ -87,27 +87,21 @@ function AdminPage() {
     setLeadsLoading(false);
   };
 
-  const sendMagicLink = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const normalized = loginEmail.trim().toLowerCase();
-    if (!ADMIN_EMAILS.includes(normalized)) {
-      setLoginError("Este email não tem permissão de acesso.");
-      return;
-    }
-    setLoginState("sending");
+  const handleAdminLogin = async (email: string) => {
     setLoginError("");
-    const { error } = await supabase.auth.signInWithOtp({
-      email: normalized,
-      options: {
-        shouldCreateUser: true,
-        emailRedirectTo: `${window.location.origin}/admin`,
-      },
-    });
-    if (error) {
-      setLoginError("Erro ao enviar o link. Tente novamente.");
-      setLoginState("error");
-    } else {
-      setLoginState("sent");
+    setLoginLoadingEmail(email);
+    try {
+      const result = await generateAdminMagicLink({ data: { email } });
+      if (result.success) {
+        window.location.href = result.actionLink;
+      } else {
+        setLoginError(result.error || "Falha ao gerar link de acesso.");
+        setLoginLoadingEmail(null);
+      }
+    } catch (err) {
+      console.error(err);
+      setLoginError("Erro ao gerar link. Tente novamente.");
+      setLoginLoadingEmail(null);
     }
   };
 
@@ -147,41 +141,32 @@ function AdminPage() {
             <p className="text-[11px] font-bold tracking-widest text-white/40 mb-2">PAINEL ADMIN</p>
             <h1 className="font-display font-extrabold text-2xl text-white mb-2">Acesso restrito</h1>
             <p className="text-sm text-white/60 mb-6 leading-relaxed">
-              Informe seu email de admin. Você receberá um link de acesso.
+              Selecione sua conta para entrar. Acesso instantâneo, sem email.
             </p>
 
-            {loginState === "sent" ? (
-              <div className="text-center py-4">
-                <div className="w-14 h-14 rounded-full bg-[#5DCAA5]/20 text-[#5DCAA5] text-2xl flex items-center justify-center mx-auto mb-4">
-                  ✉️
-                </div>
-                <h2 className="font-display font-extrabold text-lg text-white mb-2">Link enviado!</h2>
-                <p className="text-sm text-white/60">
-                  Verifique <span className="font-semibold text-white">{loginEmail}</span> e clique no link para entrar.
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={sendMagicLink} className="space-y-3">
-                <input
-                  type="email"
-                  placeholder="seu@nexxulab.com"
-                  value={loginEmail}
-                  onChange={(e) => setLoginEmail(e.target.value)}
-                  required
-                  className="w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-white text-[14px] outline-none focus:border-[var(--brand-purple)] transition-colors placeholder:text-white/30"
-                />
-                {loginError && (
-                  <p className="text-[13px] text-red-400 font-medium">{loginError}</p>
-                )}
-                <button
-                  type="submit"
-                  disabled={loginState === "sending"}
-                  className="w-full px-5 py-3.5 rounded-xl bg-brand-gradient text-white text-[14px] font-bold font-display transition-opacity hover:opacity-90 disabled:opacity-60"
-                >
-                  {loginState === "sending" ? "Enviando..." : "Receber link de acesso →"}
-                </button>
-              </form>
-            )}
+            <div className="space-y-3">
+              {ADMIN_EMAILS.map((email) => {
+                const isLoading = loginLoadingEmail === email;
+                const disabled = loginLoadingEmail !== null;
+                return (
+                  <button
+                    key={email}
+                    type="button"
+                    onClick={() => handleAdminLogin(email)}
+                    disabled={disabled}
+                    className="w-full px-5 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 hover:border-[var(--brand-purple)] text-white text-[14px] font-semibold transition-all disabled:opacity-60 disabled:cursor-not-allowed text-left flex items-center justify-between gap-3"
+                  >
+                    <span className="truncate">{email}</span>
+                    <span className="text-white/50 text-xs flex-shrink-0">
+                      {isLoading ? "Entrando..." : "Entrar →"}
+                    </span>
+                  </button>
+                );
+              })}
+              {loginError && (
+                <p className="text-[13px] text-red-400 font-medium pt-1">{loginError}</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
