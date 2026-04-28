@@ -251,8 +251,12 @@ export function QuizResult({ answers, onRestart }: Props) {
               <input
                 type="tel"
                 placeholder="WhatsApp (opcional)"
+                pattern="[\d\s\(\)\-\+]*"
                 value={formData.whatsapp}
-                onChange={(e) => setFormData((p) => ({ ...p, whatsapp: e.target.value }))}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/[^\d\s()\-+]/g, "");
+                  setFormData((p) => ({ ...p, whatsapp: val }));
+                }}
                 className="w-full px-4 py-3 rounded-xl border border-[rgba(83,74,183,0.2)] text-[var(--brand-text)] text-[14px] outline-none focus:border-[var(--brand-purple)] transition-colors bg-[var(--brand-page)]"
               />
               {formError && (
