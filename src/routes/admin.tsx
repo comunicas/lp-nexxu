@@ -42,8 +42,7 @@ export const Route = createFileRoute("/admin")({
 function AdminPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginState, setLoginState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [loginLoadingEmail, setLoginLoadingEmail] = useState<string | null>(null);
   const [loginError, setLoginError] = useState("");
   const [leads, setLeads] = useState<Lead[]>([]);
   const [leadsLoading, setLeadsLoading] = useState(false);
