@@ -75,6 +75,28 @@ export function generateDiagnosticoPDF(data: DiagnosticoPDFData): string {
     return yPos + lines.length * lineHeight;
   };
 
+  const drawFooter = () => {
+    setFillColor("#F0EFFE");
+    doc.rect(0, 280, W, 17, "F");
+    doc.setFontSize(8);
+    doc.setFont("helvetica", "normal");
+    setColor("#9090A8");
+    doc.text(
+      "nexxu · Criatividade. Processo. Tecnologia.  ·  nexxulab.com  ·  contato@nexxu.com.br",
+      W / 2,
+      289,
+      { align: "center" }
+    );
+  };
+
+  const ensureSpace = (needed: number) => {
+    if (y + needed > bottomLimit) {
+      drawFooter();
+      doc.addPage();
+      y = margin;
+    }
+  };
+
   // ── HEADER ───────────────────────────────────────────────
   setFillColor("#0F0C1A");
   doc.rect(0, 0, W, 40, "F");
