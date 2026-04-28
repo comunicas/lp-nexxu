@@ -373,6 +373,7 @@ export function QuizResult({ answers, onRestart }: Props) {
         </div>
 
 
+        {formState !== "success" ? (
           <div className="bg-white border border-[rgba(83,74,183,0.12)] rounded-3xl p-7 md:p-9 mb-8 shadow-[var(--shadow-card)]">
             <p className="section-label text-[var(--brand-purple)] mb-3">RECEBA O PDF COMPLETO</p>
             <h3 className="font-display font-extrabold text-[22px] md:text-[24px] text-[var(--brand-text)] leading-tight mb-2">
