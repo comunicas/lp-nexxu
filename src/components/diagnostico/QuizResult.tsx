@@ -277,7 +277,7 @@ export function QuizResult({ answers, onRestart }: Props) {
               </div>
 
               <div className="space-y-3">
-                {aiData.recommendations.map((rec, i) => (
+                {aiData.recommendations.slice(0, 2).map((rec, i) => (
                   <div
                     key={i}
                     className="rounded-xl border border-[rgba(83,74,183,0.12)] bg-[var(--brand-page)] p-4 md:p-5"
