@@ -128,6 +128,7 @@ export function QuizResult({ answers, onRestart }: Props) {
           scorePct: pct,
           answers,
           pillarBreakdown: breakdown,
+          aiRecommendations: aiData,
           pdfBase64,
         }),
       });
