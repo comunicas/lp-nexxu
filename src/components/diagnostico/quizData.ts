@@ -1,11 +1,13 @@
-// Quiz ORDEM™ — 10 perguntas (2 por pilar)
-// Cada opção dá 0–4 pontos. Pontuação máxima: 40.
+// Quiz ORDEM™ — 10 afirmações em escala Likert 1–5
+// Cada resposta vale de 1 (Discordo totalmente) a 5 (Concordo totalmente).
+// Score por pilar: soma das 2 respostas (mín 2, máx 10) → percentual = ((soma − 2) / 8) × 100.
+// Índice geral: média dos 5 pilares (0–100%).
 
 export type Pillar = "O" | "R" | "D" | "E" | "M";
 
 export type QuizOption = {
   label: string;
-  score: 0 | 1 | 2 | 3 | 4;
+  score: 1 | 2 | 3 | 4 | 5;
 };
 
 export type QuizQuestion = {
@@ -16,143 +18,57 @@ export type QuizQuestion = {
   options: QuizOption[];
 };
 
-export const QUESTIONS: QuizQuestion[] = [
-  // O — Organização
-  {
-    id: 1,
-    pillar: "O",
-    pillarName: "Organização",
-    question: "Quem responde quando algo dá errado na operação?",
-    options: [
-      { label: "Sempre eu — sou o último ponto de decisão", score: 0 },
-      { label: "Eu, mas alguns gestores ajudam a apagar incêndio", score: 1 },
-      { label: "Há responsáveis claros, mas dependem de mim para decidir", score: 2 },
-      { label: "Cada área tem dono e autonomia para resolver", score: 4 },
-    ],
-  },
-  {
-    id: 2,
-    pillar: "O",
-    pillarName: "Organização",
-    question: "Como está o organograma e a divisão de papéis hoje?",
-    options: [
-      { label: "Não temos — todo mundo faz um pouco de tudo", score: 0 },
-      { label: "Existe na cabeça, mas não está documentado", score: 1 },
-      { label: "Documentado, mas desatualizado ou pouco usado", score: 2 },
-      { label: "Claro, atualizado e cada papel tem entregas definidas", score: 4 },
-    ],
-  },
-  // R — Rotinas
-  {
-    id: 3,
-    pillar: "R",
-    pillarName: "Rotinas",
-    question: "Os processos críticos da empresa estão documentados?",
-    options: [
-      { label: "Nada documentado — está tudo na cabeça das pessoas", score: 0 },
-      { label: "Alguns POPs soltos, sem padrão", score: 1 },
-      { label: "Maior parte documentada, mas pouco seguida", score: 2 },
-      { label: "Documentados, vivos e revisados periodicamente", score: 4 },
-    ],
-  },
-  {
-    id: 4,
-    pillar: "R",
-    pillarName: "Rotinas",
-    question: "Como você acompanha o que o time está executando?",
-    options: [
-      { label: "Acompanho perguntando — não há ritual fixo", score: 0 },
-      { label: "Reuniões existem, mas sem agenda nem cadência", score: 1 },
-      { label: "Temos rituais semanais, mas faltam indicadores claros", score: 2 },
-      { label: "Rituais com pauta, KPIs e plano de ação documentado", score: 4 },
-    ],
-  },
-  // D — Dados
-  {
-    id: 5,
-    pillar: "D",
-    pillarName: "Dados",
-    question: "Você sabe qual é seu CAC, LTV e margem por produto?",
-    options: [
-      { label: "Não — opero pelo extrato bancário", score: 0 },
-      { label: "Tenho ideia, mas não está calculado", score: 1 },
-      { label: "Sei alguns, outros estimo", score: 2 },
-      { label: "Sim, com fonte única e revisão mensal", score: 4 },
-    ],
-  },
-  {
-    id: 6,
-    pillar: "D",
-    pillarName: "Dados",
-    question: "Como as decisões importantes são tomadas hoje?",
-    options: [
-      { label: "Por feeling — minha intuição decide", score: 0 },
-      { label: "Mistura de feeling com planilhas avulsas", score: 1 },
-      { label: "Olho relatórios, mas nem sempre confio nos números", score: 2 },
-      { label: "Dashboards confiáveis guiam praticamente todas as decisões", score: 4 },
-    ],
-  },
-  // E — Eficiência (IA & Automação)
-  {
-    id: 7,
-    pillar: "E",
-    pillarName: "Eficiência IA",
-    question: "Quanto da operação repetitiva já está automatizada?",
-    options: [
-      { label: "Quase nada — fazemos tudo na mão", score: 0 },
-      { label: "Algumas planilhas e zaps soltos", score: 1 },
-      { label: "Áreas-chave automatizadas, outras manuais", score: 2 },
-      { label: "Automações integradas com IA reduzindo trabalho braçal", score: 4 },
-    ],
-  },
-  {
-    id: 8,
-    pillar: "E",
-    pillarName: "Eficiência IA",
-    question: "Suas ferramentas conversam entre si?",
-    options: [
-      { label: "Cada ferramenta é uma ilha — copiamos dado entre elas", score: 0 },
-      { label: "Algumas integrações básicas existem", score: 1 },
-      { label: "Stack integrada, mas com retrabalho em pontos críticos", score: 2 },
-      { label: "Stack unificada, dado flui sem intervenção humana", score: 4 },
-    ],
-  },
-  // M — Maturidade
-  {
-    id: 9,
-    pillar: "M",
-    pillarName: "Maturidade",
-    question: "Se você sumisse por 30 dias, o que aconteceria?",
-    options: [
-      { label: "A operação trava em poucos dias", score: 0 },
-      { label: "Roda capengando — alguém ligaria muito", score: 1 },
-      { label: "Funciona, mas decisões importantes ficariam paradas", score: 2 },
-      { label: "Continua girando normalmente — o time decide e executa", score: 4 },
-    ],
-  },
-  {
-    id: 10,
-    pillar: "M",
-    pillarName: "Maturidade",
-    question: "Qual é o seu papel hoje na empresa?",
-    options: [
-      { label: "Operador-chefe — apago incêndio o dia inteiro", score: 0 },
-      { label: "Gerente-geral — coordeno tudo, mas ainda executo muito", score: 1 },
-      { label: "Líder — guio a estratégia, mas opero quando aperta", score: 2 },
-      { label: "Dono estratégico — penso o futuro, o time toca o presente", score: 4 },
-    ],
-  },
+// Escala Likert única — usada em todas as 10 perguntas
+const LIKERT_OPTIONS: QuizOption[] = [
+  { label: "Discordo totalmente", score: 1 },
+  { label: "Discordo", score: 2 },
+  { label: "Neutro", score: 3 },
+  { label: "Concordo", score: 4 },
+  { label: "Concordo totalmente", score: 5 },
 ];
 
-export const MAX_SCORE = QUESTIONS.length * 4; // 40
+const mk = (
+  id: number,
+  pillar: Pillar,
+  pillarName: string,
+  question: string,
+): QuizQuestion => ({
+  id,
+  pillar,
+  pillarName,
+  question,
+  options: LIKERT_OPTIONS.map((o) => ({ ...o })),
+});
 
-export type LevelKey = "caos" | "reativo" | "estruturado" | "autonoma";
+export const QUESTIONS: QuizQuestion[] = [
+  // O — Organização
+  mk(1, "O", "Organização", "Os processos críticos da minha empresa estão mapeados e documentados."),
+  mk(2, "O", "Organização", "Identificamos e priorizamos gargalos operacionais de forma sistemática."),
+  // R — Rotinas
+  mk(3, "R", "Rotinas", "Realizamos reuniões de gestão com pauta definida e decisões registradas."),
+  mk(4, "R", "Rotinas", "Delego responsabilidades com padrão claro de entrega e acompanhamento."),
+  // D — Dados
+  mk(5, "D", "Dados", "Acompanho indicadores-chave (KPIs) do negócio regularmente."),
+  mk(6, "D", "Dados", "Minhas decisões são baseadas em dados concretos, não apenas em intuição."),
+  // E — Eficiência Inteligente
+  mk(7, "E", "Eficiência Inteligente", "Utilizo ferramentas de IA no meu dia a dia para aumentar a produtividade."),
+  mk(8, "E", "Eficiência Inteligente", "Já implementamos automações em processos-chave da empresa."),
+  // M — Maturidade Operacional
+  mk(9, "M", "Maturidade Operacional", "O negócio funciona bem mesmo quando não estou presente no operacional."),
+  mk(10, "M", "Maturidade Operacional", "A empresa consegue crescer sem aumentar proporcionalmente o caos e a sobrecarga."),
+];
+
+// Índice geral é em pontos percentuais (0–100). Mantemos o nome MAX_SCORE para
+// compatibilidade com componentes/payload existentes.
+export const MAX_SCORE = 100;
+
+export type LevelKey = "caos" | "organizada" | "inteligente" | "autonoma";
 
 export type LevelInfo = {
   key: LevelKey;
   num: string;
   name: string;
-  range: [number, number];
+  range: [number, number]; // em % (0–100)
   headline: string;
   desc: string;
   recommendation: string;
@@ -166,7 +82,7 @@ export const LEVELS: LevelInfo[] = [
     key: "caos",
     num: "01",
     name: "Caos",
-    range: [0, 10],
+    range: [0, 25],
     headline: "Sua operação roda no improviso.",
     desc: "Cada dia é uma surpresa — boa ou ruim. Você está em todos os lugares ao mesmo tempo e nada acontece sem o seu dedo. Isso não é falha sua: é falta de estrutura.",
     recommendation:
@@ -176,12 +92,12 @@ export const LEVELS: LevelInfo[] = [
     glow: "rgba(239,159,39,0.35)",
   },
   {
-    key: "reativo",
+    key: "organizada",
     num: "02",
-    name: "Reativo",
-    range: [11, 20],
-    headline: "Você apaga incêndio com mais eficiência.",
-    desc: "Há ilhas de organização, mas o time ainda depende de você para tudo que importa. Crescer hoje significa trabalhar mais — não melhor.",
+    name: "Organizada",
+    range: [26, 50],
+    headline: "Existe estrutura — mas o time ainda depende de você.",
+    desc: "Há ilhas de organização e algumas rotinas funcionando. Mas o que realmente importa ainda passa pelas suas mãos. Crescer hoje significa trabalhar mais — não melhor.",
     recommendation:
       "Mentoria ORDEM™ é o caminho: 90 dias estruturando rotinas, papéis e indicadores com acompanhamento semanal.",
     recommendedTier: "T2 — Mentoria ORDEM™",
@@ -189,12 +105,12 @@ export const LEVELS: LevelInfo[] = [
     glow: "rgba(83,74,183,0.3)",
   },
   {
-    key: "estruturado",
+    key: "inteligente",
     num: "03",
-    name: "Estruturado",
-    range: [21, 30],
+    name: "Inteligente",
+    range: [51, 75],
     headline: "Os processos existem — e o time os segue.",
-    desc: "Você já tem uma operação que funciona. Mas escalar ainda assusta: a estrutura não absorve crescimento sem fricção e a IA ainda não trabalha por você.",
+    desc: "Você já tem uma operação que funciona com dado e rotina. Mas escalar ainda assusta: a estrutura não absorve crescimento sem fricção e a IA ainda não trabalha por você.",
     recommendation:
       "Implementação ORDEM™: estruturamos a operação completa com automações + IA para escalar sem aumentar o time.",
     recommendedTier: "T3 — Implementação ORDEM™",
@@ -205,7 +121,7 @@ export const LEVELS: LevelInfo[] = [
     key: "autonoma",
     num: "04",
     name: "Autônoma",
-    range: [31, 40],
+    range: [76, 100],
     headline: "Sua empresa funciona sem depender de você.",
     desc: "Decisões acontecem com dado. O dono lidera — não opera. Agora o desafio é manter esse nível enquanto a empresa cresce e novos times entram.",
     recommendation:
@@ -216,17 +132,44 @@ export const LEVELS: LevelInfo[] = [
   },
 ];
 
-export function getLevel(score: number): LevelInfo {
+// Recebe percentual (0–100) e retorna o nível correspondente.
+export function getLevel(scorePct: number): LevelInfo {
+  const clamped = Math.max(0, Math.min(100, scorePct));
   return (
-    LEVELS.find((l) => score >= l.range[0] && score <= l.range[1]) ?? LEVELS[0]
+    LEVELS.find((l) => clamped >= l.range[0] && clamped <= l.range[1]) ?? LEVELS[0]
   );
 }
 
+// Retorna percentual (0–100) por pilar — média ponderada das 2 respostas Likert.
 export function getPillarBreakdown(answers: number[]): Record<Pillar, number> {
-  const totals: Record<Pillar, number> = { O: 0, R: 0, D: 0, E: 0, M: 0 };
+  const sums: Record<Pillar, number> = { O: 0, R: 0, D: 0, E: 0, M: 0 };
+  const counts: Record<Pillar, number> = { O: 0, R: 0, D: 0, E: 0, M: 0 };
+
   QUESTIONS.forEach((q, i) => {
     const ans = answers[i];
-    if (ans !== undefined) totals[q.pillar] += q.options[ans].score;
+    if (ans !== undefined) {
+      sums[q.pillar] += q.options[ans].score;
+      counts[q.pillar] += 1;
+    }
   });
-  return totals;
+
+  const out: Record<Pillar, number> = { O: 0, R: 0, D: 0, E: 0, M: 0 };
+  (Object.keys(sums) as Pillar[]).forEach((p) => {
+    const c = counts[p];
+    if (c > 0) {
+      // soma mín = c (todos 1), soma máx = c*5 → normalizar para 0–100
+      const min = c;
+      const max = c * 5;
+      out[p] = Math.round(((sums[p] - min) / (max - min)) * 100);
+    }
+  });
+  return out;
+}
+
+// Índice geral (0–100): média dos percentuais dos 5 pilares.
+export function getOverallScore(answers: number[]): number {
+  const breakdown = getPillarBreakdown(answers);
+  const values = Object.values(breakdown);
+  const avg = values.reduce((s, v) => s + v, 0) / values.length;
+  return Math.round(avg);
 }

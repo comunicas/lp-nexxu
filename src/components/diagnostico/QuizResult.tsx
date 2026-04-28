@@ -5,9 +5,9 @@ import { generateDiagnosticoPDF } from "@/lib/generateDiagnosticoPDF";
 import { Button } from "@/components/ui-nexxu/Button";
 import {
   getLevel,
+  getOverallScore,
   getPillarBreakdown,
   MAX_SCORE,
-  QUESTIONS,
   type Pillar,
 } from "./quizData";
 
@@ -25,15 +25,11 @@ const PILLAR_LABELS: Record<Pillar, string> = {
 };
 
 export function QuizResult({ answers, onRestart }: Props) {
-  // Calcula score total
-  const score = QUESTIONS.reduce((sum, q, i) => {
-    const a = answers[i];
-    return sum + (a !== undefined ? q.options[a].score : 0);
-  }, 0);
-
-  const level = getLevel(score);
+  // Índice geral em % (0–100), média dos 5 pilares
+  const score = getOverallScore(answers);
   const breakdown = getPillarBreakdown(answers);
-  const pct = Math.round((score / MAX_SCORE) * 100);
+  const level = getLevel(score);
+  const pct = score;
 
   const [formState, setFormState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [formData, setFormData] = useState({ name: "", email: "", whatsapp: "" });
@@ -123,7 +119,7 @@ export function QuizResult({ answers, onRestart }: Props) {
                 NÍVEL {level.num}
               </span>
               <span className="text-xs font-bold tracking-widest text-white/40">
-                {score}/{MAX_SCORE} PONTOS
+                {score}% DE MATURIDADE
               </span>
             </div>
 
@@ -160,12 +156,11 @@ export function QuizResult({ answers, onRestart }: Props) {
             Detalhe por pilar ORDEM™
           </h2>
           <p className="text-sm text-[var(--brand-muted)] mb-6">
-            Cada pilar vale até 8 pontos (2 perguntas).
+            Cada pilar é a média de 2 respostas, normalizada de 0 a 100%.
           </p>
           <div className="space-y-4">
             {(Object.keys(breakdown) as Pillar[]).map((p) => {
               const value = breakdown[p];
-              const pillarPct = Math.round((value / 8) * 100);
               return (
                 <div key={p}>
                   <div className="flex items-center justify-between mb-1.5">
@@ -174,13 +169,13 @@ export function QuizResult({ answers, onRestart }: Props) {
                       {PILLAR_LABELS[p]}
                     </span>
                     <span className="text-[13px] font-semibold text-[var(--brand-muted)]">
-                      {value}/8
+                      {value}%
                     </span>
                   </div>
                   <div className="h-1.5 rounded-full bg-[rgba(83,74,183,0.1)] overflow-hidden">
                     <div
                       className="h-full bg-brand-gradient transition-all duration-700"
-                      style={{ width: `${pillarPct}%` }}
+                      style={{ width: `${value}%` }}
                     />
                   </div>
                 </div>
