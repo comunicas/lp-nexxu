@@ -309,44 +309,11 @@ export function QuizResult({ answers, onRestart }: Props) {
           )}
         </div>
 
-        {/* Recomendação / Próximo passo */}
-        <div
-          className="rounded-3xl p-8 md:p-10 mb-8 border border-[rgba(83,74,183,0.25)]"
-          style={{
-            background: "linear-gradient(135deg, rgba(24,95,165,0.05), rgba(83,74,183,0.08))",
-          }}
-        >
-          <p className="section-label text-[var(--brand-purple)] mb-3">PRÓXIMO PASSO</p>
-          <h3 className="font-display font-extrabold text-[24px] md:text-[28px] text-[var(--brand-text)] leading-tight mb-4">
-            {level.recommendedTier}
-          </h3>
-          <p className="text-[15px] md:text-[16px] text-[var(--brand-text)]/80 leading-relaxed mb-6">
-            {level.recommendation}
-          </p>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button
-              as="a"
-              variant="primary"
-              href="https://wa.me/5500000000000?text=Quero%20conversar%20sobre%20o%20diagn%C3%B3stico%20ORDEM"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Falar com a Nexxu →
-            </Button>
-            <Link
-              to="/"
-              className="px-5 py-3 rounded-xl text-sm font-semibold font-display text-[var(--brand-muted)] hover:text-[var(--brand-purple)] transition-colors"
-            >
-              Ver produtos
-            </Link>
-          </div>
-        </div>
-
         {formState !== "success" ? (
           <div className="bg-white border border-[rgba(83,74,183,0.12)] rounded-3xl p-7 md:p-9 mb-8 shadow-[var(--shadow-card)]">
             <p className="section-label text-[var(--brand-purple)] mb-3">RECEBA O PDF COMPLETO</p>
             <h3 className="font-display font-extrabold text-[22px] md:text-[24px] text-[var(--brand-text)] leading-tight mb-2">
-              Enviaremos o diagnóstico no seu email.
+              Preencha seus dados e receba por email, todas as recomendações de melhoria para aplicar HOJE.
             </h3>
             <p className="text-[14px] text-[var(--brand-muted)] mb-6 leading-relaxed">
               Análise completa + recomendação de produto + próximos passos. Sem spam.
@@ -407,6 +374,40 @@ export function QuizResult({ answers, onRestart }: Props) {
               <br />
               Se não chegar em 5 minutos, confira o spam.
             </p>
+          </div>
+        )}
+
+        {formState === "success" && (
+          <div
+            className="rounded-3xl p-8 md:p-10 mb-8 border border-[rgba(83,74,183,0.25)]"
+            style={{
+              background: "linear-gradient(135deg, rgba(24,95,165,0.05), rgba(83,74,183,0.08))",
+            }}
+          >
+            <p className="section-label text-[var(--brand-purple)] mb-3">PRÓXIMO PASSO</p>
+            <h3 className="font-display font-extrabold text-[24px] md:text-[28px] text-[var(--brand-text)] leading-tight mb-4">
+              {level.recommendedTier}
+            </h3>
+            <p className="text-[15px] md:text-[16px] text-[var(--brand-text)]/80 leading-relaxed mb-6">
+              {level.recommendation}
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                as="a"
+                variant="primary"
+                href="https://wa.me/5500000000000?text=Quero%20conversar%20sobre%20o%20diagn%C3%B3stico%20ORDEM"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Falar com a Nexxu →
+              </Button>
+              <Link
+                to="/"
+                className="px-5 py-3 rounded-xl text-sm font-semibold font-display text-[var(--brand-muted)] hover:text-[var(--brand-purple)] transition-colors"
+              >
+                Ver produtos
+              </Link>
+            </div>
           </div>
         )}
 
