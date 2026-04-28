@@ -7,6 +7,18 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
+type AIRecommendation = {
+  title: string;
+  description: string;
+  pillar: string;
+  link?: string;
+};
+type AIData = {
+  recommendations?: AIRecommendation[];
+  summary?: string;
+  mentoriaCTA?: { headline?: string; justification?: string; urgency?: string };
+};
+
 type Body = {
   name: string;
   email: string;
@@ -22,6 +34,7 @@ type Body = {
   scorePct: number;
   answers: any;
   pillarBreakdown: any;
+  aiRecommendations?: AIData | null;
   pdfBase64?: string;
 };
 
