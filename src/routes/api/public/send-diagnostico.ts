@@ -174,6 +174,8 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
                   </div>
                   <p style="color: #1a1a2e; font-weight: 600; line-height: 1.5;">${nivelHeadline}</p>
                   <p style="color: #55575d; line-height: 1.6;">${nivelDesc}</p>
+                  ${aiSummaryHtml}
+                  ${aiRecsHtml}
                   <div style="background: linear-gradient(135deg, rgba(24,95,165,0.05), rgba(83,74,183,0.08)); border-radius: 12px; padding: 20px; margin: 24px 0;">
                     <p style="color: #534AB7; margin: 0 0 8px; font-size: 11px; letter-spacing: 1.5px;">PRÓXIMO PASSO RECOMENDADO</p>
                     <p style="color: #1a1a2e; margin: 0 0 8px; font-size: 18px; font-weight: bold;">${nivelRecommendedTier}</p>
