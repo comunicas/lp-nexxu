@@ -31,7 +31,7 @@ export const Route = createFileRoute("/solucoes/$slug")({
     return { solucao, relacionadas };
   },
   component: function SolucaoPage() {
-    const { solucao, relacionadas } = Route.useLoaderData();
+    const { solucao, relacionadas } = Route.useLoaderData()!;
     return <SolucaoPageTemplate solucao={solucao} relacionadas={relacionadas} />;
   },
   errorComponent: ({ error }) => (
