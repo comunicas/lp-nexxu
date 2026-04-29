@@ -235,7 +235,8 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
 
           if (!resendRes.ok) {
             const err = await resendRes.text();
-            throw new Error(`Resend Error: ${err}`);
+            console.error("send-diagnostico Resend error:", err);
+            throw new Error("EMAIL_ERROR");
           }
 
           // 3. Marcar email_sent = true
