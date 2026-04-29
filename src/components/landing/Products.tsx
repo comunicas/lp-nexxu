@@ -207,7 +207,7 @@ export function Products() {
               <span className="grad-text">Mesma direção.</span>
             </>
           }
-          description="Tirar a operação das suas costas. A conversa de diagnóstico define por onde começar — sem pressão de venda."
+          description="O método ORDEM™ resolve o caos operacional e aplica processos + IA para criar eficiência, organização e escala."
         />
 
         {/* indicador de progressão */}
