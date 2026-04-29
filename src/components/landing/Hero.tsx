@@ -21,9 +21,7 @@ export function Hero() {
         <h1 className="grad-text-hero text-[clamp(44px,6vw,80px)] font-extrabold leading-[1.05] tracking-tight mb-6">
           IA sem processo
           <br />
-          só faz o ruim
-          <br />
-          acontecer mais rápido.
+          só escala o caos.
         </h1>
 
         <p className="text-[clamp(16px,2vw,20px)] text-white/60 leading-relaxed mb-11 max-w-[620px] mx-auto whitespace-pre-line">
