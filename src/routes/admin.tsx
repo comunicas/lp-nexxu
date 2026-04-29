@@ -4,8 +4,7 @@ import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
 import { Logo } from "@/components/ui-nexxu/Logo";
 import { sendAdminOtp } from "@/utils/admin-auth.functions";
-
-const ADMIN_EMAILS = ["rbruno@nexxulab.com", "fhorita@nexxulab.com"];
+import { isAdminEmail } from "@/config/admin";
 
 type Lead = {
   id: string;
@@ -42,6 +41,7 @@ export const Route = createFileRoute("/admin")({
 function AdminPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [authStatus, setAuthStatus] = useState("Validando acesso...");
   const [email, setEmail] = useState("");
   const [otpCode, setOtpCode] = useState("");
   const [step, setStep] = useState<"email" | "otp">("email");
@@ -53,33 +53,89 @@ function AdminPage() {
   const [unauthorized, setUnauthorized] = useState(false);
 
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash && hash.includes("access_token")) {
-      window.history.replaceState(null, "", window.location.pathname);
-    }
+    let cancelled = false;
+    let initialized = false;
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      if (newSession?.user?.email && !ADMIN_EMAILS.includes(newSession.user.email)) {
+    const cleanAdminUrl = () => {
+      window.history.replaceState(null, "", "/admin");
+    };
+
+    const applySession = async (nextSession: Session | null) => {
+      if (cancelled) return;
+
+      if (nextSession?.user?.email && !isAdminEmail(nextSession.user.email)) {
         setUnauthorized(true);
         setSession(null);
-        supabase.auth.signOut();
+        await supabase.auth.signOut();
         return;
       }
-      setSession(newSession);
-      setLoading(false);
-    });
 
-    supabase.auth.getSession().then(({ data: { session: existing } }) => {
-      if (existing?.user?.email && !ADMIN_EMAILS.includes(existing.user.email)) {
-        setUnauthorized(true);
-        supabase.auth.signOut();
-      } else {
-        setSession(existing);
+      setUnauthorized(false);
+      setSession(nextSession);
+    };
+
+    const handleAuthRedirect = async () => {
+      setAuthStatus("Validando acesso...");
+
+      try {
+        const url = new URL(window.location.href);
+        const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+        const authError =
+          url.searchParams.get("error_description") ||
+          url.searchParams.get("error") ||
+          hashParams.get("error_description") ||
+          hashParams.get("error");
+
+        if (authError) {
+          cleanAdminUrl();
+          throw new Error(authError);
+        }
+
+        const code = url.searchParams.get("code");
+        const accessToken = hashParams.get("access_token");
+        const refreshToken = hashParams.get("refresh_token");
+
+        if (code) {
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+          cleanAdminUrl();
+          if (error) throw error;
+          await applySession(data.session ?? null);
+        } else if (accessToken && refreshToken) {
+          const { data, error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
+          cleanAdminUrl();
+          if (error) throw error;
+          await applySession(data.session ?? null);
+        }
+
+        const { data: { session: existing } } = await supabase.auth.getSession();
+        await applySession(existing);
+      } catch (err) {
+        console.error("admin auth redirect error:", err);
+        setSession(null);
+        setStep("email");
+        setLoginError("Código inválido ou expirado. Solicite um novo acesso.");
+      } finally {
+        initialized = true;
+        if (!cancelled) setLoading(false);
       }
-      setLoading(false);
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      if (!initialized || cancelled) return;
+      void applySession(newSession ?? null).finally(() => {
+        if (!cancelled) setLoading(false);
+      });
     });
 
-    return () => subscription.unsubscribe();
+    void handleAuthRedirect();
+
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
@@ -100,6 +156,7 @@ function AdminPage() {
     e.preventDefault();
     setLoginError("");
     setLoginInfo("");
+    setUnauthorized(false);
     setSubmitting(true);
     try {
       await sendAdminOtp({ data: { email: email.trim().toLowerCase() } });
@@ -118,14 +175,27 @@ function AdminPage() {
     setLoginError("");
     setSubmitting(true);
     try {
-      const { error } = await supabase.auth.verifyOtp({
+      const { data, error } = await supabase.auth.verifyOtp({
         email: email.trim().toLowerCase(),
         token: otpCode.trim(),
         type: "email",
       });
-      if (error) {
-        setLoginError("Código inválido ou expirado.");
+
+      if (error || !data.session) {
+        setLoginError("Código inválido ou expirado. Solicite um novo acesso.");
+        return;
       }
+
+      if (!isAdminEmail(data.session.user.email)) {
+        setUnauthorized(true);
+        setSession(null);
+        await supabase.auth.signOut();
+        return;
+      }
+
+      setUnauthorized(false);
+      setSession(data.session);
+      setOtpCode("");
     } catch (err) {
       console.error(err);
       setLoginError("Erro ao verificar código.");
@@ -142,8 +212,11 @@ function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[var(--brand-dark)]">
-        <div className="w-10 h-10 rounded-full border-2 border-white/20 border-t-white animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-[var(--brand-dark)] px-6">
+        <div className="text-center">
+          <div className="w-10 h-10 rounded-full border-2 border-white/20 border-t-white animate-spin mx-auto" />
+          <p className="text-sm text-white/60 mt-4">{authStatus}</p>
+        </div>
       </div>
     );
   }
