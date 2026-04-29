@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui-nexxu/Badge";
 
 export function Hero() {
   return (
-    <section className="relative bg-[var(--brand-dark)] min-h-screen flex flex-col items-center justify-center overflow-hidden px-[5%] pt-32 pb-32 text-center">
+    <section className="relative bg-[var(--brand-dark)] min-h-screen flex flex-col items-center justify-center overflow-hidden px-[5%] pt-32 pb-28 sm:pb-32 md:pb-40 text-center">
       <div
         className="pointer-events-none absolute top-[20%] left-[15%] w-[400px] h-[400px] rounded-full"
         style={{ background: "radial-gradient(circle,rgba(24,95,165,.18) 0%,transparent 70%)" }}
@@ -58,7 +58,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-40">
+      <div className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-1.5 opacity-40">
         <span className="text-[11px] text-white tracking-widest">SCROLL</span>
         <div
           className="w-px h-8"
