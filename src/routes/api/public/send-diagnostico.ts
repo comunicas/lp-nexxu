@@ -296,10 +296,13 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
           const message =
             error instanceof Error ? error.message : "Unknown error";
           console.error("send-diagnostico error:", message);
-          return new Response(JSON.stringify({ error: message }), {
-            status: 500,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          });
+          return new Response(
+            JSON.stringify({ error: "Erro interno ao processar diagnóstico" }),
+            {
+              status: 500,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            }
+          );
         }
       },
     },
