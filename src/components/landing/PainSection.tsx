@@ -33,7 +33,7 @@ export function PainSection() {
     <section className="bg-[var(--brand-page)] px-[5%] py-24">
       <div className="max-w-[1040px] mx-auto">
         <SectionHeader
-          label="VOCÊ SE RECONHECE?"
+          label="Você resolve. Amanhã quebra de novo."
           labelColor="var(--brand-blue)"
           title="Parece familiar?"
           description=""
