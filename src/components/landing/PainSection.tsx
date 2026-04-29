@@ -42,8 +42,6 @@ export function PainSection() {
         <div className="flex justify-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(83,74,183,0.2)] bg-[rgba(83,74,183,0.06)]">
             <span className="text-[13px] font-bold text-[var(--brand-purple)]">Bombeiro-Chefe</span>
-            <span className="text-[var(--brand-muted)] text-[13px]">—</span>
-            <span className="text-[13px] text-[var(--brand-muted)]">dono que trabalha mais que o time e ainda assim a empresa não anda</span>
           </div>
         </div>
 
