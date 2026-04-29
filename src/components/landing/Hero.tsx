@@ -24,9 +24,8 @@ export function Hero() {
           só escala o caos.
         </h1>
 
-        <p className="text-[clamp(16px,2vw,20px)] text-white/60 leading-relaxed mb-11 max-w-[620px] mx-auto whitespace-pre-line">
-          Encontramos os gargalos, estruturamos os processos e aplicamos IA nos pontos certos.{"\n"}
-          Resultado real. Sem atalho.
+        <p className="text-[clamp(16px,2vw,20px)] text-white/60 leading-relaxed mb-11 max-w-[620px] mx-auto">
+          Encontramos os gargalos, estruturamos os processos e aplicamos IA nos pontos certos. Resultado real. Sem atalho.
         </p>
 
         <div className="flex gap-3.5 justify-center flex-wrap mb-14">
