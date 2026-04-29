@@ -4,7 +4,7 @@ import { SectionHeader } from "@/components/ui-nexxu/SectionHeader";
 const LEVELS = [
   {
     num: "01",
-    name: "Caos",
+    name: "Caótica",
     desc: "0–25%. Cada dia é uma surpresa. Você está em todo lugar ao mesmo tempo — e nada resolve sem você.",
     border: "#EF9F27",
     glow: "rgba(239,159,39,0.3)",
