@@ -2,26 +2,28 @@ import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { SolucaoPageTemplate } from "@/components/landing/SolucaoPageTemplate";
 import { getSolucaoBySlug, getSolucoesBySlugList } from "@/utils/solucoes-data";
 
+const OG_IMAGE_URL = "https://nexxulab.com/og-nexxu.svg";
+
 export const Route = createFileRoute("/solucoes/$slug")({
   head: ({ params }) => {
     const solucao = getSolucaoBySlug(params.slug);
     if (!solucao) return {};
+    const canonicalUrl = `https://nexxulab.com/solucoes/${params.slug}`;
     return {
       meta: [
         { title: solucao.metaTitle },
         { name: "description", content: solucao.metaDescription },
         { property: "og:title", content: solucao.metaTitle },
         { property: "og:description", content: solucao.metaDescription },
+        { property: "og:url", content: canonicalUrl },
         { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary" },
+        { property: "og:image", content: OG_IMAGE_URL },
+        { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: solucao.metaTitle },
         { name: "twitter:description", content: solucao.metaDescription },
-        {
-          property: "og:image",
-          content:
-            "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777201276438-logo-branco-horizontal.webp",
-        },
+        { name: "twitter:image", content: OG_IMAGE_URL },
       ],
+      links: [{ rel: "canonical", href: canonicalUrl }],
     };
   },
   loader: ({ params }) => {
