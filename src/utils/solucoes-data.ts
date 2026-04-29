@@ -217,6 +217,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Agentes Autônomos com IA para PMEs | Nexxu",
     metaDescription: "Agentes de IA que executam tarefas repetitivas sem depender de pessoa — qualificação de leads, atendimento inicial, atualização de registros. Processo primeiro, automação depois.",
     tagline: "Um agente bem construído trabalha enquanto você dorme. Um mal construído cria problema enquanto você dorme.",
+    sintomas: [
+      "Seu time perde horas em tarefas que sempre são as mesmas",
+      "O volume de interações aumentou mas a qualidade caiu",
+      "Já tentou automação antes e o resultado foi um bot que irritava o cliente",
+    ],
     paraQuem: "Empresas com tarefas repetitivas que consomem tempo de pessoas qualificadas. Donos que percebem que o time gasta energia em atividades que sempre são as mesmas. Negócios que recebem volume alto de interações.",
     oProblema: "Agente de IA construído sem processo vira um bot que erra e irrita o cliente. A Nexxu projeta o processo antes de automatizar — o agente executa o que foi validado por humanos, não o que parece certo para a IA.",
     comoFunciona: [
