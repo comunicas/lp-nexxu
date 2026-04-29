@@ -272,7 +272,7 @@ function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--brand-bg-deep)] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[var(--brand-dark)] flex items-center justify-center px-4">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-white/10 border-t-[var(--brand-purple)] rounded-full animate-spin" />
           <p className="text-white/50 text-sm">Validando acesso</p>
@@ -283,7 +283,7 @@ function AdminPage() {
 
   if (unauthorized) {
     return (
-      <div className="min-h-screen bg-[var(--brand-bg-deep)] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[var(--brand-dark)] flex items-center justify-center px-4">
         <div className="w-full max-w-md text-center">
           <div className="w-14 h-14 mx-auto mb-6 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center">
             <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -311,7 +311,7 @@ function AdminPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen bg-[var(--brand-bg-deep)] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[var(--brand-dark)] flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div className="flex justify-center mb-8">
             <Logo />
@@ -386,7 +386,7 @@ function AdminPage() {
   const emailSentCount = leads.filter((l) => l.email_sent).length;
 
   return (
-    <div className="min-h-screen bg-[var(--brand-bg-deep)]">
+    <div className="min-h-screen bg-[var(--brand-dark)]">
       {/* Nav interno do admin */}
       <nav className="sticky top-0 z-40 px-[5%] h-14 flex items-center justify-between bg-[rgba(15,12,26,0.92)] backdrop-blur-lg border-b border-[rgba(83,74,183,0.2)]">
         <div className="flex items-center gap-3">
@@ -615,7 +615,7 @@ function LeadDrawer({ lead, onClose, onDownloadPdf, pdfGenerating }: DrawerProps
         className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 animate-in fade-in duration-200"
         onClick={onClose}
       />
-      <aside className="fixed top-0 right-0 bottom-0 w-full sm:max-w-xl z-50 bg-[var(--brand-bg-deep)] border-l border-[rgba(83,74,183,0.2)] flex flex-col animate-in slide-in-from-right duration-300">
+      <aside className="fixed top-0 right-0 bottom-0 w-full sm:max-w-xl z-50 bg-[var(--brand-dark)] border-l border-[rgba(83,74,183,0.2)] flex flex-col animate-in slide-in-from-right duration-300">
         {/* Header */}
         <div className="flex items-start justify-between px-6 py-5 border-b border-[rgba(83,74,183,0.1)]">
           <div>
