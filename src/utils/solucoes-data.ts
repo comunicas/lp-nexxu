@@ -127,6 +127,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Mentoria Operacional para Donos de PMEs | Nexxu",
     metaDescription: "Acompanhamento direto para o dono sair da operação e o time passar a funcionar sem depender dele. Método ORDEM™ na prática.",
     tagline: "O dono que resolve tudo é o maior gargalo da empresa.",
+    sintomas: [
+      "Você é o único que sabe fazer tudo — e isso travou o crescimento",
+      "Já tentou delegar antes e o resultado sempre voltou para você resolver",
+      "Não consegue tirar férias sem o telefone tocando o dia todo",
+    ],
     paraQuem: "Donos que são o hub central de todas as decisões. Que não conseguem tirar férias sem o telefone tocando. Que sabem que precisam delegar mas toda tentativa volta para eles.",
     oProblema: "A síndrome do bombeiro-chefe não é falta de esforço — é falta de estrutura. Quando não existe padrão, a delegação sempre falha. A mentoria cria o padrão e ensina o dono a liderar pelo processo, não pela presença.",
     comoFunciona: [
