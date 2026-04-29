@@ -27,7 +27,7 @@ export function Hero() {
         </h1>
 
         <p className="text-[clamp(16px,2vw,20px)] text-white/60 leading-relaxed mb-11 max-w-[540px] mx-auto">
-          Em 90 dias, montamos o processo. Depois a IA faz sentido — e resultado.
+          Em 90 dias, montamos o processo. Depois a IA faz sentido — e entrega resultado.
         </p>
 
         <div className="flex gap-3.5 justify-center flex-wrap mb-14">
