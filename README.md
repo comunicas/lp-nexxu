@@ -787,3 +787,89 @@ Use este checklist sempre que alterar seções/componentes da rota `/`:
 - [ ] Revisar **Mapa de Âncoras e Navegação** para manter ids/links consistentes.
 - [ ] Validar se descrições e CTAs de cada seção refletem o código em `src/components/landing/`.
 
+
+
+---
+
+
+## 15. Arquitetura Funcional
+
+### Frontend/Rotas
+
+- O app usa **TanStack Start + file-based routing**, com rotas em `src/routes/` para páginas públicas (`/`, `/diagnostico`, `/solucoes/$slug`) e internas (`/admin`, `/design-system`), além das APIs públicas sob `/api/public/*`.
+- O fluxo de diagnóstico é iniciado na rota `/diagnostico`, onde o quiz acumula respostas e calcula score/pilares no cliente, antes de chamar os endpoints de API.
+- A rota `/admin` consome Supabase Auth + tabela `leads` para exibir leads, respeitando controle de acesso por papel (`admin`).
+
+### APIs públicas
+
+- `POST /api/public/generate-recommendations` (`src/routes/api/public/generate-recommendations.ts`):
+  - valida `origin` por allowlist regex e responde preflight `OPTIONS` com CORS dinâmico;
+  - valida/sanitiza payload (`name`, `overallScore`, `maturityLevel`, `pillarScores`);
+  - aplica rate limit por IP+rota (`checkRateLimit`);
+  - tenta gerar recomendações e normalizar saída; se necessário, aplica fallback determinístico por pilar.
+- `POST /api/public/send-diagnostico` (`src/routes/api/public/send-diagnostico.ts`):
+  - valida payload final do lead;
+  - persiste em `public.leads` via `supabaseAdmin`;
+  - envia e-mail do diagnóstico (com HTML sanitizado e PDF opcional em anexo) via Resend;
+  - atualiza `email_sent/email_sent_at` e dispara notificação para admins.
+
+### Integração Supabase
+
+- `src/integrations/supabase/client.ts`:
+  - cria client **browser/SSR-safe** usando `VITE_SUPABASE_URL`/`VITE_SUPABASE_PUBLISHABLE_KEY` com fallback para `process.env`;
+  - ativa persistência de sessão e auto-refresh de token no client;
+  - exporta `supabase` lazy (Proxy singleton) para evitar inicialização prematura.
+- `src/integrations/supabase/client.server.ts`:
+  - cria client **server-side com service role key** (`SUPABASE_SERVICE_ROLE_KEY`), sem sessão persistente;
+  - usado somente em rotas confiáveis do servidor para operações administrativas (bypass RLS).
+- `src/integrations/supabase/auth-middleware.ts`:
+  - middleware server que exige header `Authorization: Bearer <token>`;
+  - valida claims do token com Supabase e injeta `supabase`, `userId` e `claims` no contexto da request.
+
+### Migrações de banco (`supabase/migrations/`)
+
+- `20260427232821_9ebf0a10-2c87-4631-9497-dbaa31ddf230.sql`:
+  - cria enum `app_role`, tabela `user_roles`, função `has_role`, tabela `leads`, políticas RLS e índices iniciais.
+- `20260427232845_9e458605-1ddc-4f95-aad5-796b756d4f25.sql`:
+  - restringe execução pública de `has_role` e endurece policy de insert de `leads` com validações mínimas.
+- `20260427235755_95d185ca-5c26-4e2a-b227-ef6f8ebc44b3.sql`:
+  - cria trigger `grant_admin_to_whitelist` em `auth.users` + backfill para autoatribuir role admin a e-mails whitelist.
+- `20260427235810_1ca1311d-5ed4-448f-a09c-04709f947ef5.sql`:
+  - revoga `EXECUTE` público/anon/authenticated da função `grant_admin_to_whitelist`.
+- `20260428001356_9d4fe191-3414-4ece-855d-0449b7013c68.sql`:
+  - provisiona usuários admin em `auth.users`/`auth.identities` e garante papel admin em `public.user_roles`.
+
+### Geração de PDF e envio de diagnóstico
+
+- `src/lib/generateDiagnosticoPDF.ts`:
+  - gera PDF A4 com `jsPDF` contendo nível ORDEM™, score e análise por pilar;
+  - sanitiza/normaliza percentuais (`clampPct`, `sanitizePillarBreakdown`) para robustez;
+  - inclui seções de headline, descrição, plano recomendado e estrutura visual padronizada.
+- `src/routes/api/public/send-diagnostico.ts`:
+  - recebe `pdfBase64` gerado no frontend e o anexa no envio pelo Resend;
+  - envia resumo personalizado + recomendações de IA no corpo do e-mail;
+  - persiste status de envio no banco para rastreabilidade operacional.
+
+### Arquivos-chave (resumo rápido)
+
+- `src/integrations/supabase/client.ts`: client Supabase para browser/SSR (chave publishable, sessão persistente).
+- `src/integrations/supabase/client.server.ts`: client Supabase admin para operações de backend com service role.
+- `src/integrations/supabase/auth-middleware.ts`: middleware de autenticação bearer token para rotas server.
+- `src/routes/api/public/send-diagnostico.ts`: endpoint de persistência de lead + envio de e-mail/PDF + notificação admin.
+- `src/routes/api/public/generate-recommendations.ts`: endpoint de recomendações com CORS restritivo, validação e rate limiting.
+- `src/lib/generateDiagnosticoPDF.ts`: geração e saneamento do PDF de resultado do diagnóstico.
+- `src/lib/rate-limiter.ts`: rate limiter in-memory por janela deslizante para proteção básica de endpoints.
+
+### Fluxo ponta a ponta do Diagnóstico
+
+1. **Formulário (frontend)**
+   - Usuário responde o quiz em `/diagnostico`; a aplicação calcula score total, nível e breakdown por pilar.
+2. **API de recomendações**
+   - Frontend chama `/api/public/generate-recommendations` com dados consolidados para obter `summary`, `recommendations` e `mentoriaCTA`.
+3. **Geração de artefato**
+   - Frontend monta o relatório e gera `pdfBase64` com `generateDiagnosticoPDF`.
+4. **Persistência e automação**
+   - Frontend envia payload final para `/api/public/send-diagnostico`.
+   - A API grava em `public.leads`, dispara e-mail ao lead (com PDF), marca `email_sent` e notifica admins.
+5. **Retorno ao cliente**
+   - Endpoint retorna status HTTP/JSON (sucesso, validação, duplicidade, limite, erro interno), permitindo UX de confirmação/retry.
