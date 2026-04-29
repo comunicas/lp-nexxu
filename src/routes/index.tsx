@@ -4,6 +4,7 @@ import { Hero } from "@/components/landing/Hero";
 import { PainSection } from "@/components/landing/PainSection";
 import { OrdemMethod } from "@/components/landing/OrdemMethod";
 import { Products } from "@/components/landing/Products";
+import { SolucoesSection } from "@/components/landing/SolucoesSection";
 import { IndiceSection } from "@/components/landing/IndiceSection";
 import { CasesSection } from "@/components/landing/CasesSection";
 import { Faq } from "@/components/landing/Faq";
@@ -47,6 +48,7 @@ function Index() {
       <PainSection />
       <OrdemMethod />
       <Products />
+      <SolucoesSection />
       <IndiceSection />
       <CasesSection />
       <Faq />
