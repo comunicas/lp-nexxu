@@ -2,8 +2,6 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 
 import appCss from "../styles.css?url";
 
-const OG_IMAGE_URL = "https://nexxulab.com/og-nexxu.svg";
-
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -31,17 +29,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
-      { name: "description", content: "Processo primeiro. IA depois — quando vale a pena usar." },
       { name: "author", content: "Nexxu" },
-      { property: "og:title", content: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
-      { property: "og:description", content: "Processo primeiro. IA depois — quando vale a pena usar." },
-      { property: "og:type", content: "website" },
-      { property: "og:image", content: OG_IMAGE_URL },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
-      { name: "twitter:description", content: "Processo primeiro. IA depois — quando vale a pena usar." },
-      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
     links: [
       {
