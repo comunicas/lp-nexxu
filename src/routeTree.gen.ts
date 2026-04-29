@@ -13,6 +13,7 @@ import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SolucoesSlugRouteImport } from './routes/solucoes/$slug'
 import { Route as ApiPublicSendDiagnosticoRouteImport } from './routes/api/public/send-diagnostico'
 import { Route as ApiPublicGenerateRecommendationsRouteImport } from './routes/api/public/generate-recommendations'
 
@@ -36,6 +37,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SolucoesSlugRoute = SolucoesSlugRouteImport.update({
+  id: '/solucoes/$slug',
+  path: '/solucoes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicSendDiagnosticoRoute =
   ApiPublicSendDiagnosticoRouteImport.update({
     id: '/api/public/send-diagnostico',
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/solucoes/$slug': typeof SolucoesSlugRoute
   '/api/public/generate-recommendations': typeof ApiPublicGenerateRecommendationsRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
 }
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/solucoes/$slug': typeof SolucoesSlugRoute
   '/api/public/generate-recommendations': typeof ApiPublicGenerateRecommendationsRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
 }
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/solucoes/$slug': typeof SolucoesSlugRoute
   '/api/public/generate-recommendations': typeof ApiPublicGenerateRecommendationsRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
 }
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/design-system'
     | '/diagnostico'
+    | '/solucoes/$slug'
     | '/api/public/generate-recommendations'
     | '/api/public/send-diagnostico'
   fileRoutesByTo: FileRoutesByTo
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/design-system'
     | '/diagnostico'
+    | '/solucoes/$slug'
     | '/api/public/generate-recommendations'
     | '/api/public/send-diagnostico'
   id:
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/design-system'
     | '/diagnostico'
+    | '/solucoes/$slug'
     | '/api/public/generate-recommendations'
     | '/api/public/send-diagnostico'
   fileRoutesById: FileRoutesById
@@ -106,6 +118,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   DesignSystemRoute: typeof DesignSystemRoute
   DiagnosticoRoute: typeof DiagnosticoRoute
+  SolucoesSlugRoute: typeof SolucoesSlugRoute
   ApiPublicGenerateRecommendationsRoute: typeof ApiPublicGenerateRecommendationsRoute
   ApiPublicSendDiagnosticoRoute: typeof ApiPublicSendDiagnosticoRoute
 }
@@ -140,6 +153,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/solucoes/$slug': {
+      id: '/solucoes/$slug'
+      path: '/solucoes/$slug'
+      fullPath: '/solucoes/$slug'
+      preLoaderRoute: typeof SolucoesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/send-diagnostico': {
       id: '/api/public/send-diagnostico'
       path: '/api/public/send-diagnostico'
@@ -162,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   DesignSystemRoute: DesignSystemRoute,
   DiagnosticoRoute: DiagnosticoRoute,
+  SolucoesSlugRoute: SolucoesSlugRoute,
   ApiPublicGenerateRecommendationsRoute: ApiPublicGenerateRecommendationsRoute,
   ApiPublicSendDiagnosticoRoute: ApiPublicSendDiagnosticoRoute,
 }
