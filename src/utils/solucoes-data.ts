@@ -279,6 +279,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Atendimento Escalável com IA para PMEs | Nexxu",
     metaDescription: "IA que analisa padrões de comportamento em redes sociais e atendimento — e responde com contexto, não com script genérico. Escale sem perder qualidade.",
     tagline: "Atendimento ruim escala rápido. Atendimento bom precisa de processo antes de IA.",
+    sintomas: [
+      "O volume de mensagens aumentou e a qualidade do atendimento caiu",
+      "Já tentou chatbot e o cliente odiou — parecia robótico e sem contexto",
+      "Perde vendas porque a resposta demora ou não resolve o que o cliente precisa",
+    ],
     paraQuem: "Negócios que recebem volume alto de mensagens e não conseguem responder com qualidade. Donos que percebem que o atendimento está perdendo vendas mas não sabem onde. Empresas que já tentaram chatbot e o cliente odiou.",
     oProblema: "A maioria dos chatbots falha porque tenta substituir o atendimento humano antes de entender o que o cliente realmente pergunta. A Nexxu mapeia os padrões de interação reais e treina a IA com o que funciona.",
     comoFunciona: [
