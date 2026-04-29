@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /design-system
+Disallow: /api/
+
+Sitemap: https://nexxulab.com/sitemap.xml
