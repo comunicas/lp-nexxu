@@ -2,12 +2,8 @@ import { SectionHeader } from "@/components/ui-nexxu/SectionHeader";
 import { Link } from "@tanstack/react-router";
 import { ACCENT_STYLES } from "@/utils/accent-styles";
 import {
-  Clock,
-  LayoutGrid,
-  Layers,
-  Users,
-  Activity,
-  Grid2x2,
+  Clock, LayoutGrid, Layers, Users, Activity, Grid2x2,
+  Bot, FileVideo, MessagesSquare, LayoutDashboard,
   type LucideIcon,
 } from "lucide-react";
 
@@ -15,6 +11,7 @@ type AccentColor = "blue" | "purple" | "teal";
 
 type Solucao = {
   id: string;
+  slug: string;
   icon: LucideIcon;
   accentColor: AccentColor;
   title: string;
@@ -24,6 +21,7 @@ type Solucao = {
 const SOLUCOES: Solucao[] = [
   {
     id: "diagnostico",
+    slug: "diagnostico-operacional",
     icon: Clock,
     accentColor: "blue",
     title: "Diagnóstico Operacional",
@@ -32,6 +30,7 @@ const SOLUCOES: Solucao[] = [
   },
   {
     id: "processos",
+    slug: "mapeamento-de-processos",
     icon: LayoutGrid,
     accentColor: "purple",
     title: "Mapeamento de Processos",
@@ -40,6 +39,7 @@ const SOLUCOES: Solucao[] = [
   },
   {
     id: "ia",
+    slug: "implementacao-com-ia",
     icon: Layers,
     accentColor: "teal",
     title: "Implementação com IA",
@@ -48,6 +48,7 @@ const SOLUCOES: Solucao[] = [
   },
   {
     id: "mentoria",
+    slug: "mentoria-para-o-dono",
     icon: Users,
     accentColor: "blue",
     title: "Mentoria para o Dono",
@@ -56,6 +57,7 @@ const SOLUCOES: Solucao[] = [
   },
   {
     id: "kpis",
+    slug: "kpis-e-gestao-com-dados",
     icon: Activity,
     accentColor: "purple",
     title: "KPIs e Gestão com Dados",
@@ -64,11 +66,48 @@ const SOLUCOES: Solucao[] = [
   },
   {
     id: "autonomia",
+    slug: "autonomia-operacional",
     icon: Grid2x2,
     accentColor: "teal",
     title: "Autonomia Operacional",
     description:
       "Empresa funcionando sem o dono no centro. Delegação estruturada, time treinado, processo documentado.",
+  },
+  {
+    id: "agentes",
+    slug: "agentes-autonomos-com-ia",
+    icon: Bot,
+    accentColor: "purple",
+    title: "Agentes Autônomos com IA",
+    description:
+      "Agentes que executam tarefas repetitivas por conta própria — sem depender de pessoa, sem esquecer, sem errar o passo.",
+  },
+  {
+    id: "conteudo",
+    slug: "gestao-de-conteudo-com-ia",
+    icon: FileVideo,
+    accentColor: "teal",
+    title: "Gestão de Conteúdo com IA",
+    description:
+      "Roteiros, imagens, áudio e vídeos produzidos com consistência — sem improvisar brief, sem perder identidade de marca a cada peça.",
+  },
+  {
+    id: "atendimento",
+    slug: "atendimento-escalavel-com-ia",
+    icon: MessagesSquare,
+    accentColor: "blue",
+    title: "Atendimento Escalável com IA",
+    description:
+      "IA que analisa padrões de comportamento em redes sociais e atendimento — e responde com contexto, não com script genérico.",
+  },
+  {
+    id: "dashboards",
+    slug: "dashboards-de-gestao",
+    icon: LayoutDashboard,
+    accentColor: "teal",
+    title: "Dashboards de Gestão Customizados",
+    description:
+      "Painel feito para o seu negócio — com os indicadores certos, na visão certa, para quem precisa tomar decisão.",
   },
 ];
 
@@ -87,7 +126,7 @@ export function SolucoesSection() {
           description="Cada entrega é parte do Método ORDEM™ — processo primeiro, IA depois, quando faz sentido."
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {SOLUCOES.map((item) => {
             const accent = ACCENT_STYLES[item.accentColor];
             const Icon = item.icon;
@@ -119,7 +158,8 @@ export function SolucoesSection() {
                   {item.description}
                 </p>
                 <Link
-                  to="/diagnostico"
+                  to="/solucoes/$slug"
+                  params={{ slug: item.slug }}
                   className="text-[13px] font-semibold text-[var(--brand-blue)]"
                 >
                   Saiba mais →
