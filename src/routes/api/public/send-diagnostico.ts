@@ -152,6 +152,17 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
               </div>`
             : "";
 
+          const safeName = escapeHtml(name);
+          const safeNivelNome = escapeHtml(nivelNome);
+          const safeNivelHeadline = escapeHtml(nivelHeadline);
+          const safeNivelDesc = escapeHtml(nivelDesc);
+          const safeNivelRecommendedTier = escapeHtml(nivelRecommendedTier);
+          const safeNivelRecommendation = escapeHtml(nivelRecommendation);
+          const safeFilenameName = name
+            .replace(/[^a-zA-Z0-9\s-]/g, "")
+            .replace(/\s+/g, "-")
+            .slice(0, 80) || "lead";
+
           const emailPayload = {
             from: "Nexxu <diagnostico@nexxulab.com>",
             to: [email],
@@ -163,23 +174,23 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
                   <p style="color: #9090A8; margin: 8px 0 0; font-size: 12px; letter-spacing: 2px;">DIAGNÓSTICO ORDEM™</p>
                 </div>
                 <div style="padding: 32px;">
-                  <h2 style="color: #1a1a2e; margin: 0 0 16px;">Olá, ${name}.</h2>
+                  <h2 style="color: #1a1a2e; margin: 0 0 16px;">Olá, ${safeName}.</h2>
                   <p style="color: #55575d; line-height: 1.6;">
                     Seu diagnóstico está anexado a este email em PDF. Abaixo um resumo rápido:
                   </p>
                   <div style="background: #f5f5fa; border-radius: 12px; padding: 20px; margin: 24px 0;">
                     <p style="color: #9090A8; margin: 0 0 8px; font-size: 11px; letter-spacing: 1.5px;">SEU RESULTADO</p>
-                    <p style="color: #1a1a2e; margin: 0; font-size: 20px; font-weight: bold;">Nível ${nivel} — ${nivelNome}</p>
+                    <p style="color: #1a1a2e; margin: 0; font-size: 20px; font-weight: bold;">Nível ${nivel} — ${safeNivelNome}</p>
                     <p style="color: #55575d; margin: 8px 0 0; font-size: 14px;">${score}/${scoreMax} pontos · ${scorePct}% de maturidade operacional</p>
                   </div>
-                  <p style="color: #1a1a2e; font-weight: 600; line-height: 1.5;">${nivelHeadline}</p>
-                  <p style="color: #55575d; line-height: 1.6;">${nivelDesc}</p>
+                  <p style="color: #1a1a2e; font-weight: 600; line-height: 1.5;">${safeNivelHeadline}</p>
+                  <p style="color: #55575d; line-height: 1.6;">${safeNivelDesc}</p>
                   ${aiSummaryHtml}
                   ${aiRecsHtml}
                   <div style="background: linear-gradient(135deg, rgba(24,95,165,0.05), rgba(83,74,183,0.08)); border-radius: 12px; padding: 20px; margin: 24px 0;">
                     <p style="color: #534AB7; margin: 0 0 8px; font-size: 11px; letter-spacing: 1.5px;">PRÓXIMO PASSO RECOMENDADO</p>
-                    <p style="color: #1a1a2e; margin: 0 0 8px; font-size: 18px; font-weight: bold;">${nivelRecommendedTier}</p>
-                    <p style="color: #55575d; margin: 0; line-height: 1.6;">${nivelRecommendation}</p>
+                    <p style="color: #1a1a2e; margin: 0 0 8px; font-size: 18px; font-weight: bold;">${safeNivelRecommendedTier}</p>
+                    <p style="color: #55575d; margin: 0; line-height: 1.6;">${safeNivelRecommendation}</p>
                   </div>
                   <div style="text-align: center; margin: 32px 0;">
                     <a href="https://wa.me/5500000000000?text=Quero%20conversar%20sobre%20o%20diagn%C3%B3stico%20ORDEM" style="display: inline-block; background: linear-gradient(135deg, #185FA5, #534AB7); color: #ffffff; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: bold;">Falar com a Nexxu →</a>
@@ -194,7 +205,7 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
             attachments: pdfBase64
               ? [
                   {
-                    filename: `Diagnostico-ORDEM-Nexxu-${name.replace(/\s+/g, "-")}.pdf`,
+                    filename: `Diagnostico-ORDEM-Nexxu-${safeFilenameName}.pdf`,
                     content: pdfBase64,
                   },
                 ]
@@ -239,10 +250,10 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
                   </div>
                   <div style="padding: 32px;">
                     <table style="width: 100%; border-collapse: collapse;">
-                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">NOME</td><td style="padding: 8px 0; color: #1a1a2e; font-weight: 600;">${name}</td></tr>
-                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">EMAIL</td><td style="padding: 8px 0; color: #1a1a2e;">${email}</td></tr>
-                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">WHATSAPP</td><td style="padding: 8px 0; color: #1a1a2e;">${whatsapp || "—"}</td></tr>
-                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">NÍVEL</td><td style="padding: 8px 0; color: #1a1a2e; font-weight: 600;">${nivel} — ${nivelNome}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">NOME</td><td style="padding: 8px 0; color: #1a1a2e; font-weight: 600;">${escapeHtml(name)}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">EMAIL</td><td style="padding: 8px 0; color: #1a1a2e;">${escapeHtml(email)}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">WHATSAPP</td><td style="padding: 8px 0; color: #1a1a2e;">${escapeHtml(whatsapp || "—")}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">NÍVEL</td><td style="padding: 8px 0; color: #1a1a2e; font-weight: 600;">${nivel} — ${escapeHtml(nivelNome)}</td></tr>
                       <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">SCORE</td><td style="padding: 8px 0; color: #1a1a2e;">${score}/${scoreMax} (${scorePct}%)</td></tr>
                     </table>
                     <div style="text-align: center; margin: 32px 0 0;">
