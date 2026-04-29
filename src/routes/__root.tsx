@@ -29,15 +29,15 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "nexxu" },
+      { title: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
       { name: "description", content: "Processo primeiro. IA depois — quando vale a pena usar." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "nexxu" },
+      { name: "author", content: "Nexxu" },
+      { property: "og:title", content: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
       { property: "og:description", content: "Processo primeiro. IA depois — quando vale a pena usar." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "nexxu" },
+      { name: "twitter:title", content: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
       { name: "twitter:description", content: "Processo primeiro. IA depois — quando vale a pena usar." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777201276438-logo-branco-horizontal.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777201276438-logo-branco-horizontal.webp" },
@@ -56,7 +56,7 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
