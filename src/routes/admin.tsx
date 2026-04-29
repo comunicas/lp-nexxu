@@ -63,7 +63,12 @@ function AdminPage() {
     const applySession = async (nextSession: Session | null) => {
       if (cancelled) return;
 
-      if (nextSession?.user?.email && !isAdminEmail(nextSession.user.email)) {
+      if (!nextSession) {
+        setSession(null);
+        return;
+      }
+
+      if (!isAdminEmail(nextSession.user.email)) {
         setUnauthorized(true);
         setSession(null);
         await supabase.auth.signOut();
@@ -206,6 +211,7 @@ function AdminPage() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
+    setUnauthorized(false);
     setSession(null);
     setLeads([]);
   };
