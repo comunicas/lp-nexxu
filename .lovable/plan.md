@@ -1,32 +1,36 @@
-## Remover card de nota da seção ORDEM™
+## Problema
 
-O card mostrado no screenshot ("A sequência é sempre essa. O quanto a Nexxu assume na execução — a conversa de diagnóstico define.") fica entre o card de detalhe da letra ativa (O/R/D/E/M) e o grid de 3 cards do timeline (30/60/90 dias).
+O endpoint `src/routes/api/public/send-diagnostico.ts` tem uma função `escapeHtml()` definida, mas ela só é aplicada no conteúdo gerado por IA. Vários campos enviados pelo cliente (name, nivelNome, nivelHeadline, nivelDesc, nivelRecommendation, nivelRecommendedTier, email, whatsapp) são interpolados **crus** no HTML dos emails — tanto no email enviado ao lead quanto no email de notificação aos admins.
 
-### Mudança
+Isso permite que um atacante envie HTML/scripts arbitrários (incluindo conteúdo de phishing) usando o domínio `diagnostico@nexxulab.com` como remetente.
 
-**Arquivo:** `src/components/landing/OrdemMethod.tsx`
+## Correção
 
-Remover o bloco completo das linhas 132–142:
+Aplicar a função `escapeHtml()` já existente em **todos** os campos dinâmicos interpolados no HTML dos dois emails. Também escapar o nome no `subject` (apesar do subject não ser HTML, evita caracteres problemáticos) e sanitizar o nome usado no nome do arquivo PDF.
 
-```tsx
-<div className="mb-10 mx-auto p-5 rounded-2xl border border-[rgba(83,74,183,0.15)] bg-[rgba(83,74,183,0.03)] max-w-[600px]">
-  <p className="text-sm text-[var(--brand-muted)] leading-relaxed m-0">
-    <span className="font-semibold text-[var(--brand-text)]">
-      A sequência é sempre essa.
-    </span>{" "}
-    O quanto a Nexxu assume na execução —{" "}
-    <span className="text-[var(--brand-purple)] font-medium">
-      a conversa de diagnóstico define.
-    </span>
-  </p>
-</div>
-```
+### Arquivo: `src/routes/api/public/send-diagnostico.ts`
 
-### Preservar
+**1. Mover `escapeHtml` para antes do uso** (já está antes — ok).
 
-- Todo o resto do componente intacto: header, abas O/R/D/E/M, card de detalhe da letra ativa, e o grid timeline (30/60/90 dias) logo abaixo.
-- O espaçamento entre o card de detalhe (que já tem `marginBottom: 60`) e o grid do timeline continuará adequado, sem necessidade de ajuste adicional.
+**2. Email do lead (linhas 155–202):**
+- `${name}` → `${escapeHtml(name)}` (linha 166)
+- `${nivelNome}` → `${escapeHtml(nivelNome)}` (linha 172)
+- `${nivelHeadline}` → `${escapeHtml(nivelHeadline)}` (linha 175)
+- `${nivelDesc}` → `${escapeHtml(nivelDesc)}` (linha 176)
+- `${nivelRecommendedTier}` → `${escapeHtml(nivelRecommendedTier)}` (linha 181)
+- `${nivelRecommendation}` → `${escapeHtml(nivelRecommendation)}` (linha 182)
+- Filename do attachment: sanitizar `name` removendo caracteres não alfanuméricos antes do `.replace(/\s+/g, "-")` para evitar path traversal / cabeçalhos malformados.
 
-### Resultado
+**3. Email de notificação admin (linhas 231–254):**
+- `${name}` no subject (linha 234) → `${escapeHtml(name)}` (defensivo)
+- `${nivelNome}` no subject (linha 234) → `${escapeHtml(nivelNome)}`
+- `${name}` (linha 242) → `${escapeHtml(name)}`
+- `${email}` (linha 243) → `${escapeHtml(email)}`
+- `${whatsapp || "—"}` (linha 244) → `${escapeHtml(whatsapp || "—")}`
+- `${nivelNome}` (linha 245) → `${escapeHtml(nivelNome)}`
 
-A seção ORDEM™ passa do card de detalhe da letra direto para os 3 cards do timeline, sem a caixa de nota intermediária.
+Os campos numéricos (`nivel`, `score`, `scoreMax`, `scorePct`) já são validados como `number` e não precisam de escape.
+
+## Resultado esperado
+
+Todos os campos controlados pelo cliente passam por `escapeHtml()` antes de serem inseridos no HTML dos emails. Tentativas de injetar `<script>`, `<a href="phishing">`, ou qualquer outra tag HTML serão renderizadas como texto literal. Nenhuma outra lógica do endpoint muda.
