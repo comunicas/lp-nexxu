@@ -1,0 +1,49 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0F0C1A"/>
+  <circle cx="1080" cy="-40" r="360" fill="#534AB7" opacity="0.26"/>
+  <circle cx="86" cy="572" r="300" fill="#185FA5" opacity="0.24"/>
+  <circle cx="842" cy="498" r="220" fill="#5DCAA5" opacity="0.12"/>
+  <path d="M0 502C180 430 314 470 476 414C692 340 798 176 1200 226V630H0V502Z" fill="url(#wave)" opacity="0.18"/>
+
+  <g transform="translate(86 76)">
+    <circle cx="0" cy="36" r="7" fill="url(#dotA)"/>
+    <circle cx="25" cy="11" r="6" fill="#AFA9EC" opacity="0.86"/>
+    <circle cx="25" cy="36" r="8" fill="url(#dotA)"/>
+    <circle cx="25" cy="61" r="6" fill="#AFA9EC" opacity="0.86"/>
+    <circle cx="48" cy="24" r="5" fill="#CECBF6" opacity="0.72"/>
+    <circle cx="48" cy="49" r="5" fill="#CECBF6" opacity="0.72"/>
+    <path d="M0 36L25 11M0 36H25M0 36L25 61M25 11L48 24M25 36L48 24M25 36L48 49M25 61L48 49" stroke="url(#line)" stroke-width="3" stroke-linecap="round" opacity="0.72"/>
+    <text x="70" y="52" fill="url(#logoText)" font-family="Space Grotesk, Outfit, Arial, sans-serif" font-size="52" font-weight="700" letter-spacing="-2">nexxu</text>
+  </g>
+
+  <text x="86" y="268" fill="#FFFFFF" font-family="Space Grotesk, Outfit, Arial, sans-serif" font-size="78" line-height="1" font-weight="700" letter-spacing="-1">
+    <tspan x="86" dy="0">Processo antes de IA.</tspan>
+    <tspan x="86" dy="92" fill="#AFA9EC">Sempre.</tspan>
+  </text>
+
+  <text x="88" y="452" fill="#DAD7F7" font-family="Outfit, Arial, sans-serif" font-size="34" font-weight="400">
+    Consultoria de inovação operacional para PMEs
+  </text>
+  <text x="88" y="504" fill="#85B7EB" font-family="Outfit, Arial, sans-serif" font-size="28" font-weight="600">
+    Método ORDEM™: processos, rotinas e dados antes da automação.
+  </text>
+
+  <defs>
+    <linearGradient id="dotA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#85B7EB"/>
+      <stop offset="1" stop-color="#AFA9EC"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="11" x2="48" y2="61">
+      <stop offset="0" stop-color="#85B7EB"/>
+      <stop offset="1" stop-color="#CECBF6"/>
+    </linearGradient>
+    <linearGradient id="logoText" x1="70" y1="0" x2="244" y2="0">
+      <stop offset="0" stop-color="#85B7EB"/>
+      <stop offset="1" stop-color="#CECBF6"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="420" x2="1200" y2="420">
+      <stop offset="0" stop-color="#185FA5"/>
+      <stop offset="1" stop-color="#534AB7"/>
+    </linearGradient>
+  </defs>
+</svg>
