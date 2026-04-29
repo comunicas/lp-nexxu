@@ -15,7 +15,7 @@ export function Hero() {
 
       <div className="relative z-[2] max-w-[780px] mx-auto">
         <div className="mb-8">
-          <Badge variant="hero">Você não é o problema. O processo é.</Badge>
+          <Badge variant="hero">Aplicamos IA nos pontos certos.</Badge>
         </div>
 
         <h1 className="grad-text-hero text-[clamp(44px,6vw,80px)] font-extrabold leading-[1.05] tracking-tight mb-6">
