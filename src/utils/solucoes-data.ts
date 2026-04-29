@@ -311,6 +311,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Dashboards Customizados para Gestão de PMEs | Nexxu",
     metaDescription: "Painel feito para o seu negócio — com os indicadores certos, na visão certa, para quem precisa tomar decisão. Conectado às fontes reais de dados da operação.",
     tagline: "Dashboard genérico não serve para nenhum negócio. Dashboard certo serve para o seu.",
+    sintomas: [
+      "Abre a planilha, não entende os dados e fecha sem tomar nenhuma decisão",
+      "Recebe relatório toda semana cheio de número, sem saber o que fazer",
+      "Cada área usa uma ferramenta diferente e ninguém tem a visão completa",
+    ],
     paraQuem: "Donos que abrem uma planilha e fecham sem entender. Gestores que recebem relatório cheio de dados mas não sabem o que fazer. Empresas que cresceram e precisam de visão centralizada do negócio.",
     oProblema: "Dado isolado não gera decisão. O problema não é falta de informação — é excesso de informação mal organizada. Um bom dashboard mostra o que importa, esconde o que não importa, e deixa claro o que precisa de ação.",
     comoFunciona: [
