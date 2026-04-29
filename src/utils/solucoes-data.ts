@@ -36,6 +36,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Diagnóstico Operacional para PMEs | Nexxu",
     metaDescription: "Em 45 dias mapeamos onde o seu negócio trava — gargalos, retrabalho e dependências do dono. Primeiro passo do Método ORDEM™.",
     tagline: "Antes de mudar qualquer coisa, você precisa enxergar o que está acontecendo de verdade.",
+    sintomas: [
+      "Você sabe que tem problemas, mas não sabe exatamente onde estão",
+      "O dia vira uma sequência de apagar incêndio sem entender a causa",
+      "Já tentou várias soluções mas nada mudou de verdade",
+    ],
     paraQuem: "Donos de PMEs que sentem que a empresa não cresce, mas não sabem exatamente onde está o gargalo. Que apagam incêndio todo dia mas não conseguem identificar a origem.",
     oProblema: "A maioria das operações tem problemas óbvios que são tratados como naturais. Retrabalho que 'sempre aconteceu'. Dependência do dono que 'é assim mesmo'. O diagnóstico torna visível o que está invisível.",
     comoFunciona: [
