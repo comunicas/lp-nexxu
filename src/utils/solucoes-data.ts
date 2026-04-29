@@ -157,6 +157,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "KPIs e Gestão com Dados para PMEs | Nexxu",
     metaDescription: "Painel simples e confiável para decisões reais — sem achismo, sem planilha interminável. Saiba exatamente onde sua operação ganha e onde perde.",
     tagline: "Decisão no feeling é aposta. Decisão com dado é gestão.",
+    sintomas: [
+      "Você toma decisões importantes sem certeza se os números batem",
+      "Tem dados em planilhas mas ninguém sabe o que fazer com eles",
+      "Sente que a empresa cresce, mas não tem como provar nem medir",
+    ],
     paraQuem: "Donos que tomam decisões importantes sem ter certeza se os números batem. Que abrem uma planilha e fecham sem entender nada. Que precisam de visão clara do negócio sem precisar de analista de dados.",
     oProblema: "Informação existe em toda empresa — está em planilhas, WhatsApp, sistemas. O problema é que não está organizada para gerar decisão. KPIs mal escolhidos geram falsa sensação de controle.",
     comoFunciona: [
