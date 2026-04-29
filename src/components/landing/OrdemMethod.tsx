@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 const LETTERS = [
   {
     letter: "O",
-    short: "Org.",
+    short: "Org",
     name: "Organização",
     desc: "Mapeamos cada processo crítico — quem faz, como faz, onde trava. Nada muda antes de estar claro no papel.",
   },
@@ -23,13 +23,13 @@ const LETTERS = [
   },
   {
     letter: "E",
-    short: "Efic.",
+    short: "Efic",
     name: "Eficiência IA",
     desc: "IA entra aqui — depois do processo claro. Aí ela multiplica. Antes disso, só escala o caos.",
   },
   {
     letter: "M",
-    short: "Maturid",
+    short: "Matur",
     name: "Maturidade",
     desc: "O objetivo final: sua empresa funciona com autonomia. O dono lidera, não opera.",
   },
@@ -134,9 +134,9 @@ export function OrdemMethod() {
             <span className="font-semibold text-[var(--brand-text)]">
               A sequência é sempre essa.
             </span>{" "}
-            O que muda é quanto da execução a Nexxu assume.{" "}
+            O quanto a Nexxu assume na execução —{" "}
             <span className="text-[var(--brand-purple)] font-medium">
-              A conversa de diagnóstico define isso.
+              a conversa de diagnóstico define.
             </span>
           </p>
         </div>
