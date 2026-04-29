@@ -250,10 +250,10 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
                   </div>
                   <div style="padding: 32px;">
                     <table style="width: 100%; border-collapse: collapse;">
-                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">NOME</td><td style="padding: 8px 0; color: #1a1a2e; font-weight: 600;">${name}</td></tr>
-                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">EMAIL</td><td style="padding: 8px 0; color: #1a1a2e;">${email}</td></tr>
-                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">WHATSAPP</td><td style="padding: 8px 0; color: #1a1a2e;">${whatsapp || "—"}</td></tr>
-                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">NÍVEL</td><td style="padding: 8px 0; color: #1a1a2e; font-weight: 600;">${nivel} — ${nivelNome}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">NOME</td><td style="padding: 8px 0; color: #1a1a2e; font-weight: 600;">${escapeHtml(name)}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">EMAIL</td><td style="padding: 8px 0; color: #1a1a2e;">${escapeHtml(email)}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">WHATSAPP</td><td style="padding: 8px 0; color: #1a1a2e;">${escapeHtml(whatsapp || "—")}</td></tr>
+                      <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">NÍVEL</td><td style="padding: 8px 0; color: #1a1a2e; font-weight: 600;">${nivel} — ${escapeHtml(nivelNome)}</td></tr>
                       <tr><td style="padding: 8px 0; color: #9090A8; font-size: 12px; letter-spacing: 1px;">SCORE</td><td style="padding: 8px 0; color: #1a1a2e;">${score}/${scoreMax} (${scorePct}%)</td></tr>
                     </table>
                     <div style="text-align: center; margin: 32px 0 0;">
