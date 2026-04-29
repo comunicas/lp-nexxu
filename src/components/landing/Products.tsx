@@ -198,7 +198,7 @@ export function Products() {
     <section id="produtos" className="bg-white px-[5%] py-24">
       <div className="max-w-[1200px] mx-auto">
         <SectionHeader
-          label="PRODUTOS"
+          label="TRILHA DO MÉTODO ORDEM™"
           labelColor="var(--brand-blue)"
           title={
             <>
