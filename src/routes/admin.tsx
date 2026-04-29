@@ -78,7 +78,7 @@ function AdminPage() {
     };
 
     const handleAuthRedirect = async () => {
-      setAuthStatus("Validando acesso...");
+      // authStatus is static for now
 
       try {
         const url = new URL(window.location.href);
@@ -118,8 +118,8 @@ function AdminPage() {
       } catch (err) {
         console.error("admin auth redirect error:", err);
         setSession(null);
-        setStep("email");
-        setLoginError("Código inválido ou expirado. Solicite um novo acesso.");
+        setLinkSent(false);
+        setLoginError("Link inválido ou expirado. Solicite um novo acesso.");
       } finally {
         initialized = true;
         if (!cancelled) setLoading(false);
@@ -142,66 +142,40 @@ function AdminPage() {
   }, []);
 
   useEffect(() => {
-    if (session) fetchLeads();
-  }, [session]);
+    if (session?.user?.id) fetchLeads();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.user?.id]);
 
   const fetchLeads = async () => {
     setLeadsLoading(true);
-    const { data, error } = await supabase
-      .from("leads")
-      .select("id, name, email, whatsapp, nivel, nivel_nome, score, score_max, score_pct, email_sent, created_at")
-      .order("created_at", { ascending: false });
-    if (!error && data) setLeads(data as Lead[]);
-    setLeadsLoading(false);
+    try {
+      const { data, error } = await supabase
+        .from("leads")
+        .select("id, name, email, whatsapp, nivel, nivel_nome, score, score_max, score_pct, email_sent, created_at")
+        .order("created_at", { ascending: false });
+      if (error) {
+        console.error("fetchLeads error:", error);
+      } else if (data) {
+        setLeads(data as Lead[]);
+      }
+    } catch (err) {
+      console.error("fetchLeads exception:", err);
+    } finally {
+      setLeadsLoading(false);
+    }
   };
 
-  const handleSendOtp = async (e: React.FormEvent) => {
+  const handleSendLink = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError("");
-    setLoginInfo("");
     setUnauthorized(false);
     setSubmitting(true);
     try {
       await sendAdminOtp({ data: { email: email.trim().toLowerCase() } });
-      setStep("otp");
-      setLoginInfo("Se este email tiver acesso, um código foi enviado.");
+      setLinkSent(true);
     } catch (err) {
       console.error(err);
-      setLoginError("Erro ao enviar código. Tente novamente.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginError("");
-    setSubmitting(true);
-    try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        email: email.trim().toLowerCase(),
-        token: otpCode.trim(),
-        type: "email",
-      });
-
-      if (error || !data.session) {
-        setLoginError("Código inválido ou expirado. Solicite um novo acesso.");
-        return;
-      }
-
-      if (!isAdminEmail(data.session.user.email)) {
-        setUnauthorized(true);
-        setSession(null);
-        await supabase.auth.signOut();
-        return;
-      }
-
-      setUnauthorized(false);
-      setSession(data.session);
-      setOtpCode("");
-    } catch (err) {
-      console.error(err);
-      setLoginError("Erro ao verificar código.");
+      setLoginError("Erro ao enviar link. Tente novamente.");
     } finally {
       setSubmitting(false);
     }
