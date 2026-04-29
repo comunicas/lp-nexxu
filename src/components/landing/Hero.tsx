@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui-nexxu/Badge";
 
 export function Hero() {
   return (
-    <section className="relative bg-[var(--brand-dark)] min-h-screen flex flex-col items-center justify-center overflow-hidden px-[5%] pt-32 pb-32 text-center">
+    <section className="relative bg-[var(--brand-dark)] min-h-screen flex flex-col items-center justify-center overflow-hidden px-[5%] pt-32 pb-28 sm:pb-32 md:pb-40 text-center">
       <div
         className="pointer-events-none absolute top-[20%] left-[15%] w-[400px] h-[400px] rounded-full"
         style={{ background: "radial-gradient(circle,rgba(24,95,165,.18) 0%,transparent 70%)" }}
