@@ -187,45 +187,82 @@ Definido em `src/styles.css` usando `@theme inline` do Tailwind v4.
 
 ## 5. Rotas e Páginas
 
-### `/` — Landing Page (`src/routes/index.tsx`)
+### Lista completa de rotas ativas (`src/routeTree.gen.ts`)
 
-Composição de seções em ordem:
+- `/`
+- `/diagnostico`
+- `/solucoes/$slug`
+- `/admin`
+- `/design-system`
+- `/api/public/send-diagnostico`
+- `/api/public/generate-recommendations`
 
-```tsx
-<main>
-  <Nav />
-  <Hero />
-  <PainSection />
-  <OrdemMethod />
-  <Products />
-  <IndiceSection />
-  <CasesSection />
-  <Faq />
-  <Footer />
-</main>
-```
+### Rotas públicas de página
 
-**Meta tags:** título, description, og:title, og:description, og:url, og:type, twitter:card, twitter:title, twitter:description, canonical.
+#### `/` — Landing Page (`src/routes/index.tsx`)
 
-### `/diagnostico` — Quiz de Diagnóstico (`src/routes/diagnostico.tsx`)
+- **Objetivo:** página principal de aquisição/conversão, apresentando proposta de valor, método ORDEM™ e CTAs para diagnóstico e soluções.
+- **Entrada:** sem parâmetros de rota; renderização de componentes de seção (`Nav`, `Hero`, `PainSection`, `OrdemMethod`, `SolucoesSection`, `Products`, `IndiceSection`, `CasesSection`, `Faq`, `Footer`).
+- **Saída:** HTML da landing page + metadados SEO/social (`title`, `description`, Open Graph, Twitter, `canonical`).
+- **Dependências:** TanStack Router (`createFileRoute`), componentes de UI da landing.
+- **Indexabilidade:** **indexável** (rota pública com metatags de SEO e canonical).
 
-Estado gerenciado localmente com `useState`. Fluxo de 3 estágios:
+#### `/diagnostico` — Quiz de Diagnóstico (`src/routes/diagnostico.tsx`)
 
-```
-intro → question[0..9] → result
-```
+- **Objetivo:** coletar respostas do diagnóstico ORDEM™ em 10 perguntas e entregar resultado imediato.
+- **Entrada:** sem parâmetros de rota; interação do usuário com estado local (`Stage` e `answers`), em fluxo `intro → question[0..9] → result`.
+- **Saída:** telas de intro, perguntas e resultado (`QuizIntro`, `QuizQuestionView`, `QuizResult`) com progresso (`QuizHeader`).
+- **Dependências:** React `useState`, dados de perguntas (`QUESTIONS`), componentes do módulo de diagnóstico.
+- **Indexabilidade:** **indexável** (rota pública, sem meta robots de bloqueio).
 
-**Lógica de stage:**
-```typescript
-type Stage =
-  | { kind: "intro" }
-  | { kind: "question"; index: number }
-  | { kind: "result" }
-```
+#### `/solucoes/$slug` — Página dinâmica de solução (`src/routes/solucoes/$slug.tsx`)
 
-### `/design-system` — Referência Visual (`src/routes/design-system.tsx`)
+- **Objetivo:** exibir página de solução específica por slug com SEO próprio e soluções relacionadas.
+- **Entrada:** parâmetro dinâmico `slug`; `loader` consulta `getSolucaoBySlug(params.slug)` e `getSolucoesBySlugList(...)`.
+- **Saída:** renderiza `SolucaoPageTemplate` com conteúdo da solução; em falha retorna `notFoundComponent` ou `errorComponent`.
+- **Dependências:** TanStack Router (`loader`, `notFound`), utilitários de dados de soluções, componente de template.
+- **Indexabilidade:** **indexável** para slugs válidos (metas dinâmicas por solução); slugs inválidos retornam 404.
 
-Página interna para visualização do design system. Não indexada.
+### Rotas internas
+
+#### `/admin` — Painel administrativo (`src/routes/admin.tsx`)
+
+- **Objetivo:** autenticar administradores por OTP e listar leads capturados.
+- **Entrada:** email + código OTP; sessão Supabase; consulta tabela `leads`; whitelist de emails autorizados.
+- **Saída:** UI de login OTP, estados de acesso negado/carregamento e painel com dados de leads.
+- **Dependências:** Supabase Auth (`getSession`, `onAuthStateChange`, `verifyOtp`, `signOut`), Supabase Database (`from("leads")`), função `sendAdminOtp`.
+- **Indexabilidade:** **não indexável / interna** (`meta robots: noindex, nofollow`).
+
+#### `/design-system` — Referência visual interna (`src/routes/design-system.tsx`)
+
+- **Objetivo:** documentar visualmente tokens, seções e componentes da marca/produto.
+- **Entrada:** sem parâmetros; composição estática de seções de design system.
+- **Saída:** página de documentação visual (`DSLayout` + seções de brand, cores, tipografia, etc.).
+- **Dependências:** componentes `design-system/*`.
+- **Indexabilidade:** **não indexável / interna** (`meta robots: noindex, nofollow`).
+
+### Rotas de API públicas
+
+#### `/api/public/send-diagnostico` — Persistência + envio de diagnóstico (`src/routes/api/public/send-diagnostico.ts`)
+
+- **Objetivo:** receber payload final do diagnóstico, salvar lead, enviar e-mail com resultado/PDF e notificar admins.
+- **Entrada:** `POST` JSON com dados do lead, score, breakdown por pilar, recomendações de IA e PDF em Base64; `OPTIONS` para CORS.
+- **Saída:** respostas HTTP JSON de sucesso/erro (`400` payload inválido, `409` e-mail duplicado, demais erros internos); cabeçalhos CORS.
+- **Dependências:** `supabaseAdmin` (insert/update em `leads`), validações básicas de payload (nome, email, nível 1..4), Resend API (`RESEND_API_KEY`), sanitização HTML para conteúdo dinâmico, notificação por e-mail aos admins.
+- **Indexabilidade:** **não indexável / interna técnica** (endpoint backend, não é página para indexação).
+
+#### `/api/public/generate-recommendations` — Recomendações de IA do diagnóstico (`src/routes/api/public/generate-recommendations.ts`)
+
+- **Objetivo:** gerar recomendações acionáveis e resumo personalizado com base nos pilares ORDEM™.
+- **Entrada:** `POST` JSON (`name`, `overallScore`, `maturityLevel`, `pillarScores`); `OPTIONS` para preflight CORS; validação de origem via allowlist.
+- **Saída:** JSON com `recommendations`, `mentoriaCTA` e `summary`; erros de validação/origem (`4xx`) quando aplicável.
+- **Dependências:** validações/sanitização (`validateInput`, `sanitizeName`), controle de CORS por regex de origem (`ALLOWED_ORIGIN_PATTERNS`), rate limiting (`checkRateLimit`), fallback determinístico quando IA não retorna formato válido.
+- **Indexabilidade:** **não indexável / interna técnica** (endpoint backend, não é página para indexação).
+
+### Nota explícita de indexação (resumo)
+
+- **Indexáveis:** `/`, `/diagnostico`, `/solucoes/$slug` (quando slug válido).
+- **Internas / não indexáveis:** `/admin`, `/design-system`, `/api/public/send-diagnostico`, `/api/public/generate-recommendations`.
 
 ---
 
