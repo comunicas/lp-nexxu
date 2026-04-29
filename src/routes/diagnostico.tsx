@@ -6,6 +6,8 @@ import { QuizQuestionView } from "@/components/diagnostico/QuizQuestionView";
 import { QuizResult } from "@/components/diagnostico/QuizResult";
 import { QUESTIONS } from "@/components/diagnostico/quizData";
 
+const OG_IMAGE_URL = "https://nexxulab.com/og-nexxu.svg";
+
 export const Route = createFileRoute("/diagnostico")({
   head: () => ({
     meta: [
@@ -21,7 +23,19 @@ export const Route = createFileRoute("/diagnostico")({
         content:
           "Descubra em 3 minutos se sua operação está no nível Caos, Reativo, Estruturado ou Autônoma.",
       },
+      { property: "og:url", content: "https://nexxulab.com/diagnostico" },
+      { property: "og:type", content: "website" },
+      { property: "og:image", content: OG_IMAGE_URL },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Diagnóstico ORDEM™ — Nexxu" },
+      {
+        name: "twitter:description",
+        content:
+          "Descubra em 3 minutos se sua operação está no nível Caos, Reativo, Estruturado ou Autônoma.",
+      },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
+    links: [{ rel: "canonical", href: "https://nexxulab.com/diagnostico" }],
   }),
   component: DiagnosticoPage,
 });
