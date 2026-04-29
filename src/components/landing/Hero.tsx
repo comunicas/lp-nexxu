@@ -58,7 +58,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-40">
+      <div className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-1.5 opacity-40">
         <span className="text-[11px] text-white tracking-widest">SCROLL</span>
         <div
           className="w-px h-8"
