@@ -15,10 +15,6 @@ export function Footer() {
         <div className="flex justify-between items-start flex-wrap gap-10 mb-12">
           <div className="max-w-[280px]">
             <Logo />
-            <p className="text-[13px] text-white/40 mt-4 leading-relaxed">
-              Consultoria de inovação operacional. Criatividade, processo e tecnologia trabalhando
-              juntos para sua empresa parar de depender de você.
-            </p>
           </div>
 
           <div className="flex gap-15 flex-wrap" style={{ gap: 60 }}>
@@ -37,12 +33,6 @@ export function Footer() {
                 className="block text-[13px] text-white/50 mb-2.5 hover:text-white/80 transition-colors"
               >
                 Produtos
-              </a>
-              <a
-                href="#solucoes"
-                className="block text-[13px] text-white/50 mb-2.5 hover:text-white/80 transition-colors"
-              >
-                Soluções
               </a>
               <a
                 href="#diagnostico"
