@@ -47,8 +47,8 @@ function Index() {
       <Hero />
       <PainSection />
       <OrdemMethod />
-      <Products />
       <SolucoesSection />
+      <Products />
       <IndiceSection />
       <CasesSection />
       <Faq />
