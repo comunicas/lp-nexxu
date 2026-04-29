@@ -2,21 +2,23 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 
 import appCss from "../styles.css?url";
 
+const OG_IMAGE_URL = "https://nexxulab.com/og-nexxu.svg";
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Página não encontrada</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+          A página que você procura não existe ou foi movida.
         </p>
         <div className="mt-6">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            Voltar para o início
           </Link>
         </div>
       </div>
@@ -35,12 +37,11 @@ export const Route = createRootRoute({
       { property: "og:title", content: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
       { property: "og:description", content: "Processo primeiro. IA depois — quando vale a pena usar." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:image", content: OG_IMAGE_URL },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Nexxu | Consultoria de Inovação Operacional para PMEs" },
       { name: "twitter:description", content: "Processo primeiro. IA depois — quando vale a pena usar." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777201276438-logo-branco-horizontal.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/jKnNwvpAIVdBeybAyDS6bLEVBhW2/social-images/social-1777201276438-logo-branco-horizontal.webp" },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
     links: [
       {
