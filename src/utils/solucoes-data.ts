@@ -97,6 +97,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Implementação com IA para Operações de PMEs | Nexxu",
     metaDescription: "IA aplicada nos pontos certos — depois do processo. Automações que eliminam retrabalho de verdade, sem gambiarra e sem hype.",
     tagline: "IA sem processo não resolve. Só adiciona gambiarra mais cara.",
+    sintomas: [
+      "Já testou ferramentas de IA mas não sabe se estão gerando resultado real",
+      "O time usa IA de forma improvisada, sem padrão e sem processo",
+      "Quer automatizar mas tem medo de escalar o caos junto",
+    ],
     paraQuem: "Empresas que já têm processos mapeados e querem ganhar velocidade sem contratar mais pessoas. Donos que ouviram falar de IA mas não sabem por onde começar sem perder o controle.",
     oProblema: "A maioria das implementações de IA falha porque coloca automação em cima de caos. A IA da Nexxu entra depois do processo estar claro — e amplifica o que já funciona.",
     comoFunciona: [
