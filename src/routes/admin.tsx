@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
 import { Logo } from "@/components/ui-nexxu/Logo";
-import { generateAdminMagicLink } from "@/utils/admin-auth.functions";
+import { sendAdminOtp } from "@/utils/admin-auth.functions";
 
 const ADMIN_EMAILS = ["rbruno@nexxulab.com", "fhorita@nexxulab.com"];
 
@@ -42,20 +42,22 @@ export const Route = createFileRoute("/admin")({
 function AdminPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [loginLoadingEmail, setLoginLoadingEmail] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [otpCode, setOtpCode] = useState("");
+  const [step, setStep] = useState<"email" | "otp">("email");
+  const [submitting, setSubmitting] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const [loginInfo, setLoginInfo] = useState("");
   const [leads, setLeads] = useState<Lead[]>([]);
   const [leadsLoading, setLeadsLoading] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
 
   useEffect(() => {
-    // Processar token do hash (callback do magic link)
     const hash = window.location.hash;
     if (hash && hash.includes("access_token")) {
       window.history.replaceState(null, "", window.location.pathname);
     }
 
-    // Setup listener BEFORE getSession (per Supabase best practice)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
       if (newSession?.user?.email && !ADMIN_EMAILS.includes(newSession.user.email)) {
         setUnauthorized(true);
@@ -94,21 +96,41 @@ function AdminPage() {
     setLeadsLoading(false);
   };
 
-  const handleAdminLogin = async (email: string) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoginError("");
-    setLoginLoadingEmail(email);
+    setLoginInfo("");
+    setSubmitting(true);
     try {
-      const result = await generateAdminMagicLink({ data: { email } });
-      if (result.success) {
-        window.location.href = result.actionLink;
-      } else {
-        setLoginError(result.error || "Falha ao gerar link de acesso.");
-        setLoginLoadingEmail(null);
+      await sendAdminOtp({ data: { email: email.trim().toLowerCase() } });
+      setStep("otp");
+      setLoginInfo("Se este email tiver acesso, um código foi enviado.");
+    } catch (err) {
+      console.error(err);
+      setLoginError("Erro ao enviar código. Tente novamente.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError("");
+    setSubmitting(true);
+    try {
+      const { error } = await supabase.auth.verifyOtp({
+        email: email.trim().toLowerCase(),
+        token: otpCode.trim(),
+        type: "email",
+      });
+      if (error) {
+        setLoginError("Código inválido ou expirado.");
       }
     } catch (err) {
       console.error(err);
-      setLoginError("Erro ao gerar link. Tente novamente.");
-      setLoginLoadingEmail(null);
+      setLoginError("Erro ao verificar código.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -148,32 +170,70 @@ function AdminPage() {
             <p className="text-[11px] font-bold tracking-widest text-white/40 mb-2">PAINEL ADMIN</p>
             <h1 className="font-display font-extrabold text-2xl text-white mb-2">Acesso restrito</h1>
             <p className="text-sm text-white/60 mb-6 leading-relaxed">
-              Selecione sua conta para entrar. Acesso instantâneo, sem email.
+              {step === "email"
+                ? "Informe seu email autorizado para receber o código de acesso."
+                : "Digite o código de 6 dígitos enviado para o seu email."}
             </p>
 
-            <div className="space-y-3">
-              {ADMIN_EMAILS.map((email) => {
-                const isLoading = loginLoadingEmail === email;
-                const disabled = loginLoadingEmail !== null;
-                return (
-                  <button
-                    key={email}
-                    type="button"
-                    onClick={() => handleAdminLogin(email)}
-                    disabled={disabled}
-                    className="w-full px-5 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 hover:border-[var(--brand-purple)] text-white text-[14px] font-semibold transition-all disabled:opacity-60 disabled:cursor-not-allowed text-left flex items-center justify-between gap-3"
-                  >
-                    <span className="truncate">{email}</span>
-                    <span className="text-white/50 text-xs flex-shrink-0">
-                      {isLoading ? "Entrando..." : "Entrar →"}
-                    </span>
-                  </button>
-                );
-              })}
-              {loginError && (
-                <p className="text-[13px] text-red-400 font-medium pt-1">{loginError}</p>
-              )}
-            </div>
+            {step === "email" ? (
+              <form onSubmit={handleSendOtp} className="space-y-3">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="seu@email.com"
+                  className="w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 focus:border-[var(--brand-purple)] text-white text-[14px] placeholder-white/30 outline-none transition-colors"
+                />
+                <button
+                  type="submit"
+                  disabled={submitting || !email}
+                  className="w-full px-5 py-3.5 rounded-xl bg-[var(--brand-purple)] hover:opacity-90 text-white text-[14px] font-semibold transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {submitting ? "Enviando..." : "Enviar código"}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleVerifyOtp} className="space-y-3">
+                <input
+                  type="text"
+                  required
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  maxLength={6}
+                  value={otpCode}
+                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ""))}
+                  placeholder="000000"
+                  className="w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 focus:border-[var(--brand-purple)] text-white text-[18px] text-center tracking-[0.5em] placeholder-white/20 outline-none transition-colors"
+                />
+                <button
+                  type="submit"
+                  disabled={submitting || otpCode.length < 6}
+                  className="w-full px-5 py-3.5 rounded-xl bg-[var(--brand-purple)] hover:opacity-90 text-white text-[14px] font-semibold transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {submitting ? "Verificando..." : "Entrar"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStep("email");
+                    setOtpCode("");
+                    setLoginError("");
+                    setLoginInfo("");
+                  }}
+                  className="w-full text-xs text-white/50 hover:text-white/80 transition-colors"
+                >
+                  ← Usar outro email
+                </button>
+              </form>
+            )}
+
+            {loginInfo && (
+              <p className="text-[13px] text-white/60 font-medium pt-3">{loginInfo}</p>
+            )}
+            {loginError && (
+              <p className="text-[13px] text-red-400 font-medium pt-3">{loginError}</p>
+            )}
           </div>
         </div>
       </div>
