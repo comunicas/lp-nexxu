@@ -1,36 +1,60 @@
 ## Problema
 
-O endpoint `src/routes/api/public/send-diagnostico.ts` tem uma função `escapeHtml()` definida, mas ela só é aplicada no conteúdo gerado por IA. Vários campos enviados pelo cliente (name, nivelNome, nivelHeadline, nivelDesc, nivelRecommendation, nivelRecommendedTier, email, whatsapp) são interpolados **crus** no HTML dos emails — tanto no email enviado ao lead quanto no email de notificação aos admins.
+O dev-server está cuspindo o erro:
 
-Isso permite que um atacante envie HTML/scripts arbitrários (incluindo conteúdo de phishing) usando o domínio `diagnostico@nexxulab.com` como remetente.
+```
+Serialization error: Seroval Error  value: Symbol(react.forward_ref)
+Invariant failed: Expected to find a dehydrated data on window.$_TSR.router
+```
 
-## Correção
+O `loader` em `src/routes/solucoes/$slug.tsx` retorna objetos de `solucoes-data.ts` que contêm `icon: LucideIcon` (componentes React do `lucide-react`). O TanStack Start tenta serializar o resultado do loader via `seroval` para enviar do servidor pro cliente, e componentes React (forwardRef) **não são serializáveis** — isso quebra o SSR, a hidratação falha e a página fica em branco / não carrega no preview.
 
-Aplicar a função `escapeHtml()` já existente em **todos** os campos dinâmicos interpolados no HTML dos dois emails. Também escapar o nome no `subject` (apesar do subject não ser HTML, evita caracteres problemáticos) e sanitizar o nome usado no nome do arquivo PDF.
+## Causa raiz
 
-### Arquivo: `src/routes/api/public/send-diagnostico.ts`
+`src/utils/solucoes-data.ts` define cada solução com:
 
-**1. Mover `escapeHtml` para antes do uso** (já está antes — ok).
+```ts
+{ icon: Clock, ... } // Clock é um componente React de lucide-react
+```
 
-**2. Email do lead (linhas 155–202):**
-- `${name}` → `${escapeHtml(name)}` (linha 166)
-- `${nivelNome}` → `${escapeHtml(nivelNome)}` (linha 172)
-- `${nivelHeadline}` → `${escapeHtml(nivelHeadline)}` (linha 175)
-- `${nivelDesc}` → `${escapeHtml(nivelDesc)}` (linha 176)
-- `${nivelRecommendedTier}` → `${escapeHtml(nivelRecommendedTier)}` (linha 181)
-- `${nivelRecommendation}` → `${escapeHtml(nivelRecommendation)}` (linha 182)
-- Filename do attachment: sanitizar `name` removendo caracteres não alfanuméricos antes do `.replace(/\s+/g, "-")` para evitar path traversal / cabeçalhos malformados.
+E `src/routes/solucoes/$slug.tsx` retorna esses objetos diretamente do `loader`, que precisa ser serializável.
 
-**3. Email de notificação admin (linhas 231–254):**
-- `${name}` no subject (linha 234) → `${escapeHtml(name)}` (defensivo)
-- `${nivelNome}` no subject (linha 234) → `${escapeHtml(nivelNome)}`
-- `${name}` (linha 242) → `${escapeHtml(name)}`
-- `${email}` (linha 243) → `${escapeHtml(email)}`
-- `${whatsapp || "—"}` (linha 244) → `${escapeHtml(whatsapp || "—")}`
-- `${nivelNome}` (linha 245) → `${escapeHtml(nivelNome)}`
+## Solução
 
-Os campos numéricos (`nivel`, `score`, `scoreMax`, `scorePct`) já são validados como `number` e não precisam de escape.
+Não usar o `loader` do TanStack para esses dados — eles são estáticos e já existem como módulo no bundle do cliente. Basta lê-los direto no `component` (sem passar pelo pipeline de serialização SSR).
 
-## Resultado esperado
+### Mudanças em `src/routes/solucoes/$slug.tsx`
 
-Todos os campos controlados pelo cliente passam por `escapeHtml()` antes de serem inseridos no HTML dos emails. Tentativas de injetar `<script>`, `<a href="phishing">`, ou qualquer outra tag HTML serão renderizadas como texto literal. Nenhuma outra lógica do endpoint muda.
+1. **Remover o `loader`** completamente.
+2. **Manter `head()`** — só retorna strings (já é serializável, sem problema).
+3. **No `component`**, usar `Route.useParams()` e chamar `getSolucaoBySlug(slug)` / `getSolucoesBySlugList(...)` ali. Se não achar, renderizar o `notFoundComponent` via `throw notFound()` dentro do componente (ou simplesmente retornar o markup de "não encontrado").
+
+### Esqueleto resultante
+
+```tsx
+export const Route = createFileRoute("/solucoes/$slug")({
+  head: ({ params }) => { /* mantém igual, só strings */ },
+  component: function SolucaoPage() {
+    const { slug } = Route.useParams();
+    const solucao = getSolucaoBySlug(slug);
+    if (!solucao) {
+      return <NotFoundView />;
+    }
+    const relacionadas = getSolucoesBySlugList(solucao.relacionadas);
+    return <SolucaoPageTemplate solucao={solucao} relacionadas={relacionadas} />;
+  },
+  errorComponent: ({ error }) => (...),
+  notFoundComponent: () => (...),
+});
+```
+
+## Verificação após o fix
+
+1. Conferir `/tmp/dev-server-logs/dev-server.log` — não deve mais aparecer `Seroval Error`.
+2. Carregar `/` e uma rota `/solucoes/<slug>` no preview do editor — devem renderizar sem tela branca.
+3. Avisar o usuário para clicar em **Publish → Update** para que a correção também vá ao ar em `nexxulab.com` / `lp-nexxu.lovable.app`.
+
+## Fora de escopo
+
+- Não vou mexer em `solucoes-data.ts` (manter os ícones como componentes é o padrão correto para uso no cliente).
+- Não vou alterar outras rotas — apenas `solucoes/$slug.tsx` tem `loader` que devolve dados não-serializáveis.
