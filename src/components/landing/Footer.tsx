@@ -62,7 +62,12 @@ export function Footer() {
               <div className="text-[11px] font-semibold tracking-widest text-white/30 uppercase mb-4">
                 Contato
               </div>
-              <span className="block text-[13px] text-white/50 mb-2.5">contato@nexxu.com.br</span>
+              <a
+                href="mailto:contato@nexxu.com.br"
+                className="block text-[13px] text-white/50 mb-2.5 hover:text-white/80 transition-colors"
+              >
+                contato@nexxu.com.br
+              </a>
               <span className="block text-[13px] text-white/50 mb-2.5">São Paulo, BR</span>
             </div>
           </div>
