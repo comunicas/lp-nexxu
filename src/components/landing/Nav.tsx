@@ -33,6 +33,12 @@ export function Nav() {
           Método
         </a>
         <a
+          href="#solucoes"
+          className="hidden sm:inline-block text-white/65 text-sm font-medium px-1 py-1.5 hover:text-white transition-colors"
+        >
+          Soluções
+        </a>
+        <a
           href="#produtos"
           className="hidden sm:inline-block text-white/65 text-sm font-medium px-1 py-1.5 hover:text-white transition-colors"
         >
@@ -42,7 +48,7 @@ export function Nav() {
           href="#diagnostico"
           className="hidden sm:inline-block text-white/65 text-sm font-medium px-1 py-1.5 hover:text-white transition-colors"
         >
-          Diagnóstico
+          Índice ORDEM™
         </a>
         <Link
           to="/diagnostico"
