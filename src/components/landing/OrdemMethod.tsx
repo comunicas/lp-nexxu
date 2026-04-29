@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 const LETTERS = [
   {
     letter: "O",
-    short: "Organiz.",
+    short: "Org.",
     name: "Organização",
     desc: "Mapeamos cada processo crítico — quem faz, como faz, onde trava. Nada muda antes de estar claro no papel.",
   },
@@ -23,13 +23,13 @@ const LETTERS = [
   },
   {
     letter: "E",
-    short: "Eficiência",
+    short: "Efic.",
     name: "Eficiência IA",
     desc: "IA entra aqui — depois do processo claro. Aí ela multiplica. Antes disso, só escala o caos.",
   },
   {
     letter: "M",
-    short: "Maturid.",
+    short: "Maturid",
     name: "Maturidade",
     desc: "O objetivo final: sua empresa funciona com autonomia. O dono lidera, não opera.",
   },
