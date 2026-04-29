@@ -128,7 +128,7 @@ function ProductCard({ p }: { p: Product }) {
           <span
             className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]"
           >
-            ETAPA {p.step}
+            NÍVEL {p.step}
           </span>
           <span className="w-1 h-1 rounded-full bg-[var(--brand-subtle)]/40" />
           <span className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]">
