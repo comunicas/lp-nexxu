@@ -39,6 +39,12 @@ export function Footer() {
                 Produtos
               </a>
               <a
+                href="#solucoes"
+                className="block text-[13px] text-white/50 mb-2.5 hover:text-white/80 transition-colors"
+              >
+                Soluções
+              </a>
+              <a
                 href="#diagnostico"
                 className="block text-[13px] text-white/50 mb-2.5 hover:text-white/80 transition-colors"
               >
