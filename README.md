@@ -75,6 +75,7 @@ lp-nexxu/
 │   │   │   ├── Hero.tsx          # Hero fullscreen (dark)
 │   │   │   ├── PainSection.tsx   # "Você se reconhece?" — 6 cards de dor
 │   │   │   ├── OrdemMethod.tsx   # Método ORDEM™ — interativo (5 letras)
+│   │   │   ├── SolucoesSection.tsx # Grid de soluções e links para páginas /solucoes/$slug
 │   │   │   ├── Products.tsx      # 4 cards de produto (T1–T4)
 │   │   │   ├── IndiceSection.tsx # Índice ORDEM™ — 4 níveis (dark)
 │   │   │   ├── CasesSection.tsx  # Resultados — 30/60/90 dias
@@ -370,6 +371,24 @@ CTA 2:   "Ver o método"
 
 ---
 
+### SolucoesSection.tsx
+
+**Localização:** `src/components/landing/SolucoesSection.tsx`
+
+**Layout:** Fundo `--brand-page`. Grid responsivo de soluções (1→2→4 colunas).
+
+**Âncora:** `id="solucoes"`
+
+**Elementos:**
+- `SectionHeader` com label "SOLUÇÕES" e título focado em dores operacionais
+- 10 cards de solução (array `SOLUCOES`) com ícone Lucide, barra de acento e descrição curta
+- Link por card para rota dinâmica `/solucoes/$slug` (`Saiba mais →`)
+
+**Array SOLUCOES — 10 itens:**
+Diagnóstico Operacional, Mapeamento de Processos, Implementação com IA, Mentoria para o Dono, KPIs e Gestão com Dados, Autonomia Operacional, Agentes Autônomos com IA, Gestão de Conteúdo com IA, Atendimento Escalável com IA e Dashboards de Gestão Customizados.
+
+---
+
 ### Products.tsx
 
 **Localização:** `src/components/landing/Products.tsx`
@@ -581,6 +600,7 @@ Padrão de abertura de seção: label uppercase pequeno + título grande + descr
 | Seção | ID | Componente |
 |---|---|---|
 | Método ORDEM™ | `#metodo` | `OrdemMethod.tsx` |
+| Soluções | `#solucoes` | `SolucoesSection.tsx` |
 | Produtos | `#produtos` | `Products.tsx` |
 | Índice ORDEM™ | `#diagnostico` | `IndiceSection.tsx` |
 | Resultados | `#resultados` | `CasesSection.tsx` |
@@ -591,8 +611,9 @@ Padrão de abertura de seção: label uppercase pequeno + título grande + descr
 | Label | Destino | Tipo |
 |---|---|---|
 | Método | `#metodo` | âncora |
+| Soluções | `#solucoes` | âncora |
 | Produtos | `#produtos` | âncora |
-| Diagnóstico | `#diagnostico` | âncora |
+| Índice ORDEM™ | `#diagnostico` | âncora |
 | Fazer diagnóstico → | `/diagnostico` | rota |
 
 ### Footer — links atuais
@@ -601,6 +622,7 @@ Padrão de abertura de seção: label uppercase pequeno + título grande + descr
 |---|---|
 | ORDEM™ | `#metodo` |
 | Produtos | `#produtos` |
+| Soluções | `#solucoes` |
 | Índice ORDEM™ | `#diagnostico` |
 | FAQ | `#faq` |
 | contato@nexxu.com.br | mailto (sem href ainda) |
@@ -640,7 +662,7 @@ Dono de PME que trabalha mais que o time inteiro e ainda assim a empresa não an
 Topo (Hero/PainSection)
   ↓  CTA: "Descobrir meu nível operacional — gratuito →"
   ↓
-Meio (IndiceSection / CasesSection)
+Meio (SolucoesSection / Products / IndiceSection / CasesSection)
   ↓  CTA: "Fazer diagnóstico gratuito →"
   ↓
 /diagnostico (QuizIntro → Quiz 10 perguntas → Resultado)
@@ -753,3 +775,15 @@ Documentação das principais mudanças feitas via prompts Lovable (sessão de A
 
 *lp-nexxu · Documentação Técnica · v1.0 · Abril 2026*  
 *Flavio Horita & Rafael Bruno · Nexxu · nexxulab.com*
+
+## 15. Checklist de manutenção da Home
+
+Use este checklist sempre que alterar seções/componentes da rota `/`:
+
+- [ ] Conferir ordem real em `src/routes/index.tsx` (render do `<main>`).
+- [ ] Atualizar a lista de componentes da seção **3. Estrutura de Arquivos**.
+- [ ] Atualizar a composição da Home na seção **5. Rotas e Páginas** (`/`).
+- [ ] Garantir que a seção **6. Componentes — Landing Page** contém todas as seções da Home (incluindo novas entradas).
+- [ ] Revisar **Mapa de Âncoras e Navegação** para manter ids/links consistentes.
+- [ ] Validar se descrições e CTAs de cada seção refletem o código em `src/components/landing/`.
+
