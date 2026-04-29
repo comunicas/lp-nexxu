@@ -30,6 +30,16 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Nexxu" },
+      { title: "Nexxu | Processo antes de IA. Sempre." },
+      { property: "og:title", content: "Nexxu | Processo antes de IA. Sempre." },
+      { name: "twitter:title", content: "Nexxu | Processo antes de IA. Sempre." },
+      { name: "description", content: "Consultoria de inovação operacional para PME. Método ORDEM™: organização, rotinas e dados antes de IA. Resultados em 90 dias." },
+      { property: "og:description", content: "Consultoria de inovação operacional para PME. Método ORDEM™: organização, rotinas e dados antes de IA. Resultados em 90 dias." },
+      { name: "twitter:description", content: "Consultoria de inovação operacional para PME. Método ORDEM™: organização, rotinas e dados antes de IA. Resultados em 90 dias." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/1e633aef-d553-4f59-b84b-6aab10696dc8" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/1e633aef-d553-4f59-b84b-6aab10696dc8" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:type", content: "website" },
     ],
     links: [
       {
