@@ -248,6 +248,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Gestão de Conteúdo com IA para PMEs | Nexxu",
     metaDescription: "Roteiros, imagens, áudio e vídeos produzidos com consistência de marca — sem improvisar brief, sem perder identidade a cada peça. IA aplicada no processo de conteúdo.",
     tagline: "Conteúdo produzido no improviso parece feito no improviso. O cliente percebe.",
+    sintomas: [
+      "Produz conteúdo no improviso — sem calendário, sem padrão, sem resultado",
+      "Depende de agência ou freelancer para cada peça e perdeu o controle da voz",
+      "Quer usar IA para produzir mais, mas o conteúdo não parece da sua empresa",
+    ],
     paraQuem: "PMEs que precisam produzir conteúdo regularmente mas não têm equipe dedicada. Donos que dependem de agência para cada post e perdem o controle da narrativa. Negócios que querem usar IA para escalar produção sem perder a voz da marca.",
     oProblema: "A maioria das empresas produz conteúdo sem processo: sem calendário fixo, sem briefing padrão, sem linha editorial definida. O resultado é inconsistência — que enfraquece a marca e desperdiça o investimento.",
     comoFunciona: [
