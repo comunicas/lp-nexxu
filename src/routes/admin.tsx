@@ -41,13 +41,11 @@ export const Route = createFileRoute("/admin")({
 function AdminPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [authStatus, setAuthStatus] = useState("Validando acesso...");
+  const [authStatus] = useState("Validando acesso...");
   const [email, setEmail] = useState("");
-  const [otpCode, setOtpCode] = useState("");
-  const [step, setStep] = useState<"email" | "otp">("email");
   const [submitting, setSubmitting] = useState(false);
   const [loginError, setLoginError] = useState("");
-  const [loginInfo, setLoginInfo] = useState("");
+  const [linkSent, setLinkSent] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [leadsLoading, setLeadsLoading] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
