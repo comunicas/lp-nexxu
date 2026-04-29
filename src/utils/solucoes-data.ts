@@ -16,6 +16,7 @@ export type SolucaoData = {
   metaTitle: string;
   metaDescription: string;
   tagline: string;
+  sintomas: string[]; // array de exatamente 3 strings
   paraQuem: string;
   oProblema: string;
   comoFunciona: { step: number; titulo: string; descricao: string }[];
@@ -35,6 +36,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Diagnóstico Operacional para PMEs | Nexxu",
     metaDescription: "Em 45 dias mapeamos onde o seu negócio trava — gargalos, retrabalho e dependências do dono. Primeiro passo do Método ORDEM™.",
     tagline: "Antes de mudar qualquer coisa, você precisa enxergar o que está acontecendo de verdade.",
+    sintomas: [
+      "Você sabe que tem problemas, mas não sabe exatamente onde estão",
+      "O dia vira uma sequência de apagar incêndio sem entender a causa",
+      "Já tentou várias soluções mas nada mudou de verdade",
+    ],
     paraQuem: "Donos de PMEs que sentem que a empresa não cresce, mas não sabem exatamente onde está o gargalo. Que apagam incêndio todo dia mas não conseguem identificar a origem.",
     oProblema: "A maioria das operações tem problemas óbvios que são tratados como naturais. Retrabalho que 'sempre aconteceu'. Dependência do dono que 'é assim mesmo'. O diagnóstico torna visível o que está invisível.",
     comoFunciona: [
@@ -60,6 +66,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Mapeamento de Processos para PMEs | Nexxu",
     metaDescription: "Quem faz, como faz, onde trava. Nada muda antes de estar claro no papel. Estruturamos os processos do seu negócio com o Método ORDEM™.",
     tagline: "Sem processo claro, a solução de hoje vira o problema de amanhã.",
+    sintomas: [
+      "Cada funcionário faz do seu jeito — o resultado nunca é consistente",
+      "Quando alguém sai, o conhecimento vai embora junto",
+      "Delegou uma tarefa e precisou refazer porque 'não ficou como eu queria'",
+    ],
     paraQuem: "Empresas que cresceram e as coisas foram se resolvendo sem padronização. Donos que tentaram delegar e receberam resultados inconsistentes. Times que cometem os mesmos erros repetidamente.",
     oProblema: "Processo não documentado depende de memória. Quando a pessoa que sabe como fazer sai, o conhecimento vai embora. Quando o time cresce, o caos escala junto.",
     comoFunciona: [
@@ -86,6 +97,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Implementação com IA para Operações de PMEs | Nexxu",
     metaDescription: "IA aplicada nos pontos certos — depois do processo. Automações que eliminam retrabalho de verdade, sem gambiarra e sem hype.",
     tagline: "IA sem processo não resolve. Só adiciona gambiarra mais cara.",
+    sintomas: [
+      "Já testou ferramentas de IA mas não sabe se estão gerando resultado real",
+      "O time usa IA de forma improvisada, sem padrão e sem processo",
+      "Quer automatizar mas tem medo de escalar o caos junto",
+    ],
     paraQuem: "Empresas que já têm processos mapeados e querem ganhar velocidade sem contratar mais pessoas. Donos que ouviram falar de IA mas não sabem por onde começar sem perder o controle.",
     oProblema: "A maioria das implementações de IA falha porque coloca automação em cima de caos. A IA da Nexxu entra depois do processo estar claro — e amplifica o que já funciona.",
     comoFunciona: [
@@ -111,6 +127,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Mentoria Operacional para Donos de PMEs | Nexxu",
     metaDescription: "Acompanhamento direto para o dono sair da operação e o time passar a funcionar sem depender dele. Método ORDEM™ na prática.",
     tagline: "O dono que resolve tudo é o maior gargalo da empresa.",
+    sintomas: [
+      "Você é o único que sabe fazer tudo — e isso travou o crescimento",
+      "Já tentou delegar antes e o resultado sempre voltou para você resolver",
+      "Não consegue tirar férias sem o telefone tocando o dia todo",
+    ],
     paraQuem: "Donos que são o hub central de todas as decisões. Que não conseguem tirar férias sem o telefone tocando. Que sabem que precisam delegar mas toda tentativa volta para eles.",
     oProblema: "A síndrome do bombeiro-chefe não é falta de esforço — é falta de estrutura. Quando não existe padrão, a delegação sempre falha. A mentoria cria o padrão e ensina o dono a liderar pelo processo, não pela presença.",
     comoFunciona: [
@@ -136,6 +157,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "KPIs e Gestão com Dados para PMEs | Nexxu",
     metaDescription: "Painel simples e confiável para decisões reais — sem achismo, sem planilha interminável. Saiba exatamente onde sua operação ganha e onde perde.",
     tagline: "Decisão no feeling é aposta. Decisão com dado é gestão.",
+    sintomas: [
+      "Você toma decisões importantes sem certeza se os números batem",
+      "Tem dados em planilhas mas ninguém sabe o que fazer com eles",
+      "Sente que a empresa cresce, mas não tem como provar nem medir",
+    ],
     paraQuem: "Donos que tomam decisões importantes sem ter certeza se os números batem. Que abrem uma planilha e fecham sem entender nada. Que precisam de visão clara do negócio sem precisar de analista de dados.",
     oProblema: "Informação existe em toda empresa — está em planilhas, WhatsApp, sistemas. O problema é que não está organizada para gerar decisão. KPIs mal escolhidos geram falsa sensação de controle.",
     comoFunciona: [
@@ -161,6 +187,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Autonomia Operacional para PMEs | Nexxu",
     metaDescription: "Empresa funcionando sem o dono no centro. Delegação estruturada, time treinado, processo documentado. Resultado do Método ORDEM™ em até 90 dias.",
     tagline: "Empresa autônoma não significa empresa sem dono. Significa dono que lidera em vez de operar.",
+    sintomas: [
+      "A empresa só funciona quando você está presente",
+      "Quer escalar mas sente que vai virar um caos maior",
+      "Sonha em trabalhar no negócio, mas ainda está preso dentro dele",
+    ],
     paraQuem: "Donos que chegaram no teto do que conseguem fazer pessoalmente. Que querem escalar sem inflar custo fixo. Que sonham em trabalhar no negócio, não dentro dele.",
     oProblema: "Autonomia não acontece por acidente. Ela é construída — processo por processo, delegação por delegação. Sem estrutura, o time volta a depender do dono em qualquer mudança de rotina.",
     comoFunciona: [
@@ -186,6 +217,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Agentes Autônomos com IA para PMEs | Nexxu",
     metaDescription: "Agentes de IA que executam tarefas repetitivas sem depender de pessoa — qualificação de leads, atendimento inicial, atualização de registros. Processo primeiro, automação depois.",
     tagline: "Um agente bem construído trabalha enquanto você dorme. Um mal construído cria problema enquanto você dorme.",
+    sintomas: [
+      "Seu time perde horas em tarefas que sempre são as mesmas",
+      "O volume de interações aumentou mas a qualidade caiu",
+      "Já tentou automação antes e o resultado foi um bot que irritava o cliente",
+    ],
     paraQuem: "Empresas com tarefas repetitivas que consomem tempo de pessoas qualificadas. Donos que percebem que o time gasta energia em atividades que sempre são as mesmas. Negócios que recebem volume alto de interações.",
     oProblema: "Agente de IA construído sem processo vira um bot que erra e irrita o cliente. A Nexxu projeta o processo antes de automatizar — o agente executa o que foi validado por humanos, não o que parece certo para a IA.",
     comoFunciona: [
@@ -212,6 +248,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Gestão de Conteúdo com IA para PMEs | Nexxu",
     metaDescription: "Roteiros, imagens, áudio e vídeos produzidos com consistência de marca — sem improvisar brief, sem perder identidade a cada peça. IA aplicada no processo de conteúdo.",
     tagline: "Conteúdo produzido no improviso parece feito no improviso. O cliente percebe.",
+    sintomas: [
+      "Produz conteúdo no improviso — sem calendário, sem padrão, sem resultado",
+      "Depende de agência ou freelancer para cada peça e perdeu o controle da voz",
+      "Quer usar IA para produzir mais, mas o conteúdo não parece da sua empresa",
+    ],
     paraQuem: "PMEs que precisam produzir conteúdo regularmente mas não têm equipe dedicada. Donos que dependem de agência para cada post e perdem o controle da narrativa. Negócios que querem usar IA para escalar produção sem perder a voz da marca.",
     oProblema: "A maioria das empresas produz conteúdo sem processo: sem calendário fixo, sem briefing padrão, sem linha editorial definida. O resultado é inconsistência — que enfraquece a marca e desperdiça o investimento.",
     comoFunciona: [
@@ -238,6 +279,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Atendimento Escalável com IA para PMEs | Nexxu",
     metaDescription: "IA que analisa padrões de comportamento em redes sociais e atendimento — e responde com contexto, não com script genérico. Escale sem perder qualidade.",
     tagline: "Atendimento ruim escala rápido. Atendimento bom precisa de processo antes de IA.",
+    sintomas: [
+      "O volume de mensagens aumentou e a qualidade do atendimento caiu",
+      "Já tentou chatbot e o cliente odiou — parecia robótico e sem contexto",
+      "Perde vendas porque a resposta demora ou não resolve o que o cliente precisa",
+    ],
     paraQuem: "Negócios que recebem volume alto de mensagens e não conseguem responder com qualidade. Donos que percebem que o atendimento está perdendo vendas mas não sabem onde. Empresas que já tentaram chatbot e o cliente odiou.",
     oProblema: "A maioria dos chatbots falha porque tenta substituir o atendimento humano antes de entender o que o cliente realmente pergunta. A Nexxu mapeia os padrões de interação reais e treina a IA com o que funciona.",
     comoFunciona: [
@@ -265,6 +311,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Dashboards Customizados para Gestão de PMEs | Nexxu",
     metaDescription: "Painel feito para o seu negócio — com os indicadores certos, na visão certa, para quem precisa tomar decisão. Conectado às fontes reais de dados da operação.",
     tagline: "Dashboard genérico não serve para nenhum negócio. Dashboard certo serve para o seu.",
+    sintomas: [
+      "Abre a planilha, não entende os dados e fecha sem tomar nenhuma decisão",
+      "Recebe relatório toda semana cheio de número, sem saber o que fazer",
+      "Cada área usa uma ferramenta diferente e ninguém tem a visão completa",
+    ],
     paraQuem: "Donos que abrem uma planilha e fecham sem entender. Gestores que recebem relatório cheio de dados mas não sabem o que fazer. Empresas que cresceram e precisam de visão centralizada do negócio.",
     oProblema: "Dado isolado não gera decisão. O problema não é falta de informação — é excesso de informação mal organizada. Um bom dashboard mostra o que importa, esconde o que não importa, e deixa claro o que precisa de ação.",
     comoFunciona: [
