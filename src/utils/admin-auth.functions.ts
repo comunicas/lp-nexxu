@@ -3,43 +3,38 @@ import { createClient } from "@supabase/supabase-js";
 
 const ADMIN_EMAILS = ["rbruno@nexxulab.com", "fhorita@nexxulab.com"];
 
-export const generateAdminMagicLink = createServerFn({ method: "POST" })
+export const sendAdminOtp = createServerFn({ method: "POST" })
   .inputValidator((input: { email: string }) => {
     if (!input || typeof input.email !== "string") {
       throw new Error("Invalid input");
     }
     const email = input.email.trim().toLowerCase();
-    if (!ADMIN_EMAILS.includes(email)) {
-      throw new Error("Email não autorizado");
-    }
     return { email };
   })
   .handler(async ({ data }) => {
-    const supabaseUrl = process.env.SUPABASE_URL!;
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+    // Always return generic success to prevent email enumeration.
+    // Only actually send OTP if email is in allowlist.
+    if (!ADMIN_EMAILS.includes(data.email)) {
+      return { success: true as const };
+    }
 
-    const admin = createClient(supabaseUrl, serviceKey, {
+    const supabaseUrl = process.env.SUPABASE_URL!;
+    const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY!;
+
+    const client = createClient(supabaseUrl, publishableKey, {
       auth: { autoRefreshToken: false, persistSession: false },
     });
 
-    const { data: linkData, error } = await admin.auth.admin.generateLink({
-      type: "magiclink",
+    const { error } = await client.auth.signInWithOtp({
       email: data.email,
       options: {
-        redirectTo: "https://nexxulab.com/admin",
+        shouldCreateUser: false,
       },
     });
 
-    if (error || !linkData?.properties?.action_link) {
-      console.error("generateLink error:", error);
-      return {
-        success: false as const,
-        error: error?.message || "Falha ao gerar link",
-      };
+    if (error) {
+      console.error("sendAdminOtp error:", error);
     }
 
-    return {
-      success: true as const,
-      actionLink: linkData.properties.action_link as string,
-    };
+    return { success: true as const };
   });
