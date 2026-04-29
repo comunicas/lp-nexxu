@@ -10,6 +10,8 @@ import { CasesSection } from "@/components/landing/CasesSection";
 import { Faq } from "@/components/landing/Faq";
 import { Footer } from "@/components/landing/Footer";
 
+const OG_IMAGE_URL = "https://nexxulab.com/og-nexxu.svg";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -27,6 +29,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:url", content: "https://nexxulab.com/" },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: OG_IMAGE_URL },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Nexxu | Processo antes de IA. Sempre." },
       {
@@ -34,6 +37,7 @@ export const Route = createFileRoute("/")({
         content:
           "Consultoria de inovação operacional para PME. Em 90 dias, sua empresa para de depender de você.",
       },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
     links: [{ rel: "canonical", href: "https://nexxulab.com/" }],
   }),
