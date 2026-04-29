@@ -1,4 +1,4 @@
-import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SolucaoPageTemplate } from "@/components/landing/SolucaoPageTemplate";
 import { getSolucaoBySlug, getSolucoesBySlugList } from "@/utils/solucoes-data";
 
@@ -26,14 +26,20 @@ export const Route = createFileRoute("/solucoes/$slug")({
       links: [{ rel: "canonical", href: canonicalUrl }],
     };
   },
-  loader: ({ params }) => {
-    const solucao = getSolucaoBySlug(params.slug);
-    if (!solucao) throw notFound();
-    const relacionadas = getSolucoesBySlugList(solucao.relacionadas);
-    return { solucao, relacionadas };
-  },
   component: function SolucaoPage() {
-    const { solucao, relacionadas } = Route.useLoaderData()!;
+    const { slug } = Route.useParams();
+    const solucao = getSolucaoBySlug(slug);
+    if (!solucao) {
+      return (
+        <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+          <h1 className="text-2xl font-semibold mb-2">Solução não encontrada.</h1>
+          <Link to="/" className="underline">
+            Voltar para o início
+          </Link>
+        </div>
+      );
+    }
+    const relacionadas = getSolucoesBySlugList(solucao.relacionadas);
     return <SolucaoPageTemplate solucao={solucao} relacionadas={relacionadas} />;
   },
   errorComponent: ({ error }) => (
