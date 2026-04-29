@@ -16,6 +16,7 @@ export type SolucaoData = {
   metaTitle: string;
   metaDescription: string;
   tagline: string;
+  sintomas: string[]; // array de exatamente 3 strings
   paraQuem: string;
   oProblema: string;
   comoFunciona: { step: number; titulo: string; descricao: string }[];
