@@ -1,48 +1,46 @@
-# Por que os leads não aparecem no admin
+# Login do admin somente via magic link
 
-## Diagnóstico
+## O que muda
 
-Confirmei direto no banco: **existem 12 leads** capturados (de 28/04, vindos de `feahorita@gmail.com`, `rafael@comunicas.com.br`, `teste@nexxulab.com`).
+Remover a etapa de "digitar código de 6 dígitos" no `/admin`, já que o Supabase está enviando magic link (botão clicável no email), não código numérico. O backend já manda o link correto — só o frontend está pedindo OTP.
 
-A configuração de segurança está correta:
-- Tabela `leads` tem RLS ativo
-- Política `"Only admins can view leads"` libera SELECT para quem tem `has_role(auth.uid(), 'admin')`
-- Sua conta `rbruno@nexxulab.com` (e a do Flavio) já estão na tabela `user_roles` com role `admin`
-- A função `has_role` está como `SECURITY DEFINER` (sem recursão)
+## Fluxo final
 
-Ou seja: rodando o código mais recente, em uma sessão Supabase válida, você consegue ver os leads — testei a query direto no banco e ela retorna os 12 registros.
+1. Usuário acessa `/admin`
+2. Digita email → clica "Enviar link de acesso"
+3. Vê tela "Verifique seu email — clicamos um link de acesso para [email]"
+4. Clica no link no email → cai em `/admin?code=...`
+5. `exchangeCodeForSession` (já existe no `useEffect`) cria a sessão
+6. Painel carrega com os leads
 
-## Causa do problema
+## Mudanças em `src/routes/admin.tsx`
 
-A screenshot foi tirada em **`nexxulab.com/admin`** (site publicado). O que está em produção é a versão **anterior** às correções de segurança que aplicamos nas últimas iterações:
+- Remover estados `otpCode` e `step`
+- Adicionar estado `linkSent` (bool)
+- `handleSendOtp` (renomear para `handleSendLink`): após `sendAdminOtp` retornar, setar `linkSent = true` e mostrar mensagem "Verifique seu email"
+- Remover `handleVerifyOtp` e todo o `<form>` de OTP
+- Substituir o bloco de form condicional por:
+  - se `linkSent === false`: form de email + botão "Enviar link de acesso"
+  - se `linkSent === true`: card com mensagem de confirmação + botão "Usar outro email" para resetar
+- Adicionar `console.error` no `fetchLeads` quando houver erro (para debug futuro)
+- Corrigir potencial race no `useEffect([session])`: usar `session?.user?.id` como dep em vez de `session` (objeto), evitando refetch quando o objeto session é recriado mas o user é o mesmo
 
-- A versão antiga tinha o bug do "magic link direto no browser" — o painel exibia o usuário como "logado" sem necessariamente ter uma sessão Supabase real associada
-- Sem sessão Supabase real, `auth.uid()` é nulo → RLS bloqueia SELECT → a query retorna `[]` (array vazio, sem erro) → admin mostra "0 leads"
-- O fluxo novo (OTP de 6 dígitos via `verifyOtp`) cria sessão Supabase de verdade, e aí o `auth.uid()` bate com `user_roles` e os leads aparecem
+## Backend
 
-Confirmação no log de auth: o envio de OTP via `/otp` retornou 200 às 06:06 UTC, originado de `https://nexxulab.com/admin` — então o backend já tem o fluxo novo, mas o **frontend publicado** ainda não, então ele provavelmente nem está chamando `verifyOtp` corretamente.
+Nenhuma mudança. `src/utils/admin-auth.functions.ts` já chama `signInWithOtp` com `emailRedirectTo` — isso é o magic link. O nome da função (`sendAdminOtp`) fica como está para evitar quebrar o import; é só um nome interno.
 
-## O que fazer
+## Texto da UI (pt-BR)
 
-**Publicar a versão atual** (botão Publish → Update no editor). Isso já vai resolver, porque:
+- Título: "Acesso restrito"
+- Descrição (antes): "Informe seu email autorizado. Você receberá um link de acesso seguro."
+- Botão: "Enviar link de acesso" / "Enviando..."
+- Após envio: 
+  - Título: "Verifique seu email"
+  - Texto: "Enviamos um link de acesso para **[email]**. Clique no botão do email para entrar no painel. O link expira em 1 hora."
+  - Link: "← Usar outro email"
 
-1. Sobe o frontend novo do `/admin` (fluxo OTP correto, com sessão Supabase real)
-2. Sobe o fix de SSR do `/solucoes/$slug` que estava quebrando o build publicado
+## Validação após implementar
 
-Depois de publicar:
-1. Acesse `nexxulab.com/admin`
-2. Faça login com `rbruno@nexxulab.com` → digite o código de 6 dígitos recebido por email
-3. Os 12 leads devem aparecer (todos os 12 estão em "Nível 02/03/04", então os cards "Nível 01" continuarão em 0 — isso é correto, não tem nenhum lead nível 1 no banco)
+Você acessa `/admin`, informa `rbruno@nexxulab.com`, vê a tela de confirmação, abre o email, clica no botão "Log In", cai logado em `/admin` e os 12 leads aparecem.
 
-## Validação extra
-
-Se mesmo após publicar continuar vazio, abra o console do navegador em `nexxulab.com/admin` logado e rode:
-
-```js
-const { data: { session } } = await window.supabase?.auth.getSession?.() ?? {};
-console.log('user:', session?.user?.email, 'uid:', session?.user?.id);
-```
-
-O `uid` precisa ser `5579db67-39dd-4721-ab3b-c9b53c393205` (rbruno) ou `d360f821-4218-4532-9e0d-fe173454e91d` (fhorita). Se vier `null`, é problema de sessão; se vier um UUID diferente, é uma conta sem role admin e basta adicionar em `user_roles`.
-
-Nenhuma alteração de código é necessária neste momento — o fix é operacional (publicar).
+Necessário publicar (Publish → Update) depois para refletir no `nexxulab.com`.

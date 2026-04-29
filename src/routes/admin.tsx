@@ -41,13 +41,11 @@ export const Route = createFileRoute("/admin")({
 function AdminPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [authStatus, setAuthStatus] = useState("Validando acesso...");
+  const [authStatus] = useState("Validando acesso...");
   const [email, setEmail] = useState("");
-  const [otpCode, setOtpCode] = useState("");
-  const [step, setStep] = useState<"email" | "otp">("email");
   const [submitting, setSubmitting] = useState(false);
   const [loginError, setLoginError] = useState("");
-  const [loginInfo, setLoginInfo] = useState("");
+  const [linkSent, setLinkSent] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [leadsLoading, setLeadsLoading] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
@@ -80,7 +78,7 @@ function AdminPage() {
     };
 
     const handleAuthRedirect = async () => {
-      setAuthStatus("Validando acesso...");
+      // authStatus is static for now
 
       try {
         const url = new URL(window.location.href);
@@ -120,8 +118,8 @@ function AdminPage() {
       } catch (err) {
         console.error("admin auth redirect error:", err);
         setSession(null);
-        setStep("email");
-        setLoginError("Código inválido ou expirado. Solicite um novo acesso.");
+        setLinkSent(false);
+        setLoginError("Link inválido ou expirado. Solicite um novo acesso.");
       } finally {
         initialized = true;
         if (!cancelled) setLoading(false);
@@ -144,66 +142,40 @@ function AdminPage() {
   }, []);
 
   useEffect(() => {
-    if (session) fetchLeads();
-  }, [session]);
+    if (session?.user?.id) fetchLeads();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.user?.id]);
 
   const fetchLeads = async () => {
     setLeadsLoading(true);
-    const { data, error } = await supabase
-      .from("leads")
-      .select("id, name, email, whatsapp, nivel, nivel_nome, score, score_max, score_pct, email_sent, created_at")
-      .order("created_at", { ascending: false });
-    if (!error && data) setLeads(data as Lead[]);
-    setLeadsLoading(false);
+    try {
+      const { data, error } = await supabase
+        .from("leads")
+        .select("id, name, email, whatsapp, nivel, nivel_nome, score, score_max, score_pct, email_sent, created_at")
+        .order("created_at", { ascending: false });
+      if (error) {
+        console.error("fetchLeads error:", error);
+      } else if (data) {
+        setLeads(data as Lead[]);
+      }
+    } catch (err) {
+      console.error("fetchLeads exception:", err);
+    } finally {
+      setLeadsLoading(false);
+    }
   };
 
-  const handleSendOtp = async (e: React.FormEvent) => {
+  const handleSendLink = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError("");
-    setLoginInfo("");
     setUnauthorized(false);
     setSubmitting(true);
     try {
       await sendAdminOtp({ data: { email: email.trim().toLowerCase() } });
-      setStep("otp");
-      setLoginInfo("Se este email tiver acesso, um código foi enviado.");
+      setLinkSent(true);
     } catch (err) {
       console.error(err);
-      setLoginError("Erro ao enviar código. Tente novamente.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginError("");
-    setSubmitting(true);
-    try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        email: email.trim().toLowerCase(),
-        token: otpCode.trim(),
-        type: "email",
-      });
-
-      if (error || !data.session) {
-        setLoginError("Código inválido ou expirado. Solicite um novo acesso.");
-        return;
-      }
-
-      if (!isAdminEmail(data.session.user.email)) {
-        setUnauthorized(true);
-        setSession(null);
-        await supabase.auth.signOut();
-        return;
-      }
-
-      setUnauthorized(false);
-      setSession(data.session);
-      setOtpCode("");
-    } catch (err) {
-      console.error(err);
-      setLoginError("Erro ao verificar código.");
+      setLoginError("Erro ao enviar link. Tente novamente.");
     } finally {
       setSubmitting(false);
     }
@@ -249,13 +221,13 @@ function AdminPage() {
             <p className="text-[11px] font-bold tracking-widest text-white/40 mb-2">PAINEL ADMIN</p>
             <h1 className="font-display font-extrabold text-2xl text-white mb-2">Acesso restrito</h1>
             <p className="text-sm text-white/60 mb-6 leading-relaxed">
-              {step === "email"
-                ? "Informe seu email autorizado para receber o código de acesso."
-                : "Digite o código de 6 dígitos enviado para o seu email."}
+              {linkSent
+                ? "Enviamos um link de acesso para seu email. Clique no botão do email para entrar no painel."
+                : "Informe seu email autorizado. Você receberá um link de acesso seguro."}
             </p>
 
-            {step === "email" ? (
-              <form onSubmit={handleSendOtp} className="space-y-3">
+            {!linkSent ? (
+              <form onSubmit={handleSendLink} className="space-y-3">
                 <input
                   type="email"
                   required
@@ -269,47 +241,34 @@ function AdminPage() {
                   disabled={submitting || !email}
                   className="w-full px-5 py-3.5 rounded-xl bg-[var(--brand-purple)] hover:opacity-90 text-white text-[14px] font-semibold transition-all disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {submitting ? "Enviando..." : "Enviar código"}
+                  {submitting ? "Enviando..." : "Enviar link de acesso"}
                 </button>
               </form>
             ) : (
-              <form onSubmit={handleVerifyOtp} className="space-y-3">
-                <input
-                  type="text"
-                  required
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  maxLength={6}
-                  value={otpCode}
-                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ""))}
-                  placeholder="000000"
-                  className="w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 focus:border-[var(--brand-purple)] text-white text-[18px] text-center tracking-[0.5em] placeholder-white/20 outline-none transition-colors"
-                />
-                <button
-                  type="submit"
-                  disabled={submitting || otpCode.length < 6}
-                  className="w-full px-5 py-3.5 rounded-xl bg-[var(--brand-purple)] hover:opacity-90 text-white text-[14px] font-semibold transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {submitting ? "Verificando..." : "Entrar"}
-                </button>
+              <div className="space-y-4">
+                <div className="rounded-xl bg-white/[0.04] border border-white/10 px-4 py-4">
+                  <p className="text-[12px] text-white/50 mb-1">Link enviado para</p>
+                  <p className="text-[14px] text-white font-semibold break-all">
+                    {email.trim().toLowerCase()}
+                  </p>
+                </div>
+                <p className="text-[12px] text-white/50 leading-relaxed">
+                  Verifique sua caixa de entrada (e a pasta de spam). O link expira em 1 hora.
+                </p>
                 <button
                   type="button"
                   onClick={() => {
-                    setStep("email");
-                    setOtpCode("");
+                    setLinkSent(false);
+                    setEmail("");
                     setLoginError("");
-                    setLoginInfo("");
                   }}
                   className="w-full text-xs text-white/50 hover:text-white/80 transition-colors"
                 >
                   ← Usar outro email
                 </button>
-              </form>
+              </div>
             )}
 
-            {loginInfo && (
-              <p className="text-[13px] text-white/60 font-medium pt-3">{loginInfo}</p>
-            )}
             {loginError && (
               <p className="text-[13px] text-red-400 font-medium pt-3">{loginError}</p>
             )}
