@@ -187,6 +187,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Autonomia Operacional para PMEs | Nexxu",
     metaDescription: "Empresa funcionando sem o dono no centro. Delegação estruturada, time treinado, processo documentado. Resultado do Método ORDEM™ em até 90 dias.",
     tagline: "Empresa autônoma não significa empresa sem dono. Significa dono que lidera em vez de operar.",
+    sintomas: [
+      "A empresa só funciona quando você está presente",
+      "Quer escalar mas sente que vai virar um caos maior",
+      "Sonha em trabalhar no negócio, mas ainda está preso dentro dele",
+    ],
     paraQuem: "Donos que chegaram no teto do que conseguem fazer pessoalmente. Que querem escalar sem inflar custo fixo. Que sonham em trabalhar no negócio, não dentro dele.",
     oProblema: "Autonomia não acontece por acidente. Ela é construída — processo por processo, delegação por delegação. Sem estrutura, o time volta a depender do dono em qualquer mudança de rotina.",
     comoFunciona: [
