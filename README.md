@@ -873,3 +873,164 @@ Use este checklist sempre que alterar seções/componentes da rota `/`:
    - A API grava em `public.leads`, dispara e-mail ao lead (com PDF), marca `email_sent` e notifica admins.
 5. **Retorno ao cliente**
    - Endpoint retorna status HTTP/JSON (sucesso, validação, duplicidade, limite, erro interno), permitindo UX de confirmação/retry.
+
+## 16. Operação e Ambientes
+
+### 16.1 Variáveis obrigatórias por contexto
+
+> **Importante:** os nomes abaixo devem existir no ambiente de execução; não commitar valores reais em `.env` versionado.
+
+#### A) Build/Deploy Cloudflare (Worker runtime)
+
+Obrigatórias para build/publicação e execução dos endpoints server-side no Cloudflare:
+
+- `SUPABASE_URL`
+- `SUPABASE_PUBLISHABLE_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `RESEND_API_KEY`
+- `LOVABLE_API_KEY`
+
+Referências no código:
+- `send-diagnostico` depende de `RESEND_API_KEY`.
+- `generate-recommendations` depende de `LOVABLE_API_KEY`.
+- integrações server-side Supabase dependem de `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`.
+
+#### B) Supabase client-side (browser/Vite)
+
+Obrigatórias para uso no frontend:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
+
+Obs.: o client também possui fallback para `process.env.SUPABASE_URL`/`SUPABASE_PUBLISHABLE_KEY` em SSR, mas para browser o padrão recomendado é o prefixo `VITE_`.
+
+#### C) Supabase server-side (APIs/middleware)
+
+Obrigatórias para rotas de backend e operações administrativas:
+
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+Além disso, para autenticação de sessão/admin:
+
+- `SUPABASE_PUBLISHABLE_KEY`
+
+### 16.2 Origem e rotação de segredos
+
+- **Origem única (source of truth):** armazenar segredos somente no gerenciador de segredos do ambiente (Cloudflare vars/secrets e provedor de CI), nunca no repositório.
+- **Separação por ambiente:** manter chaves diferentes para `development`, `staging` e `production`.
+- **Princípio do menor privilégio:**
+  - `VITE_SUPABASE_PUBLISHABLE_KEY` e `SUPABASE_PUBLISHABLE_KEY` são chaves públicas de cliente.
+  - `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` e `LOVABLE_API_KEY` são segredos de servidor (alto impacto).
+- **Rotação recomendada:**
+  - imediata em caso de suspeita de vazamento;
+  - periódica (ex.: a cada 90 dias) para segredos críticos;
+  - sempre com janela de transição (chave nova ativa + revogação da antiga após validação).
+- **Checklist de rotação:**
+  1. gerar nova chave no provedor (Supabase/Resend/Lovable);
+  2. atualizar segredo no ambiente alvo (staging primeiro);
+  3. executar deploy e smoke tests dos endpoints;
+  4. promover para produção;
+  5. revogar chave antiga;
+  6. registrar data, responsável e motivo da rotação.
+
+### 16.3 Fluxo de deploy (branch → build → publicação)
+
+Baseado nos scripts de `package.json` e na configuração `wrangler.jsonc`:
+
+1. **Branch de trabalho**
+   - desenvolver em branch de feature;
+   - abrir PR para branch principal definida pelo time (ex.: `main`).
+2. **Build local/CI**
+   - build padrão: `npm run build` (`vite build`);
+   - build de validação em modo dev: `npm run build:dev` (`vite build --mode development`).
+3. **Publicação Cloudflare**
+   - o app é empacotado para runtime Cloudflare com `@cloudflare/vite-plugin`;
+   - o entrypoint do worker é `@tanstack/react-start/server-entry` (definido em `wrangler.jsonc`);
+   - `compatibility_date` e `compatibility_flags` devem permanecer atualizados e testados antes de publicar.
+4. **Pós-publicação**
+   - validar rotas `/`, `/diagnostico`, `/api/public/generate-recommendations` e `/api/public/send-diagnostico`;
+   - validar logs de erro e taxa de respostas 4xx/5xx nos primeiros minutos.
+
+### 16.4 Runbook de incidentes (API/integração)
+
+#### Incidente 1 — `500` em `/api/public/send-diagnostico`
+
+**Sintomas comuns**
+- falha ao enviar e-mail;
+- erro de variável ausente (`RESEND_API_KEY not configured`);
+- falha de insert/update no Supabase.
+
+**Diagnóstico rápido**
+1. conferir presença de `RESEND_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`;
+2. inspecionar logs da função e resposta do Resend;
+3. validar conectividade/permissões da tabela `public.leads`.
+
+**Ação corretiva**
+- corrigir segredo ausente/inválido;
+- reexecutar deploy;
+- repetir envio com payload de teste controlado.
+
+#### Incidente 2 — bloqueio CORS/`403` em `/api/public/generate-recommendations`
+
+**Sintomas comuns**
+- frontend recebe erro de origem não permitida;
+- preflight `OPTIONS` falha.
+
+**Diagnóstico rápido**
+1. conferir `Origin` enviado pelo navegador;
+2. validar se o domínio está coberto pela allowlist de padrões;
+3. checar se houve mudança de domínio (preview/staging/custom domain).
+
+**Ação corretiva**
+- atualizar allowlist de origens permitidas;
+- publicar nova versão;
+- retestar preflight e chamada `POST`.
+
+#### Incidente 3 — respostas degradadas/fallback frequente de IA
+
+**Sintomas comuns**
+- recomendações genéricas repetidas;
+- aumento de fallback determinístico.
+
+**Diagnóstico rápido**
+1. verificar `LOVABLE_API_KEY` válida;
+2. inspecionar latência/erro do provedor de IA;
+3. validar formato do payload enviado (`name`, `overallScore`, `maturityLevel`, `pillarScores`).
+
+**Ação corretiva**
+- corrigir segredo/limite de API;
+- aplicar retry controlado no cliente;
+- manter fallback ativo até normalização do provedor.
+
+#### Incidente 4 — `401/403` no `/admin` ou falhas de OTP
+
+**Sintomas comuns**
+- login admin não conclui;
+- sessão inválida/expirada;
+- usuário sem role admin.
+
+**Diagnóstico rápido**
+1. validar variáveis `SUPABASE_URL` e `SUPABASE_PUBLISHABLE_KEY`;
+2. verificar sessão retornada pelo Supabase Auth;
+3. confirmar role em `public.user_roles` e whitelist configurada.
+
+**Ação corretiva**
+- normalizar configuração de auth;
+- reenviar OTP;
+- corrigir role/whitelist e revalidar acesso.
+
+#### Incidente 5 — rate limit excessivo em API pública
+
+**Sintomas comuns**
+- aumento de respostas de limite excedido para usuários legítimos.
+
+**Diagnóstico rápido**
+1. revisar volume por IP/rota nos logs;
+2. confirmar se houve campanha/pico real de tráfego;
+3. verificar necessidade de ajuste de janela/limite no rate limiter.
+
+**Ação corretiva**
+- ajustar temporariamente limites;
+- aplicar proteção adicional (WAF/challenge) para tráfego suspeito;
+- monitorar normalização e reverter ajuste emergencial quando estável.
