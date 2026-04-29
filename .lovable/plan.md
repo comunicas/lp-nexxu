@@ -1,23 +1,32 @@
-## Problema
+## Remover card de nota da seção ORDEM™
 
-Na seção Hero (`src/components/landing/Hero.tsx`), o indicador "SCROLL" está posicionado de forma absoluta (`absolute bottom-8`) enquanto os badges estatísticos ("90 dias" / "Processo") ficam no fluxo normal. Em viewports com altura ~850px, o conteúdo central centralizado empurra os stats para baixo até colidirem visualmente com o SCROLL, criando o efeito de "cortado" que aparece no print.
+O card mostrado no screenshot ("A sequência é sempre essa. O quanto a Nexxu assume na execução — a conversa de diagnóstico define.") fica entre o card de detalhe da letra ativa (O/R/D/E/M) e o grid de 3 cards do timeline (30/60/90 dias).
 
-## Causa
+### Mudança
 
-- `<section>` usa `min-h-screen` + `justify-center` + `pb-20` (80px).
-- O indicador SCROLL é `absolute bottom-8` (32px do fundo) — fora do fluxo, sem reserva de espaço.
-- Os stats acabam ocupando a faixa onde o SCROLL renderiza.
+**Arquivo:** `src/components/landing/OrdemMethod.tsx`
 
-## Correção proposta
+Remover o bloco completo das linhas 132–142:
 
-Aumentar o padding-bottom da section para reservar espaço suficiente abaixo dos stats, garantindo que o indicador SCROLL nunca colida com o conteúdo, em qualquer altura razoável de viewport.
+```tsx
+<div className="mb-10 mx-auto p-5 rounded-2xl border border-[rgba(83,74,183,0.15)] bg-[rgba(83,74,183,0.03)] max-w-[600px]">
+  <p className="text-sm text-[var(--brand-muted)] leading-relaxed m-0">
+    <span className="font-semibold text-[var(--brand-text)]">
+      A sequência é sempre essa.
+    </span>{" "}
+    O quanto a Nexxu assume na execução —{" "}
+    <span className="text-[var(--brand-purple)] font-medium">
+      a conversa de diagnóstico define.
+    </span>
+  </p>
+</div>
+```
 
-### Mudança única em `src/components/landing/Hero.tsx`
+### Preservar
 
-Na tag `<section>`, alterar `pb-20` para `pb-32` (de 80px para 128px). Isso adiciona ~48px de folga entre os stats e o indicador SCROLL no `bottom-8`, eliminando a sobreposição em viewports a partir de ~720px de altura sem afetar o restante do layout.
+- Todo o resto do componente intacto: header, abas O/R/D/E/M, card de detalhe da letra ativa, e o grid timeline (30/60/90 dias) logo abaixo.
+- O espaçamento entre o card de detalhe (que já tem `marginBottom: 60`) e o grid do timeline continuará adequado, sem necessidade de ajuste adicional.
 
-Nada mais é alterado — estrutura JSX, classes dos filhos, conteúdo dos badges e o próprio bloco SCROLL ficam exatamente como estão.
+### Resultado
 
-## Resultado esperado
-
-O indicador "SCROLL" aparece nitidamente abaixo dos dois badges estatísticos, com respiro visual, sem corte ou sobreposição na viewport atual (1336x853) e em telas menores/maiores.
+A seção ORDEM™ passa do card de detalhe da letra direto para os 3 cards do timeline, sem a caixa de nota intermediária.
