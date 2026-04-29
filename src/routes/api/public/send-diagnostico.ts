@@ -100,7 +100,19 @@ export const Route = createFileRoute("/api/public/send-diagnostico")({
             .select("id")
             .single();
 
-          if (dbError) throw new Error(`DB Error: ${dbError.message}`);
+          if (dbError) {
+            console.error("send-diagnostico DB error:", dbError);
+            if ((dbError as { code?: string }).code === "23505") {
+              return new Response(
+                JSON.stringify({ error: "Email já cadastrado" }),
+                {
+                  status: 409,
+                  headers: { ...corsHeaders, "Content-Type": "application/json" },
+                }
+              );
+            }
+            throw new Error("DB_ERROR");
+          }
 
           // 2. Enviar email via Resend
           const RESEND_API_KEY = process.env.RESEND_API_KEY;
