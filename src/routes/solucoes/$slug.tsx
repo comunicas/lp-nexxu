@@ -31,8 +31,11 @@ export const Route = createFileRoute("/solucoes/$slug")({
     return { solucao, relacionadas };
   },
   component: function SolucaoPage() {
-    const { solucao, relacionadas } = Route.useLoaderData();
-    return <SolucaoPageTemplate solucao={solucao} relacionadas={relacionadas} />;
+    const data = Route.useLoaderData() as
+      | { solucao: ReturnType<typeof getSolucaoBySlug>; relacionadas: ReturnType<typeof getSolucoesBySlugList> }
+      | undefined;
+    if (!data || !data.solucao) return null;
+    return <SolucaoPageTemplate solucao={data.solucao} relacionadas={data.relacionadas} />;
   },
   errorComponent: ({ error }) => (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
