@@ -66,6 +66,11 @@ export const SOLUCOES: SolucaoData[] = [
     metaTitle: "Mapeamento de Processos para PMEs | Nexxu",
     metaDescription: "Quem faz, como faz, onde trava. Nada muda antes de estar claro no papel. Estruturamos os processos do seu negócio com o Método ORDEM™.",
     tagline: "Sem processo claro, a solução de hoje vira o problema de amanhã.",
+    sintomas: [
+      "Cada funcionário faz do seu jeito — o resultado nunca é consistente",
+      "Quando alguém sai, o conhecimento vai embora junto",
+      "Delegou uma tarefa e precisou refazer porque 'não ficou como eu queria'",
+    ],
     paraQuem: "Empresas que cresceram e as coisas foram se resolvendo sem padronização. Donos que tentaram delegar e receberam resultados inconsistentes. Times que cometem os mesmos erros repetidamente.",
     oProblema: "Processo não documentado depende de memória. Quando a pessoa que sabe como fazer sai, o conhecimento vai embora. Quando o time cresce, o caos escala junto.",
     comoFunciona: [
