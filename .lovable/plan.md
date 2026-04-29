@@ -1,60 +1,48 @@
-## Problema
+# Por que os leads não aparecem no admin
 
-O dev-server está cuspindo o erro:
+## Diagnóstico
 
-```
-Serialization error: Seroval Error  value: Symbol(react.forward_ref)
-Invariant failed: Expected to find a dehydrated data on window.$_TSR.router
-```
+Confirmei direto no banco: **existem 12 leads** capturados (de 28/04, vindos de `feahorita@gmail.com`, `rafael@comunicas.com.br`, `teste@nexxulab.com`).
 
-O `loader` em `src/routes/solucoes/$slug.tsx` retorna objetos de `solucoes-data.ts` que contêm `icon: LucideIcon` (componentes React do `lucide-react`). O TanStack Start tenta serializar o resultado do loader via `seroval` para enviar do servidor pro cliente, e componentes React (forwardRef) **não são serializáveis** — isso quebra o SSR, a hidratação falha e a página fica em branco / não carrega no preview.
+A configuração de segurança está correta:
+- Tabela `leads` tem RLS ativo
+- Política `"Only admins can view leads"` libera SELECT para quem tem `has_role(auth.uid(), 'admin')`
+- Sua conta `rbruno@nexxulab.com` (e a do Flavio) já estão na tabela `user_roles` com role `admin`
+- A função `has_role` está como `SECURITY DEFINER` (sem recursão)
 
-## Causa raiz
+Ou seja: rodando o código mais recente, em uma sessão Supabase válida, você consegue ver os leads — testei a query direto no banco e ela retorna os 12 registros.
 
-`src/utils/solucoes-data.ts` define cada solução com:
+## Causa do problema
 
-```ts
-{ icon: Clock, ... } // Clock é um componente React de lucide-react
-```
+A screenshot foi tirada em **`nexxulab.com/admin`** (site publicado). O que está em produção é a versão **anterior** às correções de segurança que aplicamos nas últimas iterações:
 
-E `src/routes/solucoes/$slug.tsx` retorna esses objetos diretamente do `loader`, que precisa ser serializável.
+- A versão antiga tinha o bug do "magic link direto no browser" — o painel exibia o usuário como "logado" sem necessariamente ter uma sessão Supabase real associada
+- Sem sessão Supabase real, `auth.uid()` é nulo → RLS bloqueia SELECT → a query retorna `[]` (array vazio, sem erro) → admin mostra "0 leads"
+- O fluxo novo (OTP de 6 dígitos via `verifyOtp`) cria sessão Supabase de verdade, e aí o `auth.uid()` bate com `user_roles` e os leads aparecem
 
-## Solução
+Confirmação no log de auth: o envio de OTP via `/otp` retornou 200 às 06:06 UTC, originado de `https://nexxulab.com/admin` — então o backend já tem o fluxo novo, mas o **frontend publicado** ainda não, então ele provavelmente nem está chamando `verifyOtp` corretamente.
 
-Não usar o `loader` do TanStack para esses dados — eles são estáticos e já existem como módulo no bundle do cliente. Basta lê-los direto no `component` (sem passar pelo pipeline de serialização SSR).
+## O que fazer
 
-### Mudanças em `src/routes/solucoes/$slug.tsx`
+**Publicar a versão atual** (botão Publish → Update no editor). Isso já vai resolver, porque:
 
-1. **Remover o `loader`** completamente.
-2. **Manter `head()`** — só retorna strings (já é serializável, sem problema).
-3. **No `component`**, usar `Route.useParams()` e chamar `getSolucaoBySlug(slug)` / `getSolucoesBySlugList(...)` ali. Se não achar, renderizar o `notFoundComponent` via `throw notFound()` dentro do componente (ou simplesmente retornar o markup de "não encontrado").
+1. Sobe o frontend novo do `/admin` (fluxo OTP correto, com sessão Supabase real)
+2. Sobe o fix de SSR do `/solucoes/$slug` que estava quebrando o build publicado
 
-### Esqueleto resultante
+Depois de publicar:
+1. Acesse `nexxulab.com/admin`
+2. Faça login com `rbruno@nexxulab.com` → digite o código de 6 dígitos recebido por email
+3. Os 12 leads devem aparecer (todos os 12 estão em "Nível 02/03/04", então os cards "Nível 01" continuarão em 0 — isso é correto, não tem nenhum lead nível 1 no banco)
 
-```tsx
-export const Route = createFileRoute("/solucoes/$slug")({
-  head: ({ params }) => { /* mantém igual, só strings */ },
-  component: function SolucaoPage() {
-    const { slug } = Route.useParams();
-    const solucao = getSolucaoBySlug(slug);
-    if (!solucao) {
-      return <NotFoundView />;
-    }
-    const relacionadas = getSolucoesBySlugList(solucao.relacionadas);
-    return <SolucaoPageTemplate solucao={solucao} relacionadas={relacionadas} />;
-  },
-  errorComponent: ({ error }) => (...),
-  notFoundComponent: () => (...),
-});
+## Validação extra
+
+Se mesmo após publicar continuar vazio, abra o console do navegador em `nexxulab.com/admin` logado e rode:
+
+```js
+const { data: { session } } = await window.supabase?.auth.getSession?.() ?? {};
+console.log('user:', session?.user?.email, 'uid:', session?.user?.id);
 ```
 
-## Verificação após o fix
+O `uid` precisa ser `5579db67-39dd-4721-ab3b-c9b53c393205` (rbruno) ou `d360f821-4218-4532-9e0d-fe173454e91d` (fhorita). Se vier `null`, é problema de sessão; se vier um UUID diferente, é uma conta sem role admin e basta adicionar em `user_roles`.
 
-1. Conferir `/tmp/dev-server-logs/dev-server.log` — não deve mais aparecer `Seroval Error`.
-2. Carregar `/` e uma rota `/solucoes/<slug>` no preview do editor — devem renderizar sem tela branca.
-3. Avisar o usuário para clicar em **Publish → Update** para que a correção também vá ao ar em `nexxulab.com` / `lp-nexxu.lovable.app`.
-
-## Fora de escopo
-
-- Não vou mexer em `solucoes-data.ts` (manter os ícones como componentes é o padrão correto para uso no cliente).
-- Não vou alterar outras rotas — apenas `solucoes/$slug.tsx` tem `loader` que devolve dados não-serializáveis.
+Nenhuma alteração de código é necessária neste momento — o fix é operacional (publicar).
