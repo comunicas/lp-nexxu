@@ -1,46 +1,36 @@
-# Login do admin somente via magic link
+## Goal
+Export the Nexxu design system as a single, portable **JSON tokens file** that downstream tools (Style Dictionary, Figma Tokens plugin, Tailwind generators) can consume.
 
-## O que muda
+## Output
+- File: `/mnt/documents/nexxu-design-tokens.json`
+- Format: **DTCG-style** (`{ "$value": ..., "$type": ..., "$description": ... }`) — the de-facto standard supported by Figma Tokens, Style Dictionary, and most token tooling.
+- Delivered via `<lov-artifact>` so the user can download it directly.
 
-Remover a etapa de "digitar código de 6 dígitos" no `/admin`, já que o Supabase está enviando magic link (botão clicável no email), não código numérico. O backend já manda o link correto — só o frontend está pedindo OTP.
+## What goes inside
+Sourced from `src/styles.css` (the single source of truth) plus the labels used in the design-system page:
 
-## Fluxo final
+1. **color** — full brand palette
+   - Primaries: `brand-blue`, `brand-purple`, `brand-purple-deep`
+   - Purple family: `purple-mid`, `purple-light`, `purple-pale`, `purple-min`
+   - Accents: `teal` (success), `amber` (warning)
+   - Neutrals: `dark`, `dark-2`, `page`, `text`, `muted`, `subtle`
+2. **typography**
+   - Font families: `display` (Space Grotesk), `sans` (Outfit)
+   - Weights actually used (400–900)
+3. **gradient** — `brand`, `brand-h`, `text-light`, `text-pale`, `hero-headline`
+4. **shadow** — `glow`, `glow-sm`, `card`, `card-hover`
+5. **radius** — base `--radius` (0.875rem) plus the sm/md/lg/xl/2xl/3xl/4xl scale
+6. **semantic** (light theme mapping) — `background`, `foreground`, `primary`, `border`, etc., as references to brand tokens where applicable
 
-1. Usuário acessa `/admin`
-2. Digita email → clica "Enviar link de acesso"
-3. Vê tela "Verifique seu email — clicamos um link de acesso para [email]"
-4. Clica no link no email → cai em `/admin?code=...`
-5. `exchangeCodeForSession` (já existe no `useEffect`) cria a sessão
-6. Painel carrega com os leads
+Each token includes the original CSS variable name (e.g. `--brand-purple`) in `$extensions.css.var` so consumers can map back to the codebase.
 
-## Mudanças em `src/routes/admin.tsx`
+## Approach
+1. Read `src/styles.css` to lock in exact hex/oklch values (already inspected).
+2. Generate the JSON with a small Node script writing to `/mnt/documents/`.
+3. Validate it parses as JSON and spot-check 2–3 tokens against `styles.css`.
+4. Emit the artifact tag for download.
 
-- Remover estados `otpCode` e `step`
-- Adicionar estado `linkSent` (bool)
-- `handleSendOtp` (renomear para `handleSendLink`): após `sendAdminOtp` retornar, setar `linkSent = true` e mostrar mensagem "Verifique seu email"
-- Remover `handleVerifyOtp` e todo o `<form>` de OTP
-- Substituir o bloco de form condicional por:
-  - se `linkSent === false`: form de email + botão "Enviar link de acesso"
-  - se `linkSent === true`: card com mensagem de confirmação + botão "Usar outro email" para resetar
-- Adicionar `console.error` no `fetchLeads` quando houver erro (para debug futuro)
-- Corrigir potencial race no `useEffect([session])`: usar `session?.user?.id` como dep em vez de `session` (objeto), evitando refetch quando o objeto session é recriado mas o user é o mesmo
-
-## Backend
-
-Nenhuma mudança. `src/utils/admin-auth.functions.ts` já chama `signInWithOtp` com `emailRedirectTo` — isso é o magic link. O nome da função (`sendAdminOtp`) fica como está para evitar quebrar o import; é só um nome interno.
-
-## Texto da UI (pt-BR)
-
-- Título: "Acesso restrito"
-- Descrição (antes): "Informe seu email autorizado. Você receberá um link de acesso seguro."
-- Botão: "Enviar link de acesso" / "Enviando..."
-- Após envio: 
-  - Título: "Verifique seu email"
-  - Texto: "Enviamos um link de acesso para **[email]**. Clique no botão do email para entrar no painel. O link expira em 1 hora."
-  - Link: "← Usar outro email"
-
-## Validação após implementar
-
-Você acessa `/admin`, informa `rbruno@nexxulab.com`, vê a tela de confirmação, abre o email, clica no botão "Log In", cai logado em `/admin` e os 12 leads aparecem.
-
-Necessário publicar (Publish → Update) depois para refletir no `nexxulab.com`.
+## Out of scope
+- No code changes inside the app (`src/`).
+- No PDF/Markdown/HTML — JSON only, per your selection.
+- Component primitives (buttons, badges) are not exported as tokens; they're React components, not design tokens.
