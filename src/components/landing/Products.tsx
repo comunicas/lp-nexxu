@@ -123,14 +123,8 @@ function ProductCard({ p }: { p: Product }) {
       )}
 
       <div className="p-7 pt-8 flex-1 flex flex-col">
-        {/* eyebrow: etapa + categoria */}
+        {/* eyebrow: categoria */}
         <div className="flex items-center gap-2 mb-5">
-          <span
-            className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]"
-          >
-            ETAPA {p.step}
-          </span>
-          <span className="w-1 h-1 rounded-full bg-[var(--brand-subtle)]/40" />
           <span className="text-[10px] font-bold tracking-[0.14em] text-[var(--brand-subtle)]">
             {p.category.toUpperCase()}
           </span>
@@ -177,14 +171,14 @@ function ProductCard({ p }: { p: Product }) {
               className="inline-flex w-full items-center justify-center gap-2 font-display font-bold px-5 py-3 rounded-xl text-white text-[14px] bg-brand-gradient transition-all duration-200 hover:-translate-y-0.5"
               style={{ boxShadow: "0 0 20px rgba(83,74,183,.4)" }}
             >
-              Quero esse caminho →
+              Quero esse produto →
             </Link>
           ) : (
             <Link
               to="/diagnostico"
               className="inline-flex w-full items-center justify-center gap-1.5 font-display font-bold text-[13.5px] text-[var(--brand-purple)] border border-[rgba(83,74,183,0.3)] rounded-xl px-5 py-2.5 transition-all duration-200 hover:bg-[rgba(83,74,183,0.05)] hover:border-[rgba(83,74,183,0.5)]"
             >
-              Quero esse caminho →
+              Quero esse produto →
             </Link>
           )}
         </div>
@@ -198,43 +192,19 @@ export function Products() {
     <section id="produtos" className="bg-white px-[5%] py-24">
       <div className="max-w-[1200px] mx-auto">
         <SectionHeader
-          label="TRILHA DO MÉTODO ORDEM™"
+          label="NOSSOS PRODUTOS"
           labelColor="var(--brand-blue)"
           title={
             <>
-              Quatro caminhos.
+              Nos adaptamos
               <br />
-              <span className="grad-text">Mesma direção.</span>
+              <span className="grad-text">ao seu momento.</span>
             </>
           }
-          description="O método ORDEM™ resolve o caos operacional e aplica processos + IA para criar eficiência, organização e escala."
+          description="Quatro produtos para quatro estágios de maturidade. Você escolhe por onde entrar — a Nexxu se ajusta ao tamanho do seu caos."
         />
 
-        {/* indicador de progressão */}
-        <div className="flex items-center justify-center gap-2 mb-10">
-          {[
-            { n: 1, label: "Diagnóstico" },
-            { n: 2, label: "Mentoria" },
-            { n: 3, label: "Implementação" },
-            { n: 4, label: "Serviço" },
-          ].map(({ n, label }) => (
-            <div key={n} className="flex items-center gap-2">
-              <div className="flex flex-col items-center gap-0.5">
-                <span className="text-[10px] font-extrabold tracking-widest text-[var(--brand-purple)]">
-                  0{n}
-                </span>
-                <span className="text-[9px] font-medium text-[var(--brand-subtle)] tracking-wide hidden sm:block">
-                  {label}
-                </span>
-              </div>
-              {n < 4 && (
-                <span className="w-8 h-px bg-[var(--brand-purple)]/20" aria-hidden />
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="grid gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-10 grid gap-5 grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
           {PRODUCTS.map((p) => (
             <ProductCard key={p.step} p={p} />
           ))}
@@ -242,7 +212,7 @@ export function Products() {
 
         <div className="text-center mt-12">
           <p className="text-[14px] text-[var(--brand-muted)] mb-4">
-            Não sabe por onde começar? O diagnóstico define isso.
+            Em dúvida sobre qual produto faz sentido agora? A gente te orienta.
           </p>
           <Link
             to="/diagnostico"
