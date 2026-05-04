@@ -1,36 +1,38 @@
-## Goal
-Export the Nexxu design system as a single, portable **JSON tokens file** that downstream tools (Style Dictionary, Figma Tokens plugin, Tailwind generators) can consume.
+## Reframe da seção Trilha — de "caminhos" para "4 produtos"
 
-## Output
-- File: `/mnt/documents/nexxu-design-tokens.json`
-- Format: **DTCG-style** (`{ "$value": ..., "$type": ..., "$description": ... }`) — the de-facto standard supported by Figma Tokens, Style Dictionary, and most token tooling.
-- Delivered via `<lov-artifact>` so the user can download it directly.
+Hoje a seção `Products` (`src/components/landing/Products.tsx`) é apresentada como uma trilha sequencial ("Quatro caminhos. Mesma direção.", indicador 01→02→03→04, CTA "Quero esse caminho"). A proposta é reposicionar como **quatro produtos** independentes que se adaptam ao momento do cliente, mantendo o mesmo grid de 4 cards.
 
-## What goes inside
-Sourced from `src/styles.css` (the single source of truth) plus the labels used in the design-system page:
+### Mudanças em `src/components/landing/Products.tsx`
 
-1. **color** — full brand palette
-   - Primaries: `brand-blue`, `brand-purple`, `brand-purple-deep`
-   - Purple family: `purple-mid`, `purple-light`, `purple-pale`, `purple-min`
-   - Accents: `teal` (success), `amber` (warning)
-   - Neutrals: `dark`, `dark-2`, `page`, `text`, `muted`, `subtle`
-2. **typography**
-   - Font families: `display` (Space Grotesk), `sans` (Outfit)
-   - Weights actually used (400–900)
-3. **gradient** — `brand`, `brand-h`, `text-light`, `text-pale`, `hero-headline`
-4. **shadow** — `glow`, `glow-sm`, `card`, `card-hover`
-5. **radius** — base `--radius` (0.875rem) plus the sm/md/lg/xl/2xl/3xl/4xl scale
-6. **semantic** (light theme mapping) — `background`, `foreground`, `primary`, `border`, etc., as references to brand tokens where applicable
+1. **Header da seção**
+   - `label`: `TRILHA DO MÉTODO ORDEM™` → `NOSSOS PRODUTOS`
+   - `title`: substituir por
+     ```
+     Nos adaptamos
+     ao seu momento.
+     ```
+     (segunda linha em `grad-text`)
+   - `description`: trocar por algo como: "Quatro produtos para quatro estágios de maturidade. Você escolhe por onde entrar — a Nexxu se ajusta ao tamanho do seu caos."
 
-Each token includes the original CSS variable name (e.g. `--brand-purple`) in `$extensions.css.var` so consumers can map back to the codebase.
+2. **Remover o indicador de progressão 01–02–03–04** (linhas ~213–235). Ele reforça a ideia de trilha linear; sai por completo.
 
-## Approach
-1. Read `src/styles.css` to lock in exact hex/oklch values (already inspected).
-2. Generate the JSON with a small Node script writing to `/mnt/documents/`.
-3. Validate it parses as JSON and spot-check 2–3 tokens against `styles.css`.
-4. Emit the artifact tag for download.
+3. **Eyebrow dos cards**
+   - Trocar `ETAPA {n} · {CATEGORIA}` por apenas `{CATEGORIA}` (ex.: `DIAGNÓSTICO`, `MENTORIA`, `IMPLEMENTAÇÃO`, `SERVIÇO`), com a mesma tipografia atual. Mantém hierarquia visual sem sugerir ordem.
 
-## Out of scope
-- No code changes inside the app (`src/`).
-- No PDF/Markdown/HTML — JSON only, per your selection.
-- Component primitives (buttons, badges) are not exported as tokens; they're React components, not design tokens.
+4. **CTA dos cards**
+   - "Quero esse caminho →" → "Quero esse produto →" (tanto na variante featured quanto nas demais).
+
+5. **Bloco final (após o grid)**
+   - Texto: "Não sabe por onde começar? O diagnóstico define isso." → "Em dúvida sobre qual produto faz sentido agora? A gente te orienta."
+   - Botão: "Conversar sobre meu caso →" (mantém)
+   - Subtexto: mantém ("15 minutos. Sem pitch. Só diagnóstico.")
+
+6. **Tipo `Product`**: o campo `step: 1|2|3|4` permanece (usado como `key`), mas deixa de ser exibido como "ETAPA". Sem mudança estrutural além de remover o uso visual.
+
+### Fora de escopo
+- Conteúdo dos bullets, durações, escopos e cores dos 4 cards ficam como estão.
+- `Hero`, `OrdemMethod` e demais seções não são tocadas — o método ORDEM™ continua sendo a metodologia; a seção Products apenas para de se vender como "trilha".
+- Sem mudanças em rotas, dados ou backend.
+
+### Resultado esperado
+A seção `#produtos` passa a comunicar "4 produtos que se adaptam ao seu momento" em vez de uma trilha sequencial obrigatória, mantendo layout, cores e CTAs principais.
