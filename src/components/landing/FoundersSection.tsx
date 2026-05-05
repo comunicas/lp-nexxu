@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import FoundersJourney from "./FoundersJourney";
 
 const LINKEDIN_FLAVIO = "https://www.linkedin.com/in/flaviohorita/";
 const LINKEDIN_RAFAEL = "https://www.linkedin.com/in/rafaelbruno/";
