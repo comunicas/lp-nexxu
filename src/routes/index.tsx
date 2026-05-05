@@ -7,6 +7,7 @@ import { Products } from "@/components/landing/Products";
 import { SolucoesSection } from "@/components/landing/SolucoesSection";
 import { IndiceSection } from "@/components/landing/IndiceSection";
 import { CasesSection } from "@/components/landing/CasesSection";
+import { FoundersTeaser } from "@/components/landing/FoundersTeaser";
 import { Faq } from "@/components/landing/Faq";
 import { Footer } from "@/components/landing/Footer";
 
@@ -55,6 +56,7 @@ function Index() {
       <Products />
       <IndiceSection />
       <CasesSection />
+      <FoundersTeaser />
       <Faq />
       <Footer />
     </main>
