@@ -10,66 +10,19 @@ import {
 
 type Slide = {
   src: string;
-  tag: string;
-  caption: string;
   alt: string;
 };
 
 const SLIDES: Slide[] = [
-  {
-    src: "/lovable-uploads/trajetoria/futurecom.jpg",
-    tag: "Futurecom · 30 anos",
-    caption: "Rafael representando a indústria digital no maior evento de telecom e tecnologia da América Latina.",
-    alt: "Rafael Bruno no palco do Futurecom 30 anos em São Paulo",
-  },
-  {
-    src: "/lovable-uploads/trajetoria/app-summit-google.jpg",
-    tag: "App Summit · Google",
-    caption: "Flávio apresentando case de migração com +83% de receita e +89% em impressões.",
-    alt: "Flávio Horita palestrando no App Summit do Google",
-  },
-  {
-    src: "/lovable-uploads/trajetoria/google-cloud-summit.jpg",
-    tag: "Google Cloud Summit · SP",
-    caption: "Time de tecnologia liderado por Flávio no Google Cloud Summit São Paulo.",
-    alt: "Flávio Horita e equipe no Google Cloud Summit São Paulo",
-  },
-  {
-    src: "/lovable-uploads/trajetoria/tdc-business.jpg",
-    tag: "TDC Business · Data Science",
-    caption: "Palestra sobre dados, escala e o impacto de operações que atendem +100MM de usuários.",
-    alt: "Rafael Bruno palestrando na trilha de Data Science do TDC Business",
-  },
-  {
-    src: "/lovable-uploads/trajetoria/sprintpro.jpg",
-    tag: "SprintPro · Workshop",
-    caption: "Conduzindo um sprint executivo de descoberta de processos e priorização de impacto.",
-    alt: "Rafael Bruno conduzindo workshop SprintPro",
-  },
-  {
-    src: "/lovable-uploads/trajetoria/forum-apps.jpg",
-    tag: "Fórum dos Apps",
-    caption: "Painel ao lado de Tapps Games e RankMyAPP, como Head Digital do Grupo Climatempo.",
-    alt: "Rafael Bruno em painel do Fórum dos Apps",
-  },
-  {
-    src: "/lovable-uploads/trajetoria/workshop-logistica.jpg",
-    tag: "Workshop · Inovação",
-    caption: "Facilitando uma sessão de design thinking sobre cadeia logística e adaptação climática.",
-    alt: "Rafael Bruno facilitando workshop de inovação com post-its",
-  },
-  {
-    src: "/lovable-uploads/trajetoria/climatempo-workshop.jpg",
-    tag: "Climatempo · Treinamento",
-    caption: "Treinando o time de produto e tecnologia em uma das maiores plataformas de clima do mundo.",
-    alt: "Treinamento interno no Grupo Climatempo",
-  },
-  {
-    src: "/lovable-uploads/trajetoria/qa-startup.jpg",
-    tag: "Q&A · Comunidade",
-    caption: "Sessão aberta de perguntas e respostas com fundadores e times de startups.",
-    alt: "Sessão de Q&A com a comunidade de startups",
-  },
+  { src: "/lovable-uploads/trajetoria/futurecom.jpg", alt: "Rafael Bruno no palco do Futurecom 30 anos em São Paulo" },
+  { src: "/lovable-uploads/trajetoria/app-summit-google.jpg", alt: "Flávio Horita palestrando no App Summit do Google" },
+  { src: "/lovable-uploads/trajetoria/google-cloud-summit.jpg", alt: "Flávio Horita e equipe no Google Cloud Summit São Paulo" },
+  { src: "/lovable-uploads/trajetoria/tdc-business.jpg", alt: "Rafael Bruno palestrando na trilha de Data Science do TDC Business" },
+  { src: "/lovable-uploads/trajetoria/sprintpro.jpg", alt: "Rafael Bruno conduzindo workshop SprintPro" },
+  { src: "/lovable-uploads/trajetoria/forum-apps.jpg", alt: "Rafael Bruno em painel do Fórum dos Apps" },
+  { src: "/lovable-uploads/trajetoria/workshop-logistica.jpg", alt: "Rafael Bruno facilitando workshop de inovação com post-its" },
+  { src: "/lovable-uploads/trajetoria/climatempo-workshop.jpg", alt: "Treinamento interno no Grupo Climatempo" },
+  { src: "/lovable-uploads/trajetoria/qa-startup.jpg", alt: "Sessão de Q&A com a comunidade de startups" },
 ];
 
 export default function FoundersJourney() {
