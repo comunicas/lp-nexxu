@@ -102,8 +102,12 @@ export default function FoundersSection() {
 
             {/* Card — Rafael */}
             <article className="bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-shadow duration-300 p-8 flex flex-col gap-5 border-l-4 border-brand-blue">
-              <div className="w-[120px] h-[120px] rounded-full bg-gradient-to-br from-brand-blue to-brand-purple text-white text-3xl font-display font-bold flex items-center justify-center flex-shrink-0">
-                RB
+              <div className="w-[120px] h-[120px] rounded-full overflow-hidden border-4 border-brand-blue/20 shadow-brand-glow-sm flex-shrink-0">
+                <img
+                  src="/lovable-uploads/rafael-bruno.jpg"
+                  alt="Rafael Bruno — Co-fundador da Nexxu"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               <div>
                 <h2 className="text-2xl font-display font-bold text-brand-text">
