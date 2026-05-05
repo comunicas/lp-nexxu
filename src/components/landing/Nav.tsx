@@ -52,6 +52,12 @@ export function Nav() {
         >
           Índice ORDEM™
         </a>
+        <Link
+          to="/fundadores"
+          className="hidden sm:inline-block text-white/65 text-sm font-medium px-1 py-1.5 hover:text-white transition-colors"
+        >
+          Fundadores
+        </Link>
 
         {/* CTA Admin — invisível para todos exceto admins autenticados */}
         {isAdmin && (
