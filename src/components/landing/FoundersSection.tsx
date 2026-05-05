@@ -118,10 +118,10 @@ export default function FoundersSection() {
                 </p>
               </div>
               <p className="text-brand-muted text-base leading-relaxed">
-                VP de Mídia com trajetória em marketing, produto e crescimento digital de alto volume. Fundador da Pedallo e Nutrilo. Formado em G4 Educação, StartSe e IAB Brasil. Palestrante no Futurecom e TDC Business. Sua especialidade é construir modelo de negócio que funciona com processo — não com o dono presente em tudo.
+                VP de Mídia com MBA em Marketing Executivo (Madia Marketing School) e XBA — Xponential Business Administration (StartSe). Trajetória sólida em marketing, produto e crescimento digital de alto volume. Também atua como cineasta. Formação complementar em G4 Educação, StartSe University e IAB Brasil. Palestrante no Futurecom e TDC Business. Sua especialidade é estruturar modelos de negócio escaláveis — baseados em processo, estratégia e operação — sem depender do dono em todas as decisões.
               </p>
               <ul className="flex flex-wrap gap-2">
-                {["Mídia Programática", "Crescimento Digital", "G4", "StartSe", "Fundador Serial"].map((tag) => (
+                {["MBA Madia", "XBA StartSe", "G4 Educação", "IAB Brasil", "Cineasta"].map((tag) => (
                   <li
                     key={tag}
                     className="bg-brand-blue/10 text-brand-blue text-xs font-medium px-3 py-1 rounded-full"
