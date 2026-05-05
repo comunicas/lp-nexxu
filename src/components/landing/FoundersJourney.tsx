@@ -61,7 +61,7 @@ export default function FoundersJourney() {
                 key={slide.src}
                 className="basis-full md:basis-1/2 lg:basis-1/3"
               >
-                <article className="bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-300 h-full flex flex-col border border-brand-purple/10">
+                <article className="bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-300 h-full border border-brand-purple/10">
                   <div className="aspect-video overflow-hidden bg-brand-page">
                     <img
                       src={slide.src}
@@ -69,14 +69,6 @@ export default function FoundersJourney() {
                       loading="lazy"
                       className="w-full h-full object-cover"
                     />
-                  </div>
-                  <div className="p-5 flex flex-col gap-2 flex-1">
-                    <span className="inline-block self-start bg-brand-purple-min text-brand-purple-deep text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full">
-                      {slide.tag}
-                    </span>
-                    <p className="text-brand-muted text-sm leading-relaxed">
-                      {slide.caption}
-                    </p>
                   </div>
                 </article>
               </CarouselItem>
