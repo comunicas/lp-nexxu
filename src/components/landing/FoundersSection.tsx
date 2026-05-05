@@ -189,6 +189,9 @@ export default function FoundersSection() {
         </div>
       </section>
 
+      {/* Seção 4.5 — Trajetória (Carrossel) */}
+      <FoundersJourney />
+
       {/* Seção 5 — CTA Final */}
       <section className="bg-gradient-to-r from-brand-blue to-brand-purple py-20">
         <div className="max-w-xl mx-auto px-6 text-center">
