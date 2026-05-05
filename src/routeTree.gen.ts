@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as FundadoresRouteImport } from './routes/fundadores'
 import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -17,6 +18,11 @@ import { Route as SolucoesSlugRouteImport } from './routes/solucoes/$slug'
 import { Route as ApiPublicSendDiagnosticoRouteImport } from './routes/api/public/send-diagnostico'
 import { Route as ApiPublicGenerateRecommendationsRouteImport } from './routes/api/public/generate-recommendations'
 
+const FundadoresRoute = FundadoresRouteImport.update({
+  id: '/fundadores',
+  path: '/fundadores',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DiagnosticoRoute = DiagnosticoRouteImport.update({
   id: '/diagnostico',
   path: '/diagnostico',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/fundadores': typeof FundadoresRoute
   '/solucoes/$slug': typeof SolucoesSlugRoute
   '/api/public/generate-recommendations': typeof ApiPublicGenerateRecommendationsRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/fundadores': typeof FundadoresRoute
   '/solucoes/$slug': typeof SolucoesSlugRoute
   '/api/public/generate-recommendations': typeof ApiPublicGenerateRecommendationsRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/design-system': typeof DesignSystemRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/fundadores': typeof FundadoresRoute
   '/solucoes/$slug': typeof SolucoesSlugRoute
   '/api/public/generate-recommendations': typeof ApiPublicGenerateRecommendationsRoute
   '/api/public/send-diagnostico': typeof ApiPublicSendDiagnosticoRoute
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/design-system'
     | '/diagnostico'
+    | '/fundadores'
     | '/solucoes/$slug'
     | '/api/public/generate-recommendations'
     | '/api/public/send-diagnostico'
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/design-system'
     | '/diagnostico'
+    | '/fundadores'
     | '/solucoes/$slug'
     | '/api/public/generate-recommendations'
     | '/api/public/send-diagnostico'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/design-system'
     | '/diagnostico'
+    | '/fundadores'
     | '/solucoes/$slug'
     | '/api/public/generate-recommendations'
     | '/api/public/send-diagnostico'
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   DesignSystemRoute: typeof DesignSystemRoute
   DiagnosticoRoute: typeof DiagnosticoRoute
+  FundadoresRoute: typeof FundadoresRoute
   SolucoesSlugRoute: typeof SolucoesSlugRoute
   ApiPublicGenerateRecommendationsRoute: typeof ApiPublicGenerateRecommendationsRoute
   ApiPublicSendDiagnosticoRoute: typeof ApiPublicSendDiagnosticoRoute
@@ -125,6 +138,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/fundadores': {
+      id: '/fundadores'
+      path: '/fundadores'
+      fullPath: '/fundadores'
+      preLoaderRoute: typeof FundadoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/diagnostico': {
       id: '/diagnostico'
       path: '/diagnostico'
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   DesignSystemRoute: DesignSystemRoute,
   DiagnosticoRoute: DiagnosticoRoute,
+  FundadoresRoute: FundadoresRoute,
   SolucoesSlugRoute: SolucoesSlugRoute,
   ApiPublicGenerateRecommendationsRoute: ApiPublicGenerateRecommendationsRoute,
   ApiPublicSendDiagnosticoRoute: ApiPublicSendDiagnosticoRoute,
@@ -189,3 +210,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
