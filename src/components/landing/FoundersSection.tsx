@@ -53,7 +53,7 @@ export default function FoundersSection() {
       <section className="bg-brand-page py-20">
         <div className="max-w-5xl mx-auto px-6">
           <p className="text-brand-muted text-base md:text-lg text-center max-w-3xl mx-auto mb-12">
-            Juntos, gerenciam operações que atendem mais de 20 milhões de pessoas por mês e têm como parceiros de mídia Globo, Record, Band e CNN.
+            Os sócios já participaram de projetos digitais de grande escala, com operações que impactam mais de 20 milhões de pessoas por mês, incluindo marcas como Globo, iFood, Ford, Petrobras, entre outras.
           </p>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
