@@ -1,26 +1,45 @@
-## Novo módulo: FoundersTeaser na Home
+## Carrossel "Trajetória" na página /fundadores
 
-Criar um bloco resumido sobre os fundadores na home, posicionado entre `CasesSection` e `Faq`, com imagem dupla (Flávio + Rafael) e CTA para `/fundadores`.
+Adicionar um carrossel interativo com as 9 fotos enviadas, contando visualmente a história dos fundadores em palcos, eventos e bastidores.
 
-### 1. Adicionar imagem dupla
-- Copiar `user-uploads://40c4054f-7d9d-49dd-9691-661937684140.png` para `public/lovable-uploads/fundadores-nexxu.jpg`.
+### 1. Copiar imagens para o projeto
+Copiar os 9 uploads para `public/lovable-uploads/trajetoria/` com nomes semânticos:
 
-### 2. Criar `src/components/landing/FoundersTeaser.tsx`
-Layout em 2 colunas (desktop) / empilhado (mobile), fundo `bg-brand-page`:
+- `futurecom.jpg` — Rafael no palco Futurecom 30 anos
+- `workshop-logistica.jpg` — Rafael em workshop de inovação (post-its)
+- `sprintpro.jpg` — Rafael palestrando SprintPro
+- `forum-apps.jpg` — Rafael em painel "Fórum dos Apps" (Climatempo)
+- `tdc-business.jpg` — Rafael palestrando TDC Business (Data Science)
+- `qa-startup.jpg` — Rafael em Q&A de startup
+- `climatempo-workshop.jpg` — Time Climatempo em treinamento
+- `google-cloud-summit.jpg` — Flávio + time no Google Cloud Summit SP
+- `app-summit-google.jpg` — Flávio palestrando no App Summit Google
 
-- **Coluna esquerda (imagem)**: a foto dupla em `rounded-2xl`, com `shadow-card` e leve `border` purple/blue.
-- **Coluna direita (texto)**:
-  - Eyebrow: "OS FUNDADORES" (purple, uppercase, tracking-widest).
-  - Título (`font-display`, 3xl/4xl): "Quem está por trás do Método ORDEM™".
-  - Parágrafo resumido: "Flávio Horita (PhD USP, CTO) e Rafael Bruno (VP de Mídia, MBA) já participaram de projetos digitais que impactam mais de 20 milhões de pessoas/mês — Globo, iFood, Ford, Petrobras. Agora aplicam essa experiência para estruturar PMEs que crescem sem depender do dono."
-  - Linha de tags rápidas: `PhD USP` · `Warwick` · `MBA Madia` · `XBA StartSe` · `AI Summit 2026`.
-  - CTA primário (`Link` do TanStack para `/fundadores`) com estilo do botão branco/gradiente já usado no projeto: "Conhecer os fundadores →".
+### 2. Criar `src/components/landing/FoundersJourney.tsx`
 
-### 3. Inserir no `src/routes/index.tsx`
-Importar `FoundersTeaser` e renderizar entre `<CasesSection />` e `<Faq />`.
+Componente client-side usando o `Carousel` já existente do projeto (`@/components/ui/carousel`, embla):
+
+- **Header da seção**:
+  - Eyebrow: "TRAJETÓRIA" (purple)
+  - Título: "De palcos, bastidores e operações reais"
+  - Subtítulo curto: "Mais de uma década compartilhando o que aprenderam em eventos como AI Summit, Futurecom, TDC, Google Cloud Summit e dentro de operações com milhões de usuários."
+
+- **Carousel** com `opts={{ align: "start", loop: true }}`:
+  - `CarouselItem` com `basis-full md:basis-1/2 lg:basis-1/3`
+  - Cada slide: card `rounded-2xl overflow-hidden shadow-card bg-white` com:
+    - `<img>` 16:9 (`aspect-video object-cover`), `loading="lazy"`
+    - Footer com tag (ex.: "Futurecom · Palestrante") + legenda curta (1 linha)
+  - `CarouselPrevious` / `CarouselNext` posicionados dentro do container (com offset positivo, não negativo, para não cortar no mobile)
+  - Indicadores de progresso (dots) opcionais usando o `api` do carousel para feedback visual
+
+- **Fundo**: `bg-white` (para alternar com a seção anterior `bg-brand-dark` de prova social) ou `bg-brand-page` — definir conforme o fluxo. Padding `py-20 md:py-24`.
+
+### 3. Inserir na página `/fundadores`
+Editar `src/routes/fundadores.tsx` (ou diretamente `FoundersSection.tsx`) para renderizar `<FoundersJourney />` entre a **Seção 4 — Prova Social** (`bg-brand-dark`) e a **Seção 5 — CTA Final** (gradiente). Assim a narrativa fica: cards → história pessoal → prova social (logos/credenciais) → carrossel visual (rosto + palco) → CTA.
 
 ### Detalhes técnicos
-- Usa apenas Tailwind + tokens existentes (`brand-purple`, `brand-blue`, `brand-page`, `shadow-card`, `font-display`).
-- `Link` de `@tanstack/react-router` (já é o padrão do projeto, ver `FoundersSection.tsx`).
-- Imagem servida de `public/lovable-uploads/` (mesmo padrão das fotos individuais), `loading="lazy"`.
-- Sem novas dependências, sem mudanças de roteamento (rota `/fundadores` já existe).
+- Componente usa `"use client"`-equivalente: como o projeto é TanStack Start com SSR, o `Carousel` (embla) já funciona via hook — sem necessidade de marcação especial; ele apenas hidrata no client.
+- Sem novas dependências (`embla-carousel-react` já está no projeto, ver `src/components/ui/carousel.tsx`).
+- Imagens servidas de `/lovable-uploads/trajetoria/...` (mesma convenção do resto do projeto).
+- Acessibilidade: cada `<img>` com `alt` descritivo do contexto (ex.: "Rafael Bruno palestrando no Futurecom 2025").
+- Responsivo: 1 slide no mobile, 2 em md, 3 em lg.
