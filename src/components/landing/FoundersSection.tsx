@@ -17,12 +17,12 @@ function LinkedInIcon({ className = "w-4 h-4" }: { className?: string }) {
 }
 
 type Founder = {
-  initials: string;
   name: string;
   role: string;
   roleColor: string;
   accentClass: string;
-  avatarGradient: string;
+  photoSrc: string;
+  photoBorder: string;
   paragraphs: string[];
   tags: string[];
   linkedin: string;
@@ -30,12 +30,12 @@ type Founder = {
 
 const FOUNDERS: Founder[] = [
   {
-    initials: "FH",
     name: "Flávio Horita",
     role: "Co-fundador · CTO & Arquitetura de Sistemas",
     roleColor: "text-brand-purple",
     accentClass: "border-l-4 border-brand-purple",
-    avatarGradient: "bg-gradient-to-br from-brand-purple to-brand-purple-deep",
+    photoSrc: "/lovable-uploads/flavio-horita.jpg",
+    photoBorder: "border-brand-purple/20",
     paragraphs: [
       "Flávio é CTO da Climatempo, empresa do grupo StormGeo — uma das referências globais em dados meteorológicos aplicados a negócios. Sob sua liderança técnica, a plataforma processa dados climáticos em tempo real para mais de 20 milhões de pessoas por mês, servindo clientes como Globo, Record, Band e CNN.",
       "Doutor em Ciência da Computação pela USP (ICMC), ele também atuou como Visiting Scholar na Warwick Business School (Reino Unido) e na Universidade de Münster (Alemanha), e foi professor honorário na UFABC. Publicou mais de 40 artigos científicos sobre sistemas de informação, engenharia de software e gestão de negócios.",
@@ -51,12 +51,12 @@ const FOUNDERS: Founder[] = [
     linkedin: LINKEDIN_FLAVIO,
   },
   {
-    initials: "RB",
     name: "Rafael Bruno",
     role: "Co-fundador · Estratégia, Mídia & Crescimento Digital",
     roleColor: "text-brand-blue",
     accentClass: "border-l-4 border-brand-blue",
-    avatarGradient: "bg-gradient-to-br from-brand-blue to-brand-purple",
+    photoSrc: "/lovable-uploads/rafael-bruno.jpg",
+    photoBorder: "border-brand-blue/20",
     paragraphs: [
       "Rafael é VP de Mídia da Climatempo, onde lidera a unificação dos pilares de negócio digital, PayTV e produção de conteúdo meteorológico para as maiores redes de comunicação do Brasil — Globo, Record, Band e CNN. Sob sua gestão, os portais Climatempo alcançam mais de 20 milhões de pessoas mensalmente com modelo de negócio baseado em dados, mídia programática e projetos especiais.",
       "Além da Climatempo, Rafael é fundador de dois negócios: a Pedallo, startup de tecnologia para ciclismo urbano, e a Nutrilo, EdTech focada em educação nutricional. Sua formação inclui certificações em Liderança em Alta Performance pela G4 Educação, Growth Program de Sales & Marketing Acceleration pela StartSe University e especialização em publicidade digital pelo IAB Brasil.",
@@ -115,11 +115,13 @@ export default function FoundersSection() {
               className={`bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-shadow duration-300 p-8 flex flex-col gap-6 ${f.accentClass}`}
             >
               <div
-                className={`flex items-center justify-center rounded-full text-white text-3xl font-display font-bold flex-shrink-0 ${f.avatarGradient}`}
-                style={{ width: 120, height: 120 }}
-                aria-hidden="true"
+                className={`w-[120px] h-[120px] rounded-full overflow-hidden border-4 shadow-brand-glow-sm flex-shrink-0 ${f.photoBorder}`}
               >
-                {f.initials}
+                <img
+                  src={f.photoSrc}
+                  alt={`${f.name} — Co-fundador da Nexxu`}
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               <div>
                 <h2 className="text-2xl font-display font-bold text-brand-text">
