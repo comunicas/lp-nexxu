@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import FoundersJourney from "./FoundersJourney";
 
 const LINKEDIN_FLAVIO = "https://www.linkedin.com/in/flaviohorita/";
 const LINKEDIN_RAFAEL = "https://www.linkedin.com/in/rafaelbruno/";
@@ -187,6 +188,9 @@ export default function FoundersSection() {
           </div>
         </div>
       </section>
+
+      {/* Seção 4.5 — Trajetória (Carrossel) */}
+      <FoundersJourney />
 
       {/* Seção 5 — CTA Final */}
       <section className="bg-gradient-to-r from-brand-blue to-brand-purple py-20">
