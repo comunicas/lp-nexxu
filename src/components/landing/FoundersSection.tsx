@@ -17,12 +17,12 @@ function LinkedInIcon({ className = "w-4 h-4" }: { className?: string }) {
 }
 
 type Founder = {
-  initials: string;
   name: string;
   role: string;
   roleColor: string;
   accentClass: string;
-  avatarGradient: string;
+  photoSrc: string;
+  photoBorder: string;
   paragraphs: string[];
   tags: string[];
   linkedin: string;
